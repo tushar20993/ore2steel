@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+
+<html lang = "en" ng-app = "PortalRunner">
+	<head>
+		<title>Matangi Iron & Steel Company | Portal</title>
+		<link rel="shortcut icon" type="image/png" href="img/logo.jpg"/>
+		<link rel="stylesheet" type="text/css" href="lib/css/bootstrap.min.css">		
+		<link rel="stylesheet" type="text/css" href="lib/css/bootstrap-reboot.min.css">		
+		<link rel="stylesheet" type="text/css" href="lib/css/bootstrap-grid.min.css">		
+		<link rel="stylesheet" type="text/css" href="lib/css/ui-grid.min.css">		
+		<link rel="stylesheet" type="text/css" href="css/portal.css">
+		
+		<script type="text/javascript" src="lib/js/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/js/angular.min.js"></script>
+		<script type="text/javascript" src="lib/js/angular-animate.min.js"></script>
+		<script type="text/javascript" src="lib/js/angular-aria.min.js"></script>
+		<script type="text/javascript" src="lib/js/angular-cookies.min.js"></script>
+		<script type="text/javascript" src="lib/js/angular-messages.min.js"></script>
+		<script type="text/javascript" src="lib/js/angular-route.min.js"></script>
+		<script type="text/javascript" src="lib/js/ui-bootstrap.min.js"></script>
+		<script type="text/javascript" src="lib/js/ui-grid.min.js"></script>
+		
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		<script type="text/javascript" src="js/PortalRunner.js"></script>
+		
+		<script type="text/javascript" src="js/HeaderController.js"></script>		
+		<script type="text/javascript" src="js/CompanyController.js"></script>
+		<script type="text/javascript" src="js/BrandController.js"></script>
+		<script type="text/javascript" src="js/ItemController.js"></script>
+		<script type="text/javascript" src="js/PurchaseOrderController.js"></script>
+		<script type="text/javascript" src="js/SiteController.js"></script>
+		<script type="text/javascript" src="js/StateCodesController.js"></script>
+	</head>
+	
+	<body>
+	
+		<div ng-include = "'partials/header.html'"></div>
+		<div ng-view></div>
+	
+	</body>
+</html>

@@ -1,0 +1,27 @@
+<div class="jumbotron text-center" ng-controller="HeaderController">
+	<h1>Matangi Iron & Steel Company</h1><br>
+	
+	<ul class="nav nav-tabs justify-content-center">
+	
+		<li class="nav-item">
+			<a class="nav-link {{isActive('/companies')}}" href = "#!/companies">Companies</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link {{isActive('/sites')}}" href = "#!/sites">Sites</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link {{isActive('/purchase_orders')}}" href = "#!/purchase_orders">Purchase Orders</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link {{isActive('/items')}}" href = "#!/items">Items</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link {{isActive('/brands')}}" href = "#!/brands">Brands</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link {{isActive('/state_codes')}}" href = "#!/state_codes">State Codes</a>
+		</li>
+		
+	</ul> 	
+</div>
+
