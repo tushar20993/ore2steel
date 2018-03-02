@@ -5,41 +5,25 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
+
+import portal.models.Company;
 
 public class SiteId implements Serializable{
 	
 	private static final long serialVersionUID = -8336365945204319899L;
 
-	@Column(name = "company_id", insertable = false, updatable = false)
-	private Integer companyId;
+	@ManyToOne
+	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false, insertable = false)
+	private Company company;
 	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "site_id")
 	@Digits(integer=3, fraction=0)
 	private Integer siteId;
-	
-	
-	public boolean equals(SiteId obj) {
-		if(this == obj) {
-			return true;
-		}
 		
-		if(!(obj instanceof SiteId)) {
-			return false;
-		}
-		
-		return  (this.getCompanyId().equals(obj.getCompanyId())) && (this.getSiteId().equals(obj.getSiteId()));
-		
-	}
-
-	public Integer getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(Integer companyId) {
-		this.companyId = companyId;
-	}
 
 	public Integer getSiteId() {
 		return siteId;
@@ -48,6 +32,15 @@ public class SiteId implements Serializable{
 	public void setSiteId(Integer siteId) {
 		this.siteId = siteId;
 	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	
 	
 	
 	

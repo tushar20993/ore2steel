@@ -9,11 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -28,23 +24,16 @@ public class PurchaseOrder {
 	private PurchaseOrderId purchaseOrderId;
 	
 	
-	@MapsId("siteId")
-	@JoinColumns({
-		@JoinColumn(name = "company_id"), 
-		@JoinColumn(name = "site_id")
-		})
-	@ManyToOne
-	private Site site;
 		
 	@NotNull
 	@Column
 	private Date orderDate;
 	
-	@OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "purchaseOrderStatusId.purchaseOrder", cascade = CascadeType.ALL)
 	private List<PurchaseOrderStatus> purchaseOrderStatuses;
 
 	
-	@OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orderDispatchId.purchaseOrder", cascade = CascadeType.ALL)
 	private List<OrderDispatch> orderDispatches;
 	
 	@Column(name = "comments")
@@ -55,11 +44,7 @@ public class PurchaseOrder {
 	private byte[] file;
 
 	public Site getSite() {
-		return site;
-	}
-
-	public void setSite(Site site) {
-		this.site = site;
+		return getPurchaseOrderId().getSite();
 	}
 	
 	public Date getOrderDate() {

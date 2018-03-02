@@ -1,6 +1,7 @@
 package portal.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import portal.models.constants.VehicleType;
 import portal.models.embeddables.OrderDispatchId;
@@ -12,15 +13,7 @@ public class OrderDispatch {
 	@EmbeddedId
 	private OrderDispatchId orderDispatchId;
 	
-	@ManyToOne
-	@MapsId("purchaseOrderId")
-	@JoinColumns({
-		@JoinColumn(name = "company_id"),
-		@JoinColumn(name = "site_id"),
-		@JoinColumn(name = "purcharse_order_number")
-	})
-	private PurchaseOrder purchaseOrder;
-	
+	@NotNull
 	@Column(name = "invoice_number", unique=true)
 	private String invoiceNumber;
 	
@@ -29,6 +22,7 @@ public class OrderDispatch {
 	
 	@Column(name = "transporter_number")
 	private String transporterNumber;
+
 	
 	@Column(name = "vehicle_number")
 	private String vehicleNumber;

@@ -4,29 +4,32 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+
+import portal.models.PurchaseOrder;
 
 @Embeddable
 public class OrderDispatchId implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Embedded
-	private PurchaseOrderId purchaseOrderId;
-
+	
+	@JoinColumns({
+		@JoinColumn(name = "purcharse_order_number", referencedColumnName = "purchase_order_number", insertable = false, updatable = false),
+		@JoinColumn(name = "site_id", referencedColumnName = "site_id", insertable = false, updatable = false),
+		@JoinColumn(name = "company_id", referencedColumnName = "company_id",  insertable = false, updatable = false)
+	})
+	@ManyToOne
+	private PurchaseOrder purchaseOrder;
+	
 	@GeneratedValue
 	@Column(name = "order_dispatch_id")
 	private Integer orderDispatchId;
-
-	public PurchaseOrderId getPurchaseOrderId() {
-		return purchaseOrderId;
-	}
-
-	public void setPurchaseOrderId(PurchaseOrderId purchaseOrderId) {
-		this.purchaseOrderId = purchaseOrderId;
-	}
-
+	
+	
 	public Integer getOrderDispatchId() {
 		return orderDispatchId;
 	}
@@ -34,6 +37,15 @@ public class OrderDispatchId implements Serializable{
 	public void setOrderDispatchId(Integer orderDetailsId) {
 		this.orderDispatchId = orderDetailsId;
 	}
+
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
+	}
+
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
+	}
+	
 	
 	
 }

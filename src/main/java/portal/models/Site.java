@@ -4,18 +4,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import portal.models.constants.GSTRegistrationType;
+import portal.models.embeddables.SiteId;
 
 
 @Entity
 @Table(name = "site")
 public class Site {
 
-	@ManyToOne
-	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
-	private Company company;
-	
-	@Id
-	private Integer siteId;
+	@EmbeddedId
+	private SiteId siteId;
 	
 	@NotNull
 	@Column(name = "site_name")
@@ -32,18 +29,15 @@ public class Site {
 	private String gstNumber;
 
 	public Company getCompany() {
-		return company;
+		return getSiteId().getCompany();
 	}
 
-	public void setCompany(Company company) {
-		this.company = company;
-	}
 
-	public Integer getSiteId() {
+	public SiteId getSiteId() {
 		return siteId;
 	}
 
-	public void setSiteId(Integer siteId) {
+	public void setSiteId(SiteId siteId) {
 		this.siteId = siteId;
 	}
 
@@ -79,7 +73,7 @@ public class Site {
 	}
 
 	public void setGstNumber(String gstNumber) {
-		this.gstNumber = gstNumber;
+		this.gstNumber = gstNumber;		
 	}
 	
 	

@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+
+import portal.models.Site;
 
 @Embeddable
 public class PurchaseOrderId implements Serializable {
@@ -11,19 +16,17 @@ public class PurchaseOrderId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private SiteId siteId;
+	@JoinColumns({
+		@JoinColumn(name = "company_id", insertable = false, updatable = false),
+		@JoinColumn(name = "site_id", insertable = false, updatable = false)
+		})
+	@ManyToOne
+	private Site site;
 	
 	@Column(name = "purchase_order_number", length = 20)
 	private String purchaseOrderNumber;
 
-	public SiteId getSiteId() {
-		return siteId;
-	}
-
-	public void setSiteId(SiteId siteId) {
-		this.siteId = siteId;
-	}
-
+	
 	public String getPurchaseOrderNumber() {
 		return purchaseOrderNumber;
 	}
@@ -31,7 +34,15 @@ public class PurchaseOrderId implements Serializable {
 	public void setPurchaseOrderNumber(String purchaseOrderNumber) {
 		this.purchaseOrderNumber = purchaseOrderNumber;
 	}
-	
-	
 
+	public Site getSite() {
+		return site;
+	}
+
+	public void setSite(Site site) {
+		this.site = site;
+	}
+	
+	
+	
 }
