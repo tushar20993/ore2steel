@@ -4,20 +4,18 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import portal.models.constants.GSTRegistrationType;
-import portal.models.embeddables.SiteId;
 
 
 @Entity
 @Table(name = "site")
 public class Site {
 
-	@MapsId("companyId")
 	@ManyToOne
-	@JoinColumn(name = "company_id", nullable = false)
+	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false)
 	private Company company;
 	
-	@EmbeddedId
-	private SiteId siteId;
+	@Id
+	private Integer siteId;
 	
 	@NotNull
 	@Column(name = "site_name")
@@ -41,11 +39,11 @@ public class Site {
 		this.company = company;
 	}
 
-	public SiteId getSiteId() {
+	public Integer getSiteId() {
 		return siteId;
 	}
 
-	public void setSiteId(SiteId siteId) {
+	public void setSiteId(Integer siteId) {
 		this.siteId = siteId;
 	}
 
