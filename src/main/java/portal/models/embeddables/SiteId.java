@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.validation.constraints.Digits;
 
 public class SiteId implements Serializable{
 	
@@ -15,6 +16,7 @@ public class SiteId implements Serializable{
 	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "site_id")
+	@Digits(integer=3, fraction=0)
 	private Integer siteId;
 	
 	
