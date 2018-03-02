@@ -18,6 +18,8 @@ import portal.models.embeddables.PurchaseOrderStatusId;
 @Table(name = "purchase_order_status")
 public class PurchaseOrderStatus {
 	
+	
+	
 	@EmbeddedId
 	private PurchaseOrderStatusId purchaseOrderStatusId;
 	

@@ -3,6 +3,9 @@ package portal.models.embeddables;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
+
+import portal.models.constants.OrderStatuses;
+
 import java.io.Serializable;
 
 @Embeddable
@@ -25,7 +28,10 @@ public class PurchaseOrderStatusId implements Serializable {
 	}
 
 	public String getPurchaseOrderStatus() {
-		return purchaseOrderStatus;
+		if(OrderStatuses.getPurchaseOrderStatuses().contains(purchaseOrderStatus)) {
+			return purchaseOrderStatus;
+		}
+		return "UNKNOWN";
 	}
 
 	public void setPurchaseOrderStatus(String purchaseOrderStatus) {

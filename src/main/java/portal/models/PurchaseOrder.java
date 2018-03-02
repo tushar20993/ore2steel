@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -39,11 +40,11 @@ public class PurchaseOrder {
 	@Column
 	private Date orderDate;
 	
-	@OneToMany
+	@OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
 	private List<PurchaseOrderStatus> purchaseOrderStatuses;
 
 	
-	@OneToMany
+	@OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
 	private List<OrderDispatch> orderDispatches;
 	
 	@Column(name = "comments")

@@ -2,6 +2,7 @@ package portal.models;
 
 import java.util.*;
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -10,6 +11,7 @@ public class Company {
 	
 	@Id
 	@GeneratedValue
+	@Digits(integer=3, fraction=0)
 	@Column(name = "company_id", updatable = false)
 	private Integer companyId;
 	

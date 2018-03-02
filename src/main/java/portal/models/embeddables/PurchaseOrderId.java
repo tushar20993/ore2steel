@@ -13,7 +13,7 @@ public class PurchaseOrderId implements Serializable {
 
 	private SiteId siteId;
 	
-	@Column(name = "purchase_order_number")
+	@Column(name = "purchase_order_number", length = 20)
 	private String purchaseOrderNumber;
 
 	public SiteId getSiteId() {
