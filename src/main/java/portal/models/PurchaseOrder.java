@@ -14,11 +14,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import portal.models.embeddables.PurchaseOrderId;
 
 @Entity
+@Table(name = "purchase_order")
 public class PurchaseOrder {
 
 	@EmbeddedId

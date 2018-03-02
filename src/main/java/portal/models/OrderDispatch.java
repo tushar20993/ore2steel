@@ -6,6 +6,7 @@ import portal.models.constants.VehicleType;
 import portal.models.embeddables.OrderDispatchId;
 
 @Entity
+@Table(name = "order_dispatch")
 public class OrderDispatch {
 
 	@EmbeddedId

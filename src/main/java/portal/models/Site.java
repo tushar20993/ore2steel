@@ -8,6 +8,7 @@ import portal.models.embeddables.SiteId;
 
 
 @Entity
+@Table(name = "site")
 public class Site {
 
 	@MapsId("companyId")

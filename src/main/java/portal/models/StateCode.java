@@ -4,12 +4,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class StateCodes {
+@Table(name = "state_code")
+public class StateCode {
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "state_codes_id")
-	private Integer stateCodesId;
+	@Column(name = "state_code_id")
+	private Integer stateCodeId;
 	
 	@NotNull
 	@Column(name = "state_name")
@@ -19,12 +20,12 @@ public class StateCodes {
 	@Column(name = "state_code")
 	private String stateCode;
 
-	public Integer getStateCodesId() {
-		return stateCodesId;
+	public Integer getStateCodeId() {
+		return stateCodeId;
 	}
 
-	public void setStateCodesId(Integer stateCodesId) {
-		this.stateCodesId = stateCodesId;
+	public void setStateCodeId(Integer stateCodesId) {
+		this.stateCodeId = stateCodesId;
 	}
 
 	public String getStateName() {
