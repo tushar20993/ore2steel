@@ -10,6 +10,7 @@ import javax.persistence.Table;
 public class Brand {
 	
 	@Id
+	@Column(name = "brand_id")
 	private Integer brandId;
 	
 	@Column(name = "brand_name")
