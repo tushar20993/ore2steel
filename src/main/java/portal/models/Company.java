@@ -22,6 +22,13 @@ public class Company {
 	@Column(name = "company_name")
 	private String companyName;
 	
+	
+	@Column(name = "contact_person")
+	private String contactPerson;
+	
+	@Column(name = "contact_number")
+	private String contactNumber;
+	
 	@NotNull
 	@Column(name = "company_pan")
 	private String companyPan;
@@ -50,6 +57,24 @@ public class Company {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	
+	
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
+	}
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
 	}
 
 	public String getCompanyPan() {

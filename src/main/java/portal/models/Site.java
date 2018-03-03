@@ -21,12 +21,20 @@ public class Site {
 	@Column(name = "site_address")
 	private String siteAddress;
 	
+
+	@Column(name = "contact_person")
+	private String contactPerson;
+	
+	@Column(name = "contact_number")
+	private String contactNumber;
+	
 	@NotNull
 	@Column(name = "registration_status")
 	private String registrationStatus;
 	
 	@Column(name = "gst_number")
 	private String gstNumber;
+	
 
 	public Company getCompany() {
 		return getSiteId().getCompany();
