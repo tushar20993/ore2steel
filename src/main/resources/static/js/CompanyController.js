@@ -6,6 +6,7 @@ portal.controller("CompanyController", function($scope, $http, $uibModal){
 	$http.get("/company/getAll").then(
 			function(response){
 				$scope.companies = response.data;
+				console.log($scope.companies);
 			},
 			function(response){
 				console.log("ERROR", response);
@@ -28,7 +29,6 @@ portal.controller("CompanyController", function($scope, $http, $uibModal){
 		});
 		
 		modalInstance.result.then(function(data){
-			console.log(data);
 			if(data == "success"){
 				$scope.alerts.push({msg: "Successfully added", type: data});
 			}

@@ -28,6 +28,14 @@ public class SiteId implements Serializable{
 	public Integer getSiteId() {
 		return siteId;
 	}
+	
+	public Integer getCompanyId() {
+		return company.getCompanyId();
+	}
+	
+	public String getCompanyName() {
+		return company.getCompanyName();
+	}
 
 	public void setSiteId(Integer siteId) {
 		this.siteId = siteId;
