@@ -36,11 +36,6 @@ public class Site {
 	private String gstNumber;
 	
 
-	public Company getCompany() {
-		return getSiteId().getCompany();
-	}
-
-
 	public SiteId getSiteId() {
 		return siteId;
 	}
@@ -106,5 +101,5 @@ public class Site {
 		this.gstNumber = gstNumber;		
 	}
 	
-	
+		
 }

@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
@@ -20,7 +19,7 @@ public class SiteId implements Serializable{
 	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false, insertable = false)
 	private Company company;
 	
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	@Column(name = "site_id")
 	@Digits(integer=3, fraction=0)
 	private Integer siteId;
@@ -34,16 +33,9 @@ public class SiteId implements Serializable{
 		this.siteId = siteId;
 	}
 
-	public Company getCompany() {
-		return company;
-	}
-
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	
-	
-	
 	
 
 }

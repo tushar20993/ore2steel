@@ -22,6 +22,9 @@ public class Company {
 	@Column(name = "company_name")
 	private String companyName;
 	
+	@NotNull
+	@Column(name = "company_address")
+	private String companyAddress;
 	
 	@Column(name = "contact_person")
 	private String contactPerson;
@@ -40,7 +43,7 @@ public class Company {
 	@Column(name = "gst_number")
 	private String gstNumber;
 
-	@OneToMany(mappedBy = "siteId.company", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "siteId.company")
 	private List<Site> sites;
 
 	public Integer getCompanyId() {
@@ -57,10 +60,18 @@ public class Company {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}	
+	
+	
+	
+	public String getCompanyAddress() {
+		return companyAddress;
 	}
 
-	
-	
+	public void setCompanyAddress(String companyAddress) {
+		this.companyAddress = companyAddress;
+	}
+
 	public String getContactPerson() {
 		return contactPerson;
 	}
@@ -119,5 +130,8 @@ public class Company {
 				&& 
 				c.getCompanyName().equals(this.getCompanyName());
 	}
+
+	
+	
 	
 }
