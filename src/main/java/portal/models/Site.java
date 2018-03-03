@@ -64,6 +64,28 @@ public class Site {
 	public void setSiteAddress(String siteAddress) {
 		this.siteAddress = siteAddress;
 	}
+	
+	
+
+	public String getContactPerson() {
+		return contactPerson;
+	}
+
+
+	public void setContactPerson(String contactPerson) {
+		this.contactPerson = contactPerson;
+	}
+
+
+	public String getContactNumber() {
+		return contactNumber;
+	}
+
+
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
 
 	public String getRegistrationStatus() {
 		return registrationStatus;
