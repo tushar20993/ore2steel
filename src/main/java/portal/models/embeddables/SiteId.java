@@ -2,6 +2,7 @@ package portal.models.embeddables;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,7 @@ public class SiteId implements Serializable{
 	
 	private static final long serialVersionUID = -8336365945204319899L;
 
-	@ManyToOne
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false, insertable = false)
 	private Company company;
 	

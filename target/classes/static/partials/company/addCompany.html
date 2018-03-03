@@ -1,33 +1,14 @@
-<h1>Company Information:</h1>
-    <form class="form-horizontal" ng-submit="submitCompanyForm()" role="form">
-        <div class="form-group">
-            <label for="companyName" class="col-sm-3 control-label">Company Name</label>
-            <div class="col-sm-6">
-                <input type="text" id="companyName" class="form-control" ng-model="company.companyName" />
-            </div>
-            <div class="col-sm-3"></div>
+<div class="modal modal-dialog modal-lg fade">
+	<div class="modal-content">
 
-        </div>
-        
-        <div class="form-group">
-            <label for="companyPan" class="col-sm-3 control-label">Company PAN</label>
-            <div class="col-sm-6">
-                <input type="text" id="companyPan" class="form-control" ng-model="company.companyPan" />
-            </div>
-            <div class="col-sm-3"></div>
-        </div>
-        
-        <button class = "btn btn-default">Add Site</button>
-        
-         <div class="form-group" ng-repeat="site in company.sites">
-            <label for="companyPan" class="col-sm-3 control-label">Company PAN</label>
-            <div class="col-sm-6">
-                <input type="text" id="companyPan" class="form-control" ng-model="company.companyPan" />
-            </div>
-            <div class="col-sm-3"></div>
-        </div>
-       
-        <input type="submit" value="Save" class="btn btn-primary col-sm-offset-3" /> 
-        <input type="reset" value="Reset" ng-click="resetForm()" class="btn" /> <br/>
-		@* Note: This form will not be submitted in demo. *@
-    </form>
+		<div class = "modal-header">
+			<h4 class = "modal-title">Company Information</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+		</div>
+		
+		<div class = "modal-body">
+			This is body
+		</div>
+		
+	</div>
+</div>

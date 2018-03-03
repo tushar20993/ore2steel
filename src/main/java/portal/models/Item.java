@@ -1,10 +1,13 @@
 package portal.models;
 
-import javax.persistence.CascadeType;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,9 +22,10 @@ public class Item {
 	
 	@Column(name = "hsn_code")
 	private String hsnCode;
-	
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
-	private Brand brand;
+
+	@ManyToMany
+	@JoinTable(name = "item_brand", joinColumns = @JoinColumn(name = "item_id"), inverseJoinColumns = @JoinColumn(name = "brand_id"))
+	private List<Brand> brands;
 
 	public Integer getItemId() {
 		return itemId;
@@ -47,12 +51,12 @@ public class Item {
 		this.hsnCode = hsnCode;
 	}
 
-	public Brand getBrand() {
-		return brand;
+	public List<Brand> getBrands() {
+		return brands;
 	}
 
-	public void setBrand(Brand brand) {
-		this.brand = brand;
+	public void setBrands(List<Brand> brands) {
+		this.brands = brands;
 	}
 	
 	

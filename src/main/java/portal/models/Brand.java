@@ -15,7 +15,7 @@ public class Brand {
 	
 	@Column(name = "brand_name")
 	private String brandName;
-
+	
 	public Integer getBrandId() {
 		return brandId;
 	}

@@ -1,4 +1,4 @@
-portal = angular.module("PortalRunner", ['ngAria', 'ngMessages', 'ngAnimate', 'ngRoute', 'ui.grid']);
+portal = angular.module("PortalRunner", ['ngAria', 'ngMessages', 'ngAnimate', 'ngRoute', 'ui.grid', 'ui.bootstrap']);
 
 portal.config(function($routeProvider, $locationProvider){
 	$routeProvider

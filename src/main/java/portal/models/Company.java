@@ -1,3 +1,4 @@
+
 package portal.models;
 
 import java.util.*;
@@ -5,13 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import portal.models.constants.GSTRegistrationType;
+
 @Entity
 @Table(name = "company")
 public class Company {
 	
 	@Id
 	@GeneratedValue
-	@Digits(integer=3, fraction=0)
+	@Digits(integer = 3, fraction = 0)
 	@Column(name = "company_id", updatable = false)
 	private Integer companyId;
 	
@@ -22,6 +25,13 @@ public class Company {
 	@NotNull
 	@Column(name = "company_pan")
 	private String companyPan;
+	
+	@NotNull
+	@Column(name = "registration_status")
+	private String registrationStatus;
+	
+	@Column(name = "gst_number")
+	private String gstNumber;
 
 	@OneToMany(mappedBy = "siteId.company", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Site> sites;
@@ -48,6 +58,27 @@ public class Company {
 
 	public void setCompanyPan(String companyPan) {
 		this.companyPan = companyPan;
+	}
+
+	
+	
+	public String getRegistrationStatus() {
+		return registrationStatus;
+	}
+
+	public void setRegistrationStatus(String registrationStatus) {
+		this.registrationStatus = registrationStatus;
+	}
+
+	public String getGstNumber() {
+		if(registrationStatus.equals(GSTRegistrationType.REGISTERED)) {
+			return gstNumber;
+		}
+		return "UNREGISTERED";
+	}
+
+	public void setGstNumber(String gstNumber) {
+		this.gstNumber = gstNumber;
 	}
 
 	public List<Site> getSites() {
