@@ -98,7 +98,7 @@ public class Site {
 	}
 
 	public void setGstNumber(String gstNumber) {
-		this.gstNumber = gstNumber;		
+		this.gstNumber = gstNumber.toUpperCase();		
 	}
 	
 		

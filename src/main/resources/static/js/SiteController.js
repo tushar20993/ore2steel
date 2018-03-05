@@ -1,7 +1,11 @@
-portal.controller("SiteController", function($scope, $rootScope, $http){
+portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal){
 	console.log("Site Controller");
 	
 	$scope.alerts = [];
+	$scope.closeAlert = function(index){
+		$scope.alerts.splice(index, 1);
+	}
+	
 	$scope.getSites = function(){
 		$http.get("/site/getAll").then(
 				function(response){
@@ -67,6 +71,14 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 	$scope.site = {};
 	$scope.sites = sites;
 	$scope.statuses = [];
+	
+	$http.get("/company/getAll").then(
+			function success(response){
+				$scope.companies = response.data;
+			}, function fail(response){
+				alert("error in getting companies");
+			});
+	
 	$http.get("/status/getAll").then(
 			function(response){
 				$scope.statuses = response.data;

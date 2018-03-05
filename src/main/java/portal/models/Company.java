@@ -104,7 +104,7 @@ public class Company {
 	}
 
 	public void setCompanyPan(String companyPan) {
-		this.companyPan = companyPan;
+		this.companyPan = companyPan.toUpperCase();
 	}
 
 	
@@ -125,7 +125,7 @@ public class Company {
 	}
 
 	public void setGstNumber(String gstNumber) {
-		this.gstNumber = gstNumber;
+		this.gstNumber = gstNumber.toUpperCase();
 	}
 
 	public List<Site> getSites() {
