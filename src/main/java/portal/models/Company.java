@@ -22,6 +22,9 @@ public class Company {
 	@Column(name = "company_name")
 	private String companyName;
 	
+	@Column(name = "company_alias")
+	private String companyAlias;
+	
 	@NotNull
 	@Column(name = "company_address")
 	private String companyAddress;
@@ -43,7 +46,7 @@ public class Company {
 	@Column(name = "gst_number")
 	private String gstNumber;
 
-	@OneToMany(mappedBy = "siteId.company")
+	@OneToMany(mappedBy = "siteId.company", fetch = FetchType.LAZY)
 	private List<Site> sites;
 
 	public Integer getCompanyId() {
@@ -64,6 +67,14 @@ public class Company {
 	
 	
 	
+	public String getCompanyAlias() {
+		return companyAlias;
+	}
+
+	public void setCompanyAlias(String companyAlias) {
+		this.companyAlias = companyAlias;
+	}
+
 	public String getCompanyAddress() {
 		return companyAddress;
 	}
@@ -110,7 +121,7 @@ public class Company {
 		if(registrationStatus.equals(GSTRegistrationType.REGISTERED)) {
 			return gstNumber;
 		}
-		return "UNREGISTERED";
+		return "";
 	}
 
 	public void setGstNumber(String gstNumber) {

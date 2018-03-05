@@ -1,16 +1,40 @@
 portal.controller("CompanyController", function($scope, $http, $uibModal){
 	console.log("Company Controller");
 	
-	$scope.alerts = [];
 	
-	$http.get("/company/getAll").then(
-			function(response){
-				$scope.companies = response.data;
-				console.log($scope.companies);
-			},
-			function(response){
-				console.log("ERROR", response);
-			});
+	
+	$scope.alerts = [];
+	$scope.getCompanies = function(){
+		$http.get("/company/getAll").then(
+				function(response){
+					$scope.companies = response.data;
+					$scope.gridOptions = {
+							exporterMenuCsv: true,
+							enableGridMenu: true,
+							enableFiltering : true,
+							enableColumnResizing: true,
+							enableRowReordering: true,
+							data: $scope.companies,
+							enableSorting: true,
+							data: $scope.companies,
+							columnDefs: [
+								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
+								{name: "companyAddress", 		visible: true, },
+								{name: "companyPan", 			visible: true, },
+								{name: "registrationStatus", 	visible: true, },
+								{name: "gstNumber", 			visible: true, },
+								{name: "contactPerson", 		visible: true, },
+								{name: "contactNumber", 		visible: true, },
+							]
+						};
+				},
+				function(response){
+					console.log("ERROR", response);
+				});		
+	};
+	
+	$scope.getCompanies();
+	
 	
 	
 	$scope.addCompany = function(){
@@ -30,6 +54,7 @@ portal.controller("CompanyController", function($scope, $http, $uibModal){
 		
 		modalInstance.result.then(function(data){
 			if(data == "success"){
+				$scope.getCompanies();
 				$scope.alerts.push({msg: "Successfully added", type: data});
 			}
 			else if(data == "danger"){
