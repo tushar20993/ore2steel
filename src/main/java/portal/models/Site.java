@@ -94,7 +94,7 @@ public class Site {
 		if(registrationStatus.equals(GSTRegistrationType.REGISTERED)) {
 			return gstNumber;
 		}
-		return "UNREGISTERED";
+		return "";
 	}
 
 	public void setGstNumber(String gstNumber) {
