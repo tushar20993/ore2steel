@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
+import portal.models.Company;
 import portal.models.Site;
 
 @Embeddable
@@ -41,6 +42,14 @@ public class PurchaseOrderId implements Serializable {
 
 	public void setSite(Site site) {
 		this.site = site;
+	}
+	
+	public Integer getCompanyId() {
+		return getSite().getSiteId().getCompanyId();
+	}
+	
+	public void setCompanyId(Company company) {
+		getSite().getSiteId().setCompany(company);
 	}
 	
 	

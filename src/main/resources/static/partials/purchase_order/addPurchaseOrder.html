@@ -1,67 +1,102 @@
-<h1>Company Information:</h1>
-    <form class="form-horizontal" ng-submit="submitCompanyForm()" role="form">
-        <div class="form-group">
-            <label for="companyName" class="col-sm-3 control-label">Company Name</label>
-            <div class="col-sm-6">
-                <input type="text" id="companyName" class="form-control" ng-model="company.companyName" />
-            </div>
-            <div class="col-sm-3"></div>
+<div>
+	<div class="modal-content">
 
-        </div>
-        
-        <div class="form-group">
-            <label for="companyPan" class="col-sm-3 control-label">Company PAN</label>
-            <div class="col-sm-6">
-                <input type="text" id="companyPan" class="form-control" ng-model="company.companyPan" />
-            </div>
-            <div class="col-sm-3"></div>
-        </div>
-        
-        <div class="form-group">
-            <label for="dob" class="col-sm-3 control-label">DoB</label>
-            <div class="col-sm-2">
-                <input type="date" id="dob" class="form-control" ng-model="student.DoB" />
-            </div>
-            <div class="col-sm-7"></div>
-        </div>
-        
-        <div class="form-group">
-            <label for="gender" class="col-sm-3 control-label">Gender</label>
-            <div class="col-sm-2">
-                <select id="gender" class="form-control" ng-model="student.gender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-            <div class="col-sm-7"></div>
-        </div>
-        
-        <div class="form-group">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-2">
-                <span><b>Training Location</b></span>
-                <div class="radio">
-                    <label><input value="online" type="radio" name="training" ng-model="student.trainingType" />Online</label>
-                </div>
-                <div class="radio">
-                    <label><input value="onsite" type="radio" name="training" ng-model="student.trainingType" />OnSite</label>
-                </div>
-            </div>
-            <div class="col-sm-7">
-                <span><b>Main Subjects</b></span>
-                <div class="checkbox">
-                    <label><input type="checkbox" ng-model="student.maths" />Maths</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" ng-model="student.physics" />Physics</label>
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox"  ng-model="student.chemistry" />Chemistry</label>
-                </div>
-            </div>
-        </div>
-
-        <input type="submit" value="Save" class="btn btn-primary col-sm-offset-3" /> 
-        <input type="reset" value="Reset" ng-click="resetForm()" class="btn" /> <br/>
-		@* Note: This form will not be submitted in demo. *@
-    </form>
+		<div class = "modal-header">
+			<h4 class = "modal-title">Purchase Order Information</h4>
+			<button type="button" class="close" ng-click="close()">&times;</button>
+		</div>
+		
+		<div class = "modal-body">
+			<form ng-submit="saveCompany()" ng-init="purchaseOrder.purchaseOrderId = {}">
+				
+				
+				<div class = "form-group" >
+					<label for="companyName">Company Name</label>
+					<select 
+						class = "form-control" 
+						ng-model = "purchaseOrder.purchaseOrderId.company" 
+						ng-options="company as company.companyName for company in companies"
+						ng-change="companySelected(company)" 
+						required>
+						<option value="">--Select One--</option>
+					</select>
+				</div>
+				
+				<div class = "form-group">
+					<label for="registrationStatus">Site Name</label>
+					<select 
+						class = "form-control" 
+						ng-model = "purchaseOrder.purchaseOrderId.site" 
+						ng-options="site as site.siteName for site in sites" 
+						required>
+						<option value="">--Select One--</option>
+					</select>
+				</div>
+				
+				<div class = "form-group">
+					<label for="companyName">Order Date</label>
+					<input 
+						type = "date" 
+						class="form-control" 
+						placeholder="Eg: dd-mm-yyyy" 
+						ng-model="purchaseOrder.orderDate"
+						required>
+				</div>
+				
+				<div class = "form-group">
+					<label for="companyAlias">Company Alias</label>
+					<input type = "text" class="form-control" placeholder="Eg: MISCO" ng-model="company.companyAlias">
+				</div>
+				
+				<div class = "form-group">
+					<label for="companyAddress">Primary Address</label>
+					<input type = "text" class="form-control" placeholder = "Eg: No. 13, 2 Floor, 17 Main" ng-model="company.companyAddress" required>
+				</div>
+				
+				<div class = "form-group">
+					<label for="contactPerson">Contact Person</label>
+					<input type = "text" class="form-control" placeholder = "Eg: Dayalan R" ng-model="company.contactPerson">
+				</div>
+				
+				<div class = "form-group">
+					<label for="contactNumber">Contact Number</label>
+					<input type = "text" class="form-control" placeholder = "Eg: +91 98450 12222" ng-model="company.contactNumber">
+				</div>
+				
+				<div class = "form-group">
+					<label for="companyPan">PAN Number</label>
+					<input type = "text" 
+						class="form-control" 
+						placeholder = "Eg: AJAPA9388A" 
+						ng-model="company.companyPan"
+						pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}"
+						style="text-transform: uppercase" required>
+				</div>
+				
+				<div class = "form-group">
+					<label for="registrationStatus">Registration Status</label>
+					<select class = "form-control" ng-model = "company.registrationStatus" ng-options="status for status in statuses" required>
+						<option value="">--Select One--</option>
+					</select>
+				</div>
+				
+				<div class = "form-group" ng-show="company.registrationStatus == 'REGISTERED'">
+					<label for="gstNumber">GSTIN</label>
+					<input type = "text" 
+						class="form-control" 
+						placeholder = "Eg: 29ACOPA3671R1ZV" 
+						ng-model="company.gstNumber" 
+						ng-disabled="company.registrationStatus != 'REGISTERED'" 
+						ng-required="company.registrationStatus == 'REGISTERED'"
+						pattern="[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[a-zA-Z0-9]{3}"
+						style="text-transform: uppercase">
+				</div>
+				
+				 <button type="submit" class="btn btn-primary">Save Company</button>
+				 <button type="reset" class="btn btn-danger">Reset Information</button>		
+				
+			</form>
+		</div>
+		
+	</div>
+</div>

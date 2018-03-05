@@ -35,8 +35,8 @@
 	</head>
 	
 	<body>
-	
 		<div ng-include = "'partials/header.html'"></div>
+		<div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
 		<div ng-view></div>
 	
 	</body>

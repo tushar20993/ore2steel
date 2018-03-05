@@ -1,4 +1,4 @@
-portal.controller("CompanyController", function($scope, $http, $uibModal){
+portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal){
 	console.log("Company Controller");
 	
 	
@@ -53,12 +53,15 @@ portal.controller("CompanyController", function($scope, $http, $uibModal){
 		});
 		
 		modalInstance.result.then(function(data){
-			if(data == "success"){
+			if(data.status == 1){
 				$scope.getCompanies();
-				$scope.alerts.push({msg: "Successfully added", type: data});
+				$rootScope.addAlert(data.msg, "success");
 			}
-			else if(data == "danger"){
-				$scope.alerts.push({msg: "Failed to add. Try again later.", type: data});
+			else if(data.status == 0){
+				$rootScope.addAlert(data.msg, "danger");
+			}
+			else{
+				$rootScope.addAlert(data.msg, data.type);
 			}
 		});
 	};
@@ -94,10 +97,14 @@ portal.controller("AddCompanyController", function($scope, $rootScope, $http, $u
 			data: JSON.parse(JSON.stringify($scope.company)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close("success");
+			$uibModalInstance.close({status: 1, msg: "Successfully saved company!"});
 		}, function error(response){
-			$uibModalInstance.close("danger");
+			$uibModalInstance.close({status: 0, msg: "Failed to save company!"});
 		});
+	};
+	
+	$scope.onCompanyTypeaheadSelect = function(item, model, label){
+		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
 	}
 	
 });

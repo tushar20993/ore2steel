@@ -9,3 +9,17 @@ portal.config(function($routeProvider, $locationProvider){
 	.when("/sites", {templateUrl: "partials/site/viewSites.html", controller: "SiteController"})
 	.when("/state_codes", {templateUrl: "partials/state_code/viewStateCodes.html", controller: "StateCodesController"})
 });
+
+portal.run(function($rootScope){
+	$rootScope.alerts = [];	
+	$rootScope.closeAlert = function(index){
+		$rootScope.alerts.splice(index, 1);
+	}
+	
+	$rootScope.addAlert = function(message, type){
+		$rootScope.alerts.push({
+			msg: message,
+			type: type 
+		});
+	}
+});
