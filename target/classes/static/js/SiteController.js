@@ -10,7 +10,6 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 		$http.get("/site/getAll").then(
 				function(response){
 					$scope.sites = response.data;
-					console.log($scope.sites);
 					$scope.gridOptions = {
 							exporterMenuCsv: true,
 							enableGridMenu: true,
@@ -23,6 +22,8 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.siteId.companyName}}</div>'},
 								{name: "siteName", 				visible: true, },
 								{name: "siteAddress", 			visible: true, },
+								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
+								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
 								{name: "contactPerson", 		visible: true, },
 								{name: "gstNumber", 			visible: true, },
 								{name: "contactPerson", 		visible: true, },
@@ -79,6 +80,18 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 				alert("error in getting companies");
 			});
 	
+	$scope.stateCodes = [];
+	$http.get("/state_code/getAll").then(
+			function(response){
+				$scope.stateCodes = response.data;
+				console.log($scope.stateCodes )
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
+	
+	
 	$http.get("/status/getAll").then(
 			function(response){
 				$scope.statuses = response.data;
@@ -101,9 +114,9 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 			data: JSON.parse(JSON.stringify($scope.site)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close("success");
+			$uibModalInstance.close({status: 1, msg: "Successfully saved company!"});
 		}, function error(response){
-			$uibModalInstance.close("danger");
+			$uibModalInstance.close({status: 0, msg: "Failed to save company!"});
 		});
 	}
 	

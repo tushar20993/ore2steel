@@ -13,10 +13,10 @@ import javax.persistence.Table;
 public class Item {
 	
 	@Id
+	@Column(name = "item_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer itemId;
 	
-	@Id
 	@Column(name = "item_name")
 	private String itemName;
 	

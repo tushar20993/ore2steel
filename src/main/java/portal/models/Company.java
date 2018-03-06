@@ -1,8 +1,17 @@
 
 package portal.models;
 
-import java.util.*;
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
@@ -22,12 +31,17 @@ public class Company {
 	@Column(name = "company_name")
 	private String companyName;
 	
-	@Column(name = "company_alias")
-	private String companyAlias;
-	
 	@NotNull
 	@Column(name = "company_address")
 	private String companyAddress;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "state_name", referencedColumnName = "state_name")
+	private StateCode stateCode;
+	
+	@NotNull
+	@Column(name = "pin_code")
+	private String pinCode;
 	
 	@Column(name = "contact_person")
 	private String contactPerson;
@@ -65,16 +79,6 @@ public class Company {
 		this.companyName = companyName;
 	}	
 	
-	
-	
-	public String getCompanyAlias() {
-		return companyAlias;
-	}
-
-	public void setCompanyAlias(String companyAlias) {
-		this.companyAlias = companyAlias;
-	}
-
 	public String getCompanyAddress() {
 		return companyAddress;
 	}
@@ -96,7 +100,7 @@ public class Company {
 	}
 
 	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
+		this.contactNumber = contactNumber.replaceAll("\\s", "");
 	}
 
 	public String getCompanyPan() {
@@ -106,8 +110,6 @@ public class Company {
 	public void setCompanyPan(String companyPan) {
 		this.companyPan = companyPan.toUpperCase();
 	}
-
-	
 	
 	public String getRegistrationStatus() {
 		return registrationStatus;
@@ -136,6 +138,26 @@ public class Company {
 		this.sites = sites;
 	}
 	
+	
+	
+	public StateCode getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(StateCode stateCode) {
+		this.stateCode = stateCode;
+	}
+	
+	
+
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public void setPinCode(String pinCode) {
+		this.pinCode = pinCode;
+	}
+
 	public boolean equals(Company c) {
 		return  c.getCompanyId().equals(this.getCompanyId()) 
 				&& 

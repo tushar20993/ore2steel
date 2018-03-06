@@ -21,15 +21,13 @@ public class OrderDispatch {
 	@JoinColumn(name = "transporter_id", referencedColumnName = "transporter_id")
 	private Transporter transporter;
 	
-	@Column(name = "vehicle_number")
-	private String vehicleNumber;
+	@ManyToOne
+	@JoinColumn(name = "vehicle_number", referencedColumnName = "vehicle_number")
+	private Vehicle vehicle;
 	
 	@Column(name = "driver_number")
 	private String driverNumber;
 	
-	@Column(name = "vehicle_type")
-	private String vehicleType;
-
 	public OrderDispatchId getOrderDetailsId() {
 		return orderDispatchId;
 	}
@@ -65,33 +63,11 @@ public class OrderDispatch {
 		this.transporter = transporter;
 	}
 
-	public String getVehicleNumber() {
-		return vehicleNumber;
-	}
-
-	public void setVehicleNumber(String vehicleNumber) {
-		this.vehicleNumber = vehicleNumber;
-	}
-
 	public String getDriverNumber() {
 		return driverNumber;
 	}
 
 	public void setDriverNumber(String driverNumber) {
 		this.driverNumber = driverNumber;
-	}
-
-	public String getVehicleType() {
-		if(vehicleType == null) {
-			vehicleType = VehicleType.UNKNOWN;
-		}
-		return vehicleType;
-	}
-
-	public void setVehicleType(String vehicleType) {
-		this.vehicleType = vehicleType;
-	}
-	
-	
-	
+	}	
 }

@@ -21,6 +21,14 @@ public class Site {
 	@Column(name = "site_address")
 	private String siteAddress;
 	
+	@NotNull
+	@Column(name = "pin_code")
+	private String pinCode;
+	
+	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "state_name", referencedColumnName = "state_name")
+	private StateCode stateCode;
 
 	@Column(name = "contact_person")
 	private String contactPerson;
@@ -104,6 +112,25 @@ public class Site {
 	public void setCompany(Company company) {
 		this.siteId.setCompany(company);
 	}
+
+	public StateCode getStateCode() {
+		return stateCode;
+	}
+
+	public void setStateCode(StateCode stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getPinCode() {
+		return pinCode;
+	}
+
+	public void setPinCode(String pinCode) {
+		this.pinCode = pinCode;
+	}
+	
+	
+	
 	
 		
 }

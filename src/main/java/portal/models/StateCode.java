@@ -6,13 +6,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "state_code")
 public class StateCode {
-	
+		
 	@Id
-	@GeneratedValue
-	@Column(name = "state_code_id")
-	private Integer stateCodeId;
-	
-	@NotNull
 	@Column(name = "state_name")
 	private String stateName;
 	
@@ -20,14 +15,7 @@ public class StateCode {
 	@Column(name = "state_code")
 	private String stateCode;
 
-	public Integer getStateCodeId() {
-		return stateCodeId;
-	}
-
-	public void setStateCodeId(Integer stateCodesId) {
-		this.stateCodeId = stateCodesId;
-	}
-
+	
 	public String getStateName() {
 		return stateName;
 	}

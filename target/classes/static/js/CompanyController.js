@@ -19,10 +19,11 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 							data: $scope.companies,
 							columnDefs: [
 								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
-								{name: "companyAddress", 		visible: true, },
-								{name: "companyPan", 			visible: true, },
+								{name: "companyAddress", 		visible: false, },
+								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
+								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
 								{name: "registrationStatus", 	visible: true, },
-								{name: "gstNumber", 			visible: true, },
+								{name: "gstNumber", 			visible: true, displayName: "GSTIN"},
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactNumber", 		visible: true, },
 							]
@@ -72,8 +73,20 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 
 
 portal.controller("AddCompanyController", function($scope, $rootScope, $http, $uibModalInstance, companies){
+	
 	$scope.company = {};
 	$scope.companies = companies;
+	
+	$scope.stateCodes = [];
+	$http.get("/state_code/getAll").then(
+			function(response){
+				$scope.stateCodes = response.data;
+				console.log($scope.stateCodes )
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
 	$scope.statuses = [];
 	$http.get("/status/getAll").then(
 			function(response){
@@ -82,9 +95,14 @@ portal.controller("AddCompanyController", function($scope, $rootScope, $http, $u
 			function(response){
 				console.error(response.data);
 			});
+	
+	
+	
+	
 
 	
 	$scope.close = function(){
+		console.log($scope.company);
 		$uibModalInstance.close("close");
 	};
 	

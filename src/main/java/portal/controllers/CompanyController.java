@@ -1,3 +1,4 @@
+
 package portal.controllers;
 
 import portal.dao.CompanyDao;
@@ -55,6 +56,8 @@ public class CompanyController {
 		site.getSiteId().setSiteId(1);
 		site.setSiteName("Head Office");
 		site.setSiteAddress(company.getCompanyAddress());
+		site.setStateCode(company.getStateCode());
+		site.setPinCode(company.getPinCode());
 		site.setRegistrationStatus(company.getRegistrationStatus());
 		site.setGstNumber(company.getRegistrationStatus().equals(GSTRegistrationType.REGISTERED) ? company.getGstNumber() : "");
 		site.setContactPerson(company.getContactPerson());
