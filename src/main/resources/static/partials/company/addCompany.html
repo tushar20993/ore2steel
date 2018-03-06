@@ -31,7 +31,7 @@
 					<label for="company.stateCode">State</label>
 					<select class = "form-control" 
 							ng-model = "company.stateCode" 
-							ng-options="stateCode as stateCode.stateName for stateCode in stateCodes" 
+							ng-options="stateCode as stateCode.stateName for stateCode in stateCodes | orderBy: 'stateName'" 
 							required>
 						<option value="">--Select One--</option>
 					</select>

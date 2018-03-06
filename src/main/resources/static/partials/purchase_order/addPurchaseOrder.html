@@ -15,7 +15,7 @@
 					<select 
 						class = "form-control" 
 						ng-model = "purchaseOrder.purchaseOrderId.company" 
-						ng-options="company as company.companyName for company in companies"
+						ng-options="company as company.companyName for company in companies | orderBy: 'companyName'"
 						ng-change="companySelected(company)" 
 						required>
 						<option value="">--Select One--</option>
@@ -27,7 +27,7 @@
 					<select 
 						class = "form-control" 
 						ng-model = "purchaseOrder.purchaseOrderId.site" 
-						ng-options="site as site.siteName for site in sites" 
+						ng-options="site as site.siteName for site in sites | orderBy: 'siteName'" 
 						ng-required = "purchaseOrder.purchaseOrderId.company">
 						<option value="">--Select One--</option>
 					</select>

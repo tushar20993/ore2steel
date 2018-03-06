@@ -19,14 +19,14 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 		
 		modalInstance.result.then(function(data){
 			if(data.status == 1){
-				$scope.getPurchaseOrders();
+				$scope.getCompanies();
 				$rootScope.addAlert(data.msg, "success");
 			}
 			else if(data.status == 0){
 				$rootScope.addAlert(data.msg, "danger");
 			}
 			else{
-				$rootScope.addAlert(data.msg, data.type);
+				$rootScope.addAlert(data.msg, "info");
 			}
 		});
 	};

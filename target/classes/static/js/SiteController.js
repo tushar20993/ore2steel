@@ -19,9 +19,8 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 								{name: "siteName", 				visible: true, },
 								{name: "siteAddress", 			visible: true, },
 								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
-								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
-								{name: "contactPerson", 		visible: true, },
 								{name: "gstNumber", 			visible: true, },
+								{name: "contactPerson", 		visible: true, },
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactNumber", 		visible: true, },
 							]
@@ -52,15 +51,15 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 		});
 		
 		modalInstance.result.then(function(data){
-			if(data == "success"){
-				$scope.getSites();
-				$scope.alerts.push({msg: "Successfully added the new site", type: data});
+			if(data.status == 1){
+				$scope.getCompanies();
+				$rootScope.addAlert(data.msg, "success");
 			}
-			else if(data == "danger"){
-				$scope.alerts.push({msg: "Failed to add. Try again later.", type: data});
+			else if(data.status == 0){
+				$rootScope.addAlert(data.msg, "danger");
 			}
 			else{
-				$rootScope.addAlert(data.msg, data.type);
+				$rootScope.addAlert(data.msg, "info");
 			}
 		});
 	};
@@ -113,9 +112,9 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 			data: JSON.parse(JSON.stringify($scope.site)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved company!"});
+			$uibModalInstance.close({status: 1, msg: "Successfully saved site!"});
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save company!"});
+			$uibModalInstance.close({status: 0, msg: "Failed to save site!"});
 		});
 	}
 	

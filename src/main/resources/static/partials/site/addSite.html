@@ -13,7 +13,7 @@
 					<label for="companyName">Company Name</label>
 					<select class = "form-control" 
 							ng-model = "site.siteId.company" 
-							ng-options="company as company.companyName for company in companies" 
+							ng-options="company as company.companyName for company in companies | orderBy: 'companyName'" 
 							required>
 						<option value="">--Select One--</option>
 					</select>
@@ -41,7 +41,7 @@
 					<label for="company.stateCode">State</label>
 					<select class = "form-control" 
 							ng-model = "site.stateCode" 
-							ng-options="stateCode as stateCode.stateName for stateCode in stateCodes" 
+							ng-options="stateCode as stateCode.stateName for stateCode in stateCodes | orderBy: 'stateName'" 
 							required>
 						<option value="">--Select One--</option>
 					</select>

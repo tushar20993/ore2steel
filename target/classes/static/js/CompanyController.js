@@ -62,7 +62,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 				$rootScope.addAlert(data.msg, "danger");
 			}
 			else{
-				$rootScope.addAlert(data.msg, data.type);
+				$rootScope.addAlert(data.msg, "info");
 			}
 		});
 	};
