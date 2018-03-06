@@ -101,5 +101,9 @@ public class Site {
 		this.gstNumber = gstNumber.toUpperCase();		
 	}
 	
+	public void setCompany(Company company) {
+		this.siteId.setCompany(company);
+	}
+	
 		
 }

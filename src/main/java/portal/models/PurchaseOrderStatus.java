@@ -14,42 +14,28 @@ import portal.models.embeddables.PurchaseOrderStatusId;
 @Table(name = "purchase_order_status")
 public class PurchaseOrderStatus {
 	
-	
-	
 	@EmbeddedId
 	private PurchaseOrderStatusId purchaseOrderStatusId;
-	
-	
 	
 	@NotNull
 	@Column(name = "purchase_order_status_date")
 	private Date purchaseOrderStatusDate;
 
-
-
 	public PurchaseOrderStatusId getPurchaseOrderStatusId() {
 		return purchaseOrderStatusId;
 	}
-
-
 
 	public void setPurchaseOrderStatusId(PurchaseOrderStatusId purchaseOrderStatusId) {
 		this.purchaseOrderStatusId = purchaseOrderStatusId;
 	}
 
-
-
 	public Date getPurchaseOrderStatusDate() {
 		return purchaseOrderStatusDate;
 	}
-
-
 
 	public void setPurchaseOrderStatusDate(Date purchaseOrderStatusDate) {
 		this.purchaseOrderStatusDate = purchaseOrderStatusDate;
 	}
 
-	
-	
 	
 }

@@ -23,11 +23,13 @@ public class PurchaseOrder {
 	@EmbeddedId
 	private PurchaseOrderId purchaseOrderId;
 	
-	
-		
 	@NotNull
 	@Column
 	private Date orderDate;
+
+	
+	@OneToMany(mappedBy = "orderItemId.purchaseOrder", cascade = CascadeType.ALL)
+	private List<OrderItem> orderItems;
 	
 	@OneToMany(mappedBy = "purchaseOrderStatusId.purchaseOrder", cascade = CascadeType.ALL)
 	private List<PurchaseOrderStatus> purchaseOrderStatuses;
@@ -35,13 +37,13 @@ public class PurchaseOrder {
 	
 	@OneToMany(mappedBy = "orderDispatchId.purchaseOrder", cascade = CascadeType.ALL)
 	private List<OrderDispatch> orderDispatches;
-	
-	@Column(name = "comments")
-	private String comments;
-	
+		
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] file;
+
+	@Column(name = "additional_information")
+	private String additionalInformation;
 
 	public Site getSite() {
 		return getPurchaseOrderId().getSite();
@@ -63,7 +65,6 @@ public class PurchaseOrder {
 		this.purchaseOrderId = purchaseOrderId;
 	}
 	
-
 	public List<PurchaseOrderStatus> getPurchaseOrderStatuses() {
 		return purchaseOrderStatuses;
 	}
@@ -88,14 +89,21 @@ public class PurchaseOrder {
 		this.file = file;
 	}
 
-	public String getComments() {
-		return comments;
+	public String getAdditionalInformation() {
+		return additionalInformation;
 	}
 
-	public void setComments(String comments) {
-		this.comments = comments;
+	public void setAdditionalInformation(String additionalInformation) {
+		this.additionalInformation = additionalInformation;
+	}
+
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 	
 	
-		
 }

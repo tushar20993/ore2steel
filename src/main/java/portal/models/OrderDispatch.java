@@ -17,12 +17,9 @@ public class OrderDispatch {
 	@Column(name = "invoice_number", unique=true)
 	private String invoiceNumber;
 	
-	@Column(name = "transporter_name")
-	private String transporterName;
-	
-	@Column(name = "transporter_number")
-	private String transporterNumber;
-
+	@ManyToOne
+	@JoinColumn(name = "transporter_id", referencedColumnName = "transporter_id")
+	private Transporter transporter;
 	
 	@Column(name = "vehicle_number")
 	private String vehicleNumber;
@@ -50,20 +47,22 @@ public class OrderDispatch {
 		this.invoiceNumber = invoiceNumber;
 	}
 
-	public String getTransporterName() {
-		return transporterName;
+	
+
+	public OrderDispatchId getOrderDispatchId() {
+		return orderDispatchId;
 	}
 
-	public void setTransporterName(String transporterName) {
-		this.transporterName = transporterName;
+	public void setOrderDispatchId(OrderDispatchId orderDispatchId) {
+		this.orderDispatchId = orderDispatchId;
 	}
 
-	public String getTransporterNumber() {
-		return transporterNumber;
+	public Transporter getTransporter() {
+		return transporter;
 	}
 
-	public void setTransporterNumber(String transporterNumber) {
-		this.transporterNumber = transporterNumber;
+	public void setTransporter(Transporter transporter) {
+		this.transporter = transporter;
 	}
 
 	public String getVehicleNumber() {

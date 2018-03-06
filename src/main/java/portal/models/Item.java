@@ -1,13 +1,11 @@
 package portal.models;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,17 +13,15 @@ import javax.persistence.Table;
 public class Item {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer itemId;
 	
+	@Id
 	@Column(name = "item_name")
 	private String itemName;
 	
 	@Column(name = "hsn_code")
 	private String hsnCode;
-
-	@ManyToMany
-	@JoinTable(name = "item_brand", joinColumns = @JoinColumn(name = "item_id"), inverseJoinColumns = @JoinColumn(name = "brand_id"))
-	private List<Brand> brands;
 
 	public Integer getItemId() {
 		return itemId;
@@ -50,16 +46,4 @@ public class Item {
 	public void setHsnCode(String hsnCode) {
 		this.hsnCode = hsnCode;
 	}
-
-	public List<Brand> getBrands() {
-		return brands;
-	}
-
-	public void setBrands(List<Brand> brands) {
-		this.brands = brands;
-	}
-	
-	
-	
-
 }
