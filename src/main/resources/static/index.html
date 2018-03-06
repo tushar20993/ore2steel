@@ -36,7 +36,7 @@
 	
 	<body class="container-fluid">
 		<div ng-include = "'partials/header.html'"></div>
-		<div uib-alert dismiss-on-timeout="2000" ng-repeat="alert in alerts" ng-class="'row col-md-12 alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+		<div uib-alert dismiss-on-timeout="5000" ng-repeat="alert in alerts" ng-class="'row col-md-12 alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
 		<div ng-view></div>
 	
 	</body>

@@ -2,6 +2,32 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 	console.log("Purchase Order Controller");
 	
 	$scope.purchaseOrder = {};
+	
+	$scope.getPurchaseOrders = function(){
+		$http.get("/purchase_order/getAll").then(
+				function success(response){
+					$scope.purchaseOrders = response.data;
+					$scope.gridOptions = {
+							exporterMenuCsv: true,
+							enableGridMenu: true,
+							enableFiltering : true,
+							enableColumnResizing: true,
+							enableRowReordering: true,
+							enableSorting: true,
+							data: $scope.purchaseOrders,
+							columnDefs: [
+								{name: "purchaseOrderNumber", 	visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.purchaseOrderNumber}}</div>', field: "purchaseOrderId.purchaseOrderNumber"},
+								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.site.siteId.companyName}}</div>', field: "purchaseOrderId.site.siteId.companyName"},
+								{name: "siteName", 				visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.site.siteName}}</div>', field: "purchaseOrderId.site.siteName"},
+							]
+						};
+				}, function fail(response){
+					console.log("Failed to get all purchase orders");
+				});
+	}
+	
+	$scope.getPurchaseOrders();
+	
 	$scope.addPurchaseOrder = function(){
 		var modalInstance = $uibModal.open({
 			animation: false,
@@ -19,7 +45,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 		
 		modalInstance.result.then(function(data){
 			if(data.status == 1){
-				$scope.getCompanies();
+				$scope.getPurchaseOrders();
 				$rootScope.addAlert(data.msg, "success");
 			}
 			else if(data.status == 0){
@@ -31,30 +57,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 		});
 	};
 	
-	$scope.getPurchaseOrders = function(){
-		$http.get("/purchase_order/getAll").then(
-				function success(response){
-					$scope.purchaseOrders = response.data;
-					$scope.gridOptions = {
-							exporterMenuCsv: true,
-							enableGridMenu: true,
-							enableFiltering : true,
-							enableColumnResizing: true,
-							enableRowReordering: true,
-							enableSorting: true,
-							data: $scope.purchaseOrders,
-							columnDefs: [
-								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.site.siteId.companyName}}</div>'},
-								{name: "siteName", 				visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.site.siteName}}</div>'},
-								{name: "purchaseOrderNumber", 	visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.purchaseOrderNumber}}</div>'},
-							]
-						};
-				}, function fail(response){
-					console.log("Failed to get all purchase orders");
-				});
-	}
 	
-	$scope.getPurchaseOrders();
 	
 	
 	
@@ -100,7 +103,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 		}).then(function success(response){
 			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order!"});
+			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
 		});
 	};
 	
