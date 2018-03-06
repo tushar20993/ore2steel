@@ -129,7 +129,9 @@ public class Site {
 		this.pinCode = pinCode;
 	}
 	
-	
+	public String getCompanyName() {
+		return siteId.getCompanyName();
+	}
 	
 	
 		

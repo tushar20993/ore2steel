@@ -49,6 +49,14 @@ public class PurchaseOrder {
 		return getPurchaseOrderId().getSite();
 	}
 	
+	public Integer getSiteId() {
+		return getPurchaseOrderId().getSiteId();
+	}
+	
+	public String getCompanyName() {
+		return purchaseOrderId.getCompanyName();
+	}
+	
 	public Date getOrderDate() {
 		return orderDate;
 	}

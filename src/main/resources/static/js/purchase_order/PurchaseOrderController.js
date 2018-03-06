@@ -1,11 +1,8 @@
 portal.controller("PurchaseOrderController", function($scope, $rootScope, $http, $uibModal){
-	console.log("Purchase Order Controller");
-	
-	$scope.purchaseOrder = {};
-	
 	$scope.getPurchaseOrders = function(){
 		$http.get("/purchase_order/getAll").then(
 				function success(response){
+					
 					$scope.purchaseOrders = response.data;
 					$scope.gridOptions = {
 							exporterMenuCsv: true,
@@ -16,14 +13,39 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 							enableSorting: true,
 							data: $scope.purchaseOrders,
 							columnDefs: [
-								{name: "purchaseOrderNumber", 	visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.purchaseOrderNumber}}</div>', field: "purchaseOrderId.purchaseOrderNumber"},
-								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.site.siteId.companyName}}</div>', field: "purchaseOrderId.site.siteId.companyName"},
-								{name: "siteName", 				visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.site.siteName}}</div>', field: "purchaseOrderId.site.siteName"},
+								{name: "purchaseOrderNumber", 	visible: true, field: "purchaseOrderId.purchaseOrderNumber"},
+								{name: "orderDate", 			visible: true, field: "orderDate", cellFilter: 'date:\'dd-MM-yyyy\'', filterCellFiltered: true },
+								{name: "companyName", 			visible: true, field: "purchaseOrderId.site.siteId.companyName"},
+								{name: "siteName", 				visible: true, field: "purchaseOrderId.site.siteName"},
+								{name: "Edit", 
+									cellTemplate: 
+										'<div class="ui-grid-cell-contents">' + 
+											'<button type = "button" class = "btn btn-sm btn-danger" ' + 
+													'ng-click = "grid.appScope.deleteOrder(row.entity)" >' + 
+													'Delete'+ 
+											'</button>' + 
+											
+											'<button type = "button" class = "btn btn-sm btn-info" ' + 
+												'ng-click = "grid.appScope.editOrder(row.entity)" >' + 
+													'Edit'+ 
+											'</button>' +
+											
+										'</div>',
+									enableSorting : false, 
+									enableFiltering: false, 
+									resizable: false},
 							]
 						};
 				}, function fail(response){
 					console.log("Failed to get all purchase orders");
 				});
+	}
+
+	$scope.deleteOrder = function(po){
+		console.log(po);
+	}
+	$scope.editOrder = function(po){
+		console.log(po);
 	}
 	
 	$scope.getPurchaseOrders();

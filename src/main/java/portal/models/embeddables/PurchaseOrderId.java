@@ -44,8 +44,16 @@ public class PurchaseOrderId implements Serializable {
 		this.site = site;
 	}
 	
+	public Integer getSiteId() {
+		return site.getSiteId().getSiteId();
+	}
+	
 	public Integer getCompanyId() {
 		return getSite().getSiteId().getCompanyId();
+	}
+	
+	public String getCompanyName() {
+		return site.getSiteId().getCompanyName();
 	}
 	
 	public void setCompanyId(Company company) {
