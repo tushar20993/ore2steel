@@ -7,7 +7,7 @@
 		</div>
 		
 		<div class = "modal-body">
-			<form ng-submit="saveCompany()" ng-init="purchaseOrder.purchaseOrderId = {}">
+			<form ng-submit="savePurchaseOrder()" ng-init="purchaseOrder.purchaseOrderId = {}">
 				
 				
 				<div class = "form-group" >
@@ -22,13 +22,13 @@
 					</select>
 				</div>
 				
-				<div class = "form-group" ng-if="purchasePrder.purchaseOrderId.company">
+				<div class = "form-group" ng-show="purchaseOrder.purchaseOrderId.company">
 					<label for="registrationStatus">Site Name</label>
 					<select 
 						class = "form-control" 
 						ng-model = "purchaseOrder.purchaseOrderId.site" 
 						ng-options="site as site.siteName for site in sites" 
-						required>
+						ng-required = "purchaseOrder.purchaseOrderId.company">
 						<option value="">--Select One--</option>
 					</select>
 				</div>
@@ -50,9 +50,8 @@
 				
 				
 				<div class = "form-group">
-					<label for="registrationStatus">Registration Status</label>
-					<select class = "form-control" ng-model = "company.registrationStatus" ng-options="status for status in statuses" required>
-						<option value="">--Select One--</option>
+					<label for="file">Purchase Order</label>
+					<input class = "form-control" type = "file" ng-model = "purchaseOrder.file">
 					</select>
 				</div>
 				

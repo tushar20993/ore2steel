@@ -3,7 +3,6 @@ package portal.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import portal.models.constants.VehicleType;
 import portal.models.embeddables.OrderDispatchId;
 
 @Entity

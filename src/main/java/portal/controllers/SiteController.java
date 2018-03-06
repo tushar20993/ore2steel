@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +34,12 @@ public class SiteController {
 	private void generateNewSiteId(Site site) {
 		int numSites = siteDao.countBySiteIdCompanyCompanyId(site.getSiteId().getCompanyId());
 		site.getSiteId().setSiteId(++numSites);
-		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/site/get", method = RequestMethod.GET)
+	public List<Site> getSiteById(@RequestParam("id") Integer companyId){
+		return siteDao.findBySiteIdCompanyCompanyId(companyId);
 	}
 
 }

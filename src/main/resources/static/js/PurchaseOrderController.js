@@ -19,7 +19,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 		
 		modalInstance.result.then(function(data){
 			if(data.status == 1){
-				$scope.getCompanies();
+				$scope.getPurchaseOrders();
 				$rootScope.addAlert(data.msg, "success");
 			}
 			else if(data.status == 0){
@@ -31,24 +31,33 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 		});
 	};
 	
-	$scope.gridOptions = {
-			exporterMenuCsv: true,
-			enableGridMenu: true,
-			enableFiltering : true,
-			enableColumnResizing: true,
-			enableRowReordering: true,
-			enableSorting: true,
-			data: $scope.purchaseOrders,
-			columnDefs: [
-				{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
-				{name: "companyAddress", 		visible: true, },
-				{name: "companyPan", 			visible: true, },
-				{name: "registrationStatus", 	visible: true, },
-				{name: "gstNumber", 			visible: true, },
-				{name: "contactPerson", 		visible: true, },
-				{name: "contactNumber", 		visible: true, },
-			]
-		};
+	$scope.getPurchaseOrders = function(){
+		$http.get("/purchase_order/getAll").then(
+				function success(response){
+					$scope.purchaseOrders = response.data;
+					$scope.gridOptions = {
+							exporterMenuCsv: true,
+							enableGridMenu: true,
+							enableFiltering : true,
+							enableColumnResizing: true,
+							enableRowReordering: true,
+							enableSorting: true,
+							data: $scope.purchaseOrders,
+							columnDefs: [
+								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.site.siteId.companyName}}</div>'},
+								{name: "siteName", 				visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.site.siteName}}</div>'},
+								{name: "purchaseOrderNumber", 	visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.purchaseOrderId.purchaseOrderNumber}}</div>'},
+							]
+						};
+				}, function fail(response){
+					console.log("Failed to get all purchase orders");
+				});
+	}
+	
+	$scope.getPurchaseOrders();
+	
+	
+	
 });
 
 
@@ -65,22 +74,28 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 			});
 
 	$scope.companySelected = function(){
-		console.log(1);
-		alert("Company Selected")
-	}
+		var company = $scope.purchaseOrder.purchaseOrderId.company;
+		$http.get("/site/get?id=" + company.companyId).then(
+				function success(response){
+					$scope.sites = response.data;				
+				},
+				function fail(response){
+					console.log("Error in getting sites for " + company.companyName);
+				});
+	};
 	
 	
 	$scope.close = function(){
-		$uibModalInstance.close("close");
+		$uibModalInstance.close({status: 2, msg: "You closed the window"});
 	};
 	
 	$scope.savePurchaseOrder = function(){
 		console.log($scope.purchaseOrder);
-		
+		$scope.purchaseOrder.purchaseOrderId.site.siteId.company = $scope.purchaseOrder.purchaseOrderId.company;
 		$http({
 			method: "POST",
 			url: "/purchase_order/save",
-			data: JSON.parse(JSON.stringify($scope.company)),
+			data: JSON.parse(JSON.stringify($scope.purchaseOrder)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
 			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});

@@ -40,12 +40,23 @@
 				<div class = "form-group">
 					<label for="company.stateCode">State</label>
 					<select class = "form-control" 
-							ng-model = "company.stateCode" 
+							ng-model = "site.stateCode" 
 							ng-options="stateCode as stateCode.stateName for stateCode in stateCodes" 
 							required>
 						<option value="">--Select One--</option>
 					</select>
 				</div>
+				
+				<div class = "form-group">
+					<label for="pinCode">PIN Code</label>
+					<input 
+						type = "text"
+						class="form-control" 
+						placeholder="Eg: 560008" 
+						ng-model="site.pinCode"
+						required>
+				</div>
+				
 				
 				<div class = "form-group">
 					<label for="contactPerson">Contact Person</label>

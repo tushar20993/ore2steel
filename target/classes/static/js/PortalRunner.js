@@ -10,13 +10,14 @@ portal.config(function($routeProvider, $locationProvider){
 	.when("/state_codes", {templateUrl: "partials/state_code/viewStateCodes.html", controller: "StateCodesController"})
 });
 
-portal.run(function($rootScope){
+portal.run(function($rootScope, $timeout){
 	$rootScope.alerts = [];	
 	$rootScope.closeAlert = function(index){
 		$rootScope.alerts.splice(index, 1);
 	}
 	
 	$rootScope.addAlert = function(message, type){
+		var numAlerts = $rootScope.alerts.length;
 		$rootScope.alerts.push({
 			msg: message,
 			type: type 

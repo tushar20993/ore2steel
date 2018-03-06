@@ -102,8 +102,7 @@ portal.controller("AddCompanyController", function($scope, $rootScope, $http, $u
 
 	
 	$scope.close = function(){
-		console.log($scope.company);
-		$uibModalInstance.close("close");
+		$uibModalInstance.close({status: 2, msg: "You closed the window"});
 	};
 	
 	$scope.saveCompany = function(){

@@ -1,10 +1,6 @@
 portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal){
 	console.log("Site Controller");
 	
-	$scope.alerts = [];
-	$scope.closeAlert = function(index){
-		$scope.alerts.splice(index, 1);
-	}
 	
 	$scope.getSites = function(){
 		$http.get("/site/getAll").then(
@@ -63,6 +59,9 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 			else if(data == "danger"){
 				$scope.alerts.push({msg: "Failed to add. Try again later.", type: data});
 			}
+			else{
+				$rootScope.addAlert(data.msg, data.type);
+			}
 		});
 	};
 	
@@ -102,7 +101,7 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 
 	
 	$scope.close = function(){
-		$uibModalInstance.close("close");
+		$uibModalInstance.close({status: 2, msg: "You closed the window"});
 	};
 	
 	$scope.saveSite = function(){
