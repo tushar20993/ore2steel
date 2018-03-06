@@ -13,6 +13,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 							enableColumnResizing: true,
 							enableRowReordering: true,
 							data: $scope.sites,
+							rowHeight: 40,
 							enableSorting: true,
 							columnDefs: [
 								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.siteId.companyName}}</div>'},
@@ -23,6 +24,25 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactNumber", 		visible: true, },
+								{name: "Edit", 
+									cellTemplate: 
+										'<div class="ui-grid-cell-contents row">' + 
+
+										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
+											'ng-click = "grid.appScope.editSite(row.entity)" >' + 
+												'Edit'+ 
+										'</button>' +
+										
+										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
+													'ng-click = "grid.appScope.deleteSite(row.entity)" >' + 
+													'Delete'+ 
+										'</button>' + 
+											
+											
+										'</div>',
+									enableSorting : false, 
+									enableFiltering: false, 
+									resizable: false},
 							]
 						};
 				},

@@ -11,6 +11,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 							enableColumnResizing: true,
 							enableRowReordering: true,
 							enableSorting: true,
+							rowHeight: 40,
 							data: $scope.purchaseOrders,
 							columnDefs: [
 								{name: "purchaseOrderNumber", 	visible: true, field: "purchaseOrderId.purchaseOrderNumber"},
@@ -19,16 +20,18 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 								{name: "siteName", 				visible: true, field: "purchaseOrderId.site.siteName"},
 								{name: "Edit", 
 									cellTemplate: 
-										'<div class="ui-grid-cell-contents">' + 
-											'<button type = "button" class = "btn btn-sm btn-danger" ' + 
+										'<div class="ui-grid-cell-contents row">' + 
+
+										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
+											'ng-click = "grid.appScope.editOrder(row.entity)" >' + 
+												'Edit'+ 
+										'</button>' +
+										
+										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
 													'ng-click = "grid.appScope.deleteOrder(row.entity)" >' + 
 													'Delete'+ 
-											'</button>' + 
+										'</button>' + 
 											
-											'<button type = "button" class = "btn btn-sm btn-info" ' + 
-												'ng-click = "grid.appScope.editOrder(row.entity)" >' + 
-													'Edit'+ 
-											'</button>' +
 											
 										'</div>',
 									enableSorting : false, 

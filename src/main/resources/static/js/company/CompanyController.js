@@ -15,6 +15,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 							enableColumnResizing: true,
 							enableRowReordering: true,
 							data: $scope.companies,
+							rowHeight: 40,
 							enableSorting: true,
 							data: $scope.companies,
 							columnDefs: [
@@ -22,10 +23,28 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 								{name: "companyAddress", 		visible: false, },
 								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
 								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
-								{name: "registrationStatus", 	visible: true, },
 								{name: "gstNumber", 			visible: true, displayName: "GSTIN"},
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactNumber", 		visible: true, },
+								{name: "Edit", 
+									cellTemplate: 
+										'<div class="ui-grid-cell-contents row">' + 
+
+										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
+											'ng-click = "grid.appScope.editCompany(row.entity)" >' + 
+												'Edit'+ 
+										'</button>' +
+										
+										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
+													'ng-click = "grid.appScope.deleteCompany(row.entity)" >' + 
+													'Delete'+ 
+										'</button>' + 
+											
+											
+										'</div>',
+									enableSorting : false, 
+									enableFiltering: false, 
+									resizable: false},
 							]
 						};
 				},
