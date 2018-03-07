@@ -9,6 +9,7 @@ import portal.models.embeddables.SiteId;
 
 import java.util.*;
 
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CompanyController {
+	
+	private final String HEAD_OFFICE = "Head Office";
 	
 	@Autowired
 	private CompanyDao companyDao;
@@ -39,10 +42,18 @@ public class CompanyController {
 	}
 	
 	@RequestMapping(value = "/company/update", method = RequestMethod.POST)
-	public void updateCompany(Company company) {
-			companyDao.save(company);
+	public void updateCompany(@RequestBody Company company) {
+		setBackReferences(company);
+		companyDao.save(company);
 	}
 	
+	private void setBackReferences(Company company) {
+		for(Site site: company.getSites()) {
+			site.getSiteId().setCompany(company);
+		}
+	}
+
+	@Transactional
 	@RequestMapping(value = "/company/save", method = RequestMethod.POST)
 	public void saveCompany(@RequestBody Company company) throws Exception{
 		companyDao.save(company);
@@ -54,7 +65,7 @@ public class CompanyController {
 		site.setSiteId(new SiteId());
 		site.getSiteId().setCompany(company);
 		site.getSiteId().setSiteId(1);
-		site.setSiteName("Head Office");
+		site.setSiteName(HEAD_OFFICE);
 		site.setSiteAddress(company.getCompanyAddress());
 		site.setStateCode(company.getStateCode());
 		site.setPinCode(company.getPinCode());
@@ -62,7 +73,7 @@ public class CompanyController {
 		site.setGstNumber(company.getRegistrationStatus().equals(GSTRegistrationType.REGISTERED) ? company.getGstNumber() : "");
 		site.setContactPerson(company.getContactPerson());
 		site.setContactNumber(company.getContactNumber());
-		siteDao.saveAndFlush(site);
+		siteDao.save(site);
 	}
 	
 }

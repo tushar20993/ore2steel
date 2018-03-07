@@ -1,0 +1,138 @@
+<div class="ng-cloak">
+	<div class="modal-content">
+
+		<div class = "modal-header">
+			<h4 class = "modal-title">Company Information</h4>
+			<button type="button" class="close" ng-click="close()">&times;</button>
+		</div>
+		
+		<div class = "modal-body">
+			<form ng-submit="saveCompany()" class="form-inline">
+				<div class = "container-fluid">
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="companyName">Company Name</label>
+						</div>
+						<div class="col-7">
+							<input 
+								type = "text" 
+								class="form-control big" 
+								placeholder="Eg: Matangi Iron & Steel Company" 
+								ng-model="company.companyName"
+								uib-typeahead="oldCompany.companyName for oldCompany in companies | filter: $viewValue"
+								typeahead-editable="true" 
+								typeahead-on-select="onCompanyTypeaheadSelect($item, $model, $label)"
+								required>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="companyAddress">Primary Address</label>
+						</div>
+						<div class="col-7">
+							<input type = "text" class="form-control" placeholder = "Eg: No. 13, 2 Floor, 17 Main" ng-model="company.companyAddress" required>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="stateCode">State</label>
+						</div>
+						
+						<div class="col-7">
+							<select class = "form-control"
+									ng-options="stateCode as stateCode.stateName for stateCode in stateCodes | orderBy: 'stateName' track by stateCode.stateCode "
+									ng-model = "company.stateCode"  
+									
+									required>
+								<option value="">--Select One--</option>
+							</select>
+						</div>
+					</div>
+					
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="pinCode">PIN Code</label>
+						</div>
+						<div class="col-7">
+							<input 
+								type = "text"
+								class="form-control" 
+								placeholder="Eg: 560008" 
+								ng-model="company.pinCode"
+								required>
+							</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="contactPerson">Contact Person</label>
+						</div>
+						<div class="col-7">
+							<input type = "text" class="form-control" placeholder = "Eg: Dayalan R" ng-model="company.contactPerson">
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="contactNumber">Contact Number</label>
+						</div>
+						
+						<div class="col-7">
+							<input type = "text" class="form-control" placeholder = "Eg: +91 98450 12222" ng-model="company.contactNumber">
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="companyPan">PAN Number</label>
+						</div>
+						<div class="col-7">
+							<input type = "text" 
+								class="form-control" 
+								placeholder = "Eg: AJAPA9388A" 
+								ng-model="company.companyPan"
+								pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}"
+								style="text-transform: uppercase" required>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="registrationStatus">Registration Status</label>
+						</div>
+						<div class="col-7">
+							<select class = "form-control" ng-model = "company.registrationStatus" ng-options="status for status in statuses" required>
+								<option value="">--Select One--</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class = "form-group row" ng-show="company.registrationStatus == 'REGISTERED'">
+						<div class="col-5">
+							<label for="gstNumber">GSTIN</label>
+						</div>
+						
+						<div class="col-7">
+							<input type = "text" 
+								class="form-control" 
+								placeholder = "Eg: 29ACOPA3671R1ZV" 
+								ng-model="company.gstNumber" 
+								ng-disabled="company.registrationStatus != 'REGISTERED'" 
+								ng-required="company.registrationStatus == 'REGISTERED'"
+								pattern="[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[a-zA-Z0-9]{3}"
+								style="text-transform: uppercase">
+						</div>
+					</div>
+					
+					 <button type="submit" class="btn btn-primary">Save Company</button>
+					 <button type="reset" class="btn btn-danger">Reset Information</button>		
+				</div>
+			</form>
+		</div>
+		
+	</div>
+</div>

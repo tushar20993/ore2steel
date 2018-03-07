@@ -99,14 +99,14 @@ public class Site {
 	}
 
 	public String getGstNumber() {
-		if(registrationStatus.equals(GSTRegistrationType.REGISTERED)) {
-			return gstNumber;
-		}
-		return "";
+		return gstNumber;
 	}
 
 	public void setGstNumber(String gstNumber) {
-		this.gstNumber = gstNumber.toUpperCase();		
+		if(isRegistered()) {
+			this.gstNumber = gstNumber.toUpperCase();
+		}
+		this.gstNumber = null;
 	}
 	
 	public void setCompany(Company company) {
@@ -133,6 +133,8 @@ public class Site {
 		return siteId.getCompanyName();
 	}
 	
+	public boolean isRegistered() {
+		return registrationStatus.equals(GSTRegistrationType.REGISTERED);
+	}
 	
-		
 }

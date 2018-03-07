@@ -27,7 +27,8 @@
 		<script type="text/javascript" src="js/HeaderController.js"></script>
 		
 		<script type="text/javascript" src="js/company/CompanyController.js"></script>				
-		<script type="text/javascript" src="js/company/AddCompanyController.js"></script>
+		<script type="text/javascript" src="js/company/AddCompanyController.js"></script>				
+		<script type="text/javascript" src="js/company/EditCompanyController.js"></script>
 				
 		<script type="text/javascript" src="js/site/SiteController.js"></script>
 		<script type="text/javascript" src="js/site/AddSiteController.js"></script>
@@ -44,9 +45,9 @@
 		<script type="text/javascript" src="js/state_code/StateCodesController.js"></script>
 	</head>
 	
-	<body class="container-fluid">
-		<div ng-include = "'partials/header.html'"></div>
-		<div uib-alert dismiss-on-timeout="5000" ng-repeat="alert in alerts" ng-class="'row col-md-12 alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+	<body class="container-fluid" ng-cloak>
+		<div ng-include = "'partials/header.html'" class=""></div>
+		<div uib-alert dismiss-on-timeout="5000" ng-repeat="alert in alerts" ng-class="'jumbotron alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
 		<div ng-view></div>
 	
 	</body>

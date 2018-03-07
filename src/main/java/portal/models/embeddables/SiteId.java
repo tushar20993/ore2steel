@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import portal.models.Company;
 
 public class SiteId implements Serializable{
@@ -49,7 +51,11 @@ public class SiteId implements Serializable{
 	public String toString() {
 		return "SiteId [company=" + company.getCompanyId() + ", siteId=" + siteId + "]";
 	}
-	
+
+	@JsonIgnore
+	public Company getCompany() {
+		return company;
+	}
 	
 	
 

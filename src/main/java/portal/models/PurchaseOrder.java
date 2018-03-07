@@ -48,17 +48,6 @@ public class PurchaseOrder {
 	@Column(name = "order_status_date")
 	private Date orderStatusDate;
 	
-	public Site getSite() {
-		return getPurchaseOrderId().getSite();
-	}
-	
-	public Integer getSiteId() {
-		return getPurchaseOrderId().getSiteId();
-	}
-	
-	public String getCompanyName() {
-		return purchaseOrderId.getCompanyName();
-	}
 	
 	public Date getOrderDate() {
 		return orderDate;
@@ -138,6 +127,21 @@ public class PurchaseOrder {
 		this.orderStatusDate = orderStatusDate;
 	}
 	
+	public Company getCompany() {
+		return purchaseOrderId.getSite().getSiteId().getCompany();
+	}
+	
+	public String getCompanyName() {
+		return purchaseOrderId.getCompanyName();
+	}
+		
+	public Site getSite() {
+		return getPurchaseOrderId().getSite();
+	}
+	
+	public Integer getSiteId() {
+		return getPurchaseOrderId().getSiteId();
+	}
 	
 	
 }

@@ -22,7 +22,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	
 
 	$scope.companySelected = function(){
-		var company = $scope.purchaseOrder.purchaseOrderId.company;
+		var company = $scope.purchaseOrder.company;
 		$http.get("/site/get?id=" + company.companyId).then(
 				function success(response){
 					$scope.sites = response.data;				
@@ -37,9 +37,14 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 		$uibModalInstance.close({status: 2, msg: "You closed the window"});
 	};
 	
-	$scope.savePurchaseOrder = function(){
+	$scope.savePurchaseOrder = function(){		
+		$scope.purchaseOrder.purchaseOrderId.site = JSON.parse(JSON.stringify($scope.purchaseOrder.site));
+		delete $scope.purchaseOrder.site;
+		
+		$scope.purchaseOrder.purchaseOrderId.site.siteId.company = JSON.parse(JSON.stringify($scope.purchaseOrder.company));
+		delete $scope.purchaseOrder.company;
+		
 		console.log($scope.purchaseOrder);
-		$scope.purchaseOrder.purchaseOrderId.site.siteId.company = $scope.purchaseOrder.purchaseOrderId.company;
 		$http({
 			method: "POST",
 			url: "/purchase_order/save",
@@ -48,7 +53,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 		}).then(function success(response){
 			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
+			//$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
 		});
 	};
 	

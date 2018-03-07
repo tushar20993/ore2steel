@@ -17,4 +17,5 @@ public final class GSTRegistrationType {
 		return registrationTypes;
 	}
 	
+	
 }

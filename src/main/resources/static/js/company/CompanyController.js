@@ -8,6 +8,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 		$http.get("/company/getAll").then(
 				function(response){
 					$scope.companies = response.data;
+					console.log(response.data)
 					$scope.gridOptions = {
 							exporterMenuCsv: true,
 							enableGridMenu: true,
@@ -20,10 +21,11 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 							data: $scope.companies,
 							columnDefs: [
 								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
-								{name: "companyAddress", 		visible: false, },
+								{name: "companyAddress", 		visible: true, },
 								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
 								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
 								{name: "gstNumber", 			visible: true, displayName: "GSTIN"},
+								{name: "registrationStatus", 	visible: false, displayName: "GST Type"},
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactNumber", 		visible: true, },
 								{name: "Edit", 
@@ -55,7 +57,37 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 	
 	$scope.getCompanies();
 	
-	
+	$scope.editCompany = function(company){
+		var modalInstance = $uibModal.open({
+			animation: false,
+			templateUrl: "partials/company/editCompany.html",
+			backdrop: "static",
+			keyboard: false,
+			size: "lg",
+			controller: "EditCompanyController",
+			resolve: {
+				companies: function(){
+					return $scope.companies;
+				},
+				company: function(){
+					return JSON.parse(JSON.stringify(company));
+				}
+			}
+		});
+		
+		modalInstance.result.then(function(data){
+			if(data.status == 1){
+				$scope.getCompanies();
+				$rootScope.addAlert(data.msg, "success");
+			}
+			else if(data.status == 0){
+				$rootScope.addAlert(data.msg, "danger");
+			}
+			else{
+				$rootScope.addAlert(data.msg, "info");
+			}
+		});
+	};
 	
 	$scope.addCompany = function(){
 		var modalInstance = $uibModal.open({
