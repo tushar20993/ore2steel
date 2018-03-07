@@ -38,8 +38,8 @@ public class OrderDispatchId implements Serializable{
 		this.orderDispatchId = orderDetailsId;
 	}
 
-	public PurchaseOrder getPurchaseOrder() {
-		return purchaseOrder;
+	public String getPurchaseOrderNumber() {
+		return purchaseOrder.getPurchaseOrderId().getPurchaseOrderNumber();
 	}
 
 	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {

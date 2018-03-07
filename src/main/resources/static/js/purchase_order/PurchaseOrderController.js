@@ -18,6 +18,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 								{name: "orderDate", 			visible: true, field: "orderDate", cellFilter: 'date:\'dd-MM-yyyy\'', filterCellFiltered: true },
 								{name: "companyName", 			visible: true, field: "purchaseOrderId.site.siteId.companyName"},
 								{name: "siteName", 				visible: true, field: "purchaseOrderId.site.siteName"},
+								{name: "orderStatus", 			visible: true, field: "orderStatus"},
 								{name: "Edit", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 

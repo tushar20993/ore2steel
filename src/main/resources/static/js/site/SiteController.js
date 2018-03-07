@@ -72,7 +72,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 		
 		modalInstance.result.then(function(data){
 			if(data.status == 1){
-				$scope.getCompanies();
+				$scope.getSites();
 				$rootScope.addAlert(data.msg, "success");
 			}
 			else if(data.status == 0){

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import portal.dao.PurchaseOrderDao;
 import portal.models.PurchaseOrder;
+import portal.models.constants.OrderStatuses;
 
 @RestController
 public class PurchaseOrderController {
@@ -31,6 +32,12 @@ public class PurchaseOrderController {
 			throw new Exception("Purchase order already exists");
 		}
 		purchaseOrderDao.save(purchaseOrder);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/order_status/getAll", method = RequestMethod.GET)
+	public List<String> getAllPurchaseOrderStatuses(){
+		return OrderStatuses.getAll();
 	}
 
 }

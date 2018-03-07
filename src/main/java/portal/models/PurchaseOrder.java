@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import portal.models.constants.OrderStatuses;
 import portal.models.embeddables.PurchaseOrderId;
 
 @Entity
@@ -31,10 +32,6 @@ public class PurchaseOrder {
 	@OneToMany(mappedBy = "orderItemId.purchaseOrder", cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	
-	@OneToMany(mappedBy = "purchaseOrderStatusId.purchaseOrder", cascade = CascadeType.ALL)
-	private List<PurchaseOrderStatus> purchaseOrderStatuses;
-
-	
 	@OneToMany(mappedBy = "orderDispatchId.purchaseOrder", cascade = CascadeType.ALL)
 	private List<OrderDispatch> orderDispatches;
 		
@@ -44,7 +41,13 @@ public class PurchaseOrder {
 
 	@Column(name = "additional_information")
 	private String additionalInformation;
+	
+	@Column(name = "order_status")
+	private String orderStatus;
 
+	@Column(name = "order_status_date")
+	private Date orderStatusDate;
+	
 	public Site getSite() {
 		return getPurchaseOrderId().getSite();
 	}
@@ -73,14 +76,6 @@ public class PurchaseOrder {
 		this.purchaseOrderId = purchaseOrderId;
 	}
 	
-	public List<PurchaseOrderStatus> getPurchaseOrderStatuses() {
-		return purchaseOrderStatuses;
-	}
-
-	public void setPurchaseOrderStatuses(List<PurchaseOrderStatus> purchaseOrderStatuses) {
-		this.purchaseOrderStatuses = purchaseOrderStatuses;
-	}
-
 	public List<OrderDispatch> getOrderDispatches() {
 		return orderDispatches;
 	}
@@ -106,12 +101,43 @@ public class PurchaseOrder {
 	}
 
 	public List<OrderItem> getOrderItems() {
-		return orderItems;
+		if(hasItems()) {
+			return orderItems;
+		}
+		return null;
 	}
 
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
+	
+	public boolean isDispatched() {
+		return (orderStatus != null && OrderStatuses.isDispatched(orderStatus));
+	}
+	
+	public boolean hasItems() {
+		if( (orderItems != null) && (orderItems.size() > 0)) {
+			return true;
+		}
+		return false;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public Date getOrderStatusDate() {
+		return orderStatusDate;
+	}
+
+	public void setOrderStatusDate(Date orderStatusDate) {
+		this.orderStatusDate = orderStatusDate;
+	}
+	
 	
 	
 }

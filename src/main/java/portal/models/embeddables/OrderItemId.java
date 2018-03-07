@@ -32,8 +32,8 @@ public class OrderItemId implements Serializable{
 	@JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
 	private Brand brand;
 
-	public PurchaseOrder getPurchaseOrder() {
-		return purchaseOrder;
+	public String getPurchaseOrderNumber() {
+		return purchaseOrder.getPurchaseOrderId().getPurchaseOrderNumber();
 	}
 
 	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {

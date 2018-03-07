@@ -9,6 +9,17 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 			function(response){
 				console.error(response.data);
 			});
+	
+	$scope.orderStatuses = [];
+	$http.get("/order_status/getAll").then(
+			function(response){
+				$scope.orderStatuses = response.data;
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
+	
 
 	$scope.companySelected = function(){
 		var company = $scope.purchaseOrder.purchaseOrderId.company;

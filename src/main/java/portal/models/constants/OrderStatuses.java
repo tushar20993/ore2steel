@@ -17,7 +17,7 @@ public final class OrderStatuses {
 	public static final String DELIVERED = "DELIVERED";
 	public static final String COMPLETED = "COMPLETED";
 	
-	public static List<String> getPurchaseOrderStatuses() {
+	public static List<String> getAll() {
 		List<String> statuses = new ArrayList<String>();
 		statuses.add(ACCEPTED);
 		statuses.add(REJECTED);
@@ -31,7 +31,28 @@ public final class OrderStatuses {
 		return statuses;
 	}
 	
+	public boolean isAccepted(String status) {
+		if(!status.equals(REJECTED)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isDispatched(String status) {
+		if(
+				(status.equals(PART_DISPATCHED)) ||
+				(status.equals(DISPATCHED)) ||
+				(status.equals(HALTED)) ||
+				(status.equals(DELIVERED)) || 
+				(status.equals(COMPLETED)) 	
+				) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public static boolean isValid(String status) {
-		return getPurchaseOrderStatuses().contains(status);
+		return getAll().contains(status);
 	}
 }
