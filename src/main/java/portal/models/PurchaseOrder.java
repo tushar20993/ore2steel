@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+
 import portal.models.constants.OrderStatuses;
 import portal.models.embeddables.PurchaseOrderId;
 
@@ -101,7 +102,7 @@ public class PurchaseOrder {
 	}
 	
 	public boolean isDispatched() {
-		return (orderStatus != null && OrderStatuses.isDispatched(orderStatus));
+		return OrderStatuses.isDispatched(orderStatus);
 	}
 	
 	public boolean hasItems() {

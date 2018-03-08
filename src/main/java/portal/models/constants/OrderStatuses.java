@@ -39,6 +39,10 @@ public final class OrderStatuses {
 	}
 	
 	public static boolean isDispatched(String status) {
+		if(status == null) {
+			return false;
+		}
+		
 		if(
 				(status.equals(PART_DISPATCHED)) ||
 				(status.equals(DISPATCHED)) ||

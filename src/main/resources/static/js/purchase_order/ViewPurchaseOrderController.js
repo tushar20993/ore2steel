@@ -24,12 +24,12 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 										'<div class="ui-grid-cell-contents row">' + 
 
 										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
-											'ng-click = "grid.appScope.editOrder(row.entity)" >' + 
+											'ng-click = "grid.appScope.editPurchaseOrder(row.entity)" >' + 
 												'Edit'+ 
 										'</button>' +
 										
 										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
-													'ng-click = "grid.appScope.deleteOrder(row.entity)" >' + 
+													'ng-click = "grid.appScope.deletePurchaseOrder(row.entity)" >' + 
 													'Delete'+ 
 										'</button>' + 
 											
@@ -45,12 +45,38 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 				});
 	}
 
-	$scope.deleteOrder = function(po){
-		console.log(po);
+	$scope.deleteOrder = function(){
 	}
-	$scope.editOrder = function(po){
-		console.log(po);
-	}
+	
+	$scope.editPurchaseOrder = function(purchaseOrder){
+		console.log("PO--", purchaseOrder)
+		var modalInstance = $uibModal.open({
+			animation: false,
+			templateUrl: "partials/purchase_order/editPurchaseOrder.html",
+			backdrop: "static",
+			keyboard: false,
+			size: "lg",
+			controller: "EditPurchaseOrderController",
+			resolve: {
+				purchaseOrder: function(){
+					return JSON.parse(JSON.stringify(purchaseOrder));
+				}
+			}
+		});
+		
+		modalInstance.result.then(function(data){
+			if(data.status == 1){
+				$scope.getPurchaseOrders();
+				$rootScope.addAlert(data.msg, "success");
+			}
+			else if(data.status == 0){
+				$rootScope.addAlert(data.msg, "danger");
+			}
+			else{
+				$rootScope.addAlert(data.msg, "info");
+			}
+		});
+	};
 	
 	$scope.getPurchaseOrders();
 	

@@ -34,6 +34,11 @@ public class PurchaseOrderController {
 		purchaseOrderDao.save(purchaseOrder);
 	}
 	
+	@RequestMapping(value = "/purchase_order/update", method = RequestMethod.POST)
+	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) throws Exception{
+		purchaseOrderDao.save(purchaseOrder);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/order_status/getAll", method = RequestMethod.GET)
 	public List<String> getAllPurchaseOrderStatuses(){

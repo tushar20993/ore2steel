@@ -1,0 +1,142 @@
+<div>
+	<div class="modal-content">
+
+		<div class = "modal-header">
+			<h4 class = "modal-title">Purchase Order Information</h4>
+			<button type="button" class="close" ng-click="close()">&times;</button>
+		</div>
+		
+		<div class = "modal-body">
+			<form class = "form-inline" ng-submit="savePurchaseOrder()">
+				
+				<div class="container">
+				
+					<div class = "form-group row" >
+						<div class = "col-5">
+							<label for="companyName">Company</label>
+						</div>
+						<div class = "col-7">
+						<input
+							class = "form-control" 
+							ng-model = "purchaseOrder.purchaseOrderId.site.siteId.company.companyName" 
+							disabled="disabled"
+							required
+							>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class = "col-5">
+							<label for="registrationStatus">Site Name </label>
+						</div>
+						<div class = "col-7">
+							<input
+								class = "form-control select" 
+								ng-model = "purchaseOrder.purchaseOrderId.site.siteName"
+								disabled="disabled"
+								required 
+								>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class = "col-5">
+							<label for="purchaseOrderNumber">PO Number</label>
+						</div>
+						<div class = "col-7">
+							<input  type = "text" 
+									class="form-control" 
+									placeholder="Eg: PO-200" 
+									ng-model="purchaseOrder.purchaseOrderId.purchaseOrderNumber">
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class = "col-5">
+							<label for="orderDate">Order Date</label>
+						</div>
+						<div class = "col-7">
+							<input 
+								type = "date" 
+								class="form-control" 
+								ng-model="purchaseOrder.orderDate"
+								max="{{today | date: 'dd-MM-yyyy'}}"
+								required>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class = "col-5">
+							<label for="additionalInformation">Comments</label>
+						</div>
+						
+						<div class = "col-7">
+							<input 
+								type = "text" 
+								class="form-control" 
+								ng-model="purchaseOrder.additionalInformation"
+								>
+						</div>
+					</div>
+					
+					
+					
+					<div class = "form-group row">
+						<div class = "col-5">
+							<label for="file">PO File</label>
+						</div>
+						
+						<div class = "col-5">
+							<input  
+								type = "file" 
+								class = "form-control"
+								width="inherit"
+								ng-model = "purchaseOrder.file"
+								>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class = "col-5">
+							<label for="orderStatus">Status</label>
+						</div>
+						<div class = "col-7">
+							<select 
+								class = "form-control" 
+								ng-model = "purchaseOrder.orderStatus" 
+								ng-options="orderStatus for orderStatus in orderStatuses"
+								required
+								>
+								<option value="">--Select One--</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class = "form-group row" ng-if = "purchaseOrder.orderStatus">
+						<div class="col-5">
+							<label for="orderStatusDate">Status Date</label>
+						</div>
+						<div class="col-7">
+							<input 
+								type = "date" 
+								class="form-control" 
+								placeholder="Eg: dd-mm-yyyy" 
+								ng-model="purchaseOrder.orderStatusDate"
+								ng-required = "purchaseOrder.orderStatus"
+								>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+					 	<div class = "col-12">
+					 		<button type="submit" class="btn btn-primary">Save Purchase Order</button>
+					 	</div>					
+					 </div>
+					 
+				</div>
+					
+			</form>
+		</div>
+		
+	</div>
+</div>
