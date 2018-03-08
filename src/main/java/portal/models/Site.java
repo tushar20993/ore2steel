@@ -108,10 +108,6 @@ public class Site {
 		}
 		this.gstNumber = null;
 	}
-	
-	public void setCompany(Company company) {
-		this.siteId.setCompany(company);
-	}
 
 	public StateCode getStateCode() {
 		return stateCode;

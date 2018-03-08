@@ -62,8 +62,8 @@
 							<input 
 								type = "date" 
 								class="form-control" 
-								placeholder="Eg: dd-mm-yyyy" 
 								ng-model="purchaseOrder.orderDate"
+								max="{{today | date: 'dd-MM-yyyy'}}"
 								required>
 						</div>
 					</div>

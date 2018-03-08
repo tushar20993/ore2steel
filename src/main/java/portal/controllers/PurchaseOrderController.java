@@ -27,8 +27,8 @@ public class PurchaseOrderController {
 
 	@RequestMapping(value = "/purchase_order/save", method = RequestMethod.POST)
 	public void savePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) throws Exception{
-		int num = purchaseOrderDao.countByPurchaseOrderIdSiteSiteIdCompanyCompanyIdAndPurchaseOrderIdSiteSiteIdSiteIdAndPurchaseOrderIdPurchaseOrderNumber(purchaseOrder.getPurchaseOrderId().getCompanyId(), purchaseOrder.getPurchaseOrderId().getSite().getSiteId().getSiteId(), purchaseOrder.getPurchaseOrderId().getPurchaseOrderNumber());
-		if(num > 0) {
+		boolean orderExists = purchaseOrderDao.findOne(purchaseOrder.getPurchaseOrderId()) != null;
+		if(orderExists) {
 			throw new Exception("Purchase order already exists");
 		}
 		purchaseOrderDao.save(purchaseOrder);

@@ -55,12 +55,5 @@ public class PurchaseOrderId implements Serializable {
 	
 	public String getCompanyName() {
 		return site.getSiteId().getCompanyName();
-	}
-	
-	public void setCompanyId(Company company) {
-		getSite().getSiteId().setCompany(company);
-	}
-	
-	
-	
+	}	
 }
