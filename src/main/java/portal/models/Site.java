@@ -36,6 +36,9 @@ public class Site {
 	@Column(name = "contact_number")
 	private String contactNumber;
 	
+	@Column(name = "site_pan")
+	private String sitePan;
+	
 	@NotNull
 	@Column(name = "registration_status")
 	private String registrationStatus;
@@ -89,6 +92,13 @@ public class Site {
 		this.contactNumber = contactNumber;
 	}
 
+	public String getSitePan() {
+		return sitePan;
+	}
+
+	public void setSitePan(String sitePan) {
+		this.sitePan = sitePan;
+	}
 
 	public String getRegistrationStatus() {
 		return registrationStatus;
@@ -103,10 +113,7 @@ public class Site {
 	}
 
 	public void setGstNumber(String gstNumber) {
-		if(isRegistered()) {
-			this.gstNumber = gstNumber.toUpperCase();
-		}
-		this.gstNumber = null;
+		this.gstNumber = gstNumber.toUpperCase();
 	}
 
 	public StateCode getStateCode() {
@@ -132,5 +139,7 @@ public class Site {
 	public boolean isRegistered() {
 		return registrationStatus.equals(GSTRegistrationType.REGISTERED);
 	}
+	
+	
 	
 }

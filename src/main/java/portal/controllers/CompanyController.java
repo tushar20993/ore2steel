@@ -43,15 +43,10 @@ public class CompanyController {
 	
 	@RequestMapping(value = "/company/update", method = RequestMethod.POST)
 	public void updateCompany(@RequestBody Company company) {
-		setBackReferences(company);
 		companyDao.save(company);
 	}
 	
-	private void setBackReferences(Company company) {
-		for(Site site: company.getSites()) {
-			site.getSiteId().setCompany(company);
-		}
-	}
+
 
 	@Transactional
 	@RequestMapping(value = "/company/save", method = RequestMethod.POST)
@@ -70,7 +65,8 @@ public class CompanyController {
 		site.setStateCode(company.getStateCode());
 		site.setPinCode(company.getPinCode());
 		site.setRegistrationStatus(company.getRegistrationStatus());
-		site.setGstNumber(company.getRegistrationStatus().equals(GSTRegistrationType.REGISTERED) ? company.getGstNumber() : "");
+		site.setGstNumber(company.getGstNumber());
+		site.setSitePan(company.getCompanyPan());
 		site.setContactPerson(company.getContactPerson());
 		site.setContactNumber(company.getContactNumber());
 		siteDao.save(site);

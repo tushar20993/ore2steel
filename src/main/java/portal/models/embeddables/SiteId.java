@@ -9,13 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Digits;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import portal.models.Company;
 
 public class SiteId implements Serializable{
 	
 	private static final long serialVersionUID = -8336365945204319899L;
+
 
 	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false, insertable = false)
@@ -46,17 +45,14 @@ public class SiteId implements Serializable{
 	public void setCompany(Company company) {
 		this.company = company;
 	}
+	
+	
+	public Company getCompany() {
+		return company;
+	}
 
 	@Override
 	public String toString() {
 		return "SiteId [company=" + company.getCompanyId() + ", siteId=" + siteId + "]";
 	}
-
-	@JsonIgnore
-	public Company getCompany() {
-		return company;
-	}
-	
-	
-
 }

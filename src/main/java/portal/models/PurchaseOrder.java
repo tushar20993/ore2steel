@@ -127,10 +127,6 @@ public class PurchaseOrder {
 		this.orderStatusDate = orderStatusDate;
 	}
 	
-	public Company getCompany() {
-		return purchaseOrderId.getSite().getSiteId().getCompany();
-	}
-	
 	public String getCompanyName() {
 		return purchaseOrderId.getCompanyName();
 	}

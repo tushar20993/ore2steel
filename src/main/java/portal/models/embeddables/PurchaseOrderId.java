@@ -8,8 +8,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-
-import portal.models.Company;
 import portal.models.Site;
 
 @Embeddable

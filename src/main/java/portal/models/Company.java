@@ -14,9 +14,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import portal.models.constants.GSTRegistrationType;
 
+@JsonIgnoreProperties(allowSetters = true, value = {"sites"})
 @Entity
 @Table(name = "company")
 public class Company {

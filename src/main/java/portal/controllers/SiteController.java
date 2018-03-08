@@ -25,10 +25,16 @@ public class SiteController {
 		return siteDao.findAll();
 	}
 	
+	
+	@RequestMapping(value = "/site/update", method = RequestMethod.POST)
+	public void updateSite(@RequestBody Site site) {
+		siteDao.save(site);		
+	}
+	
 	@RequestMapping(value = "/site/save", method = RequestMethod.POST)
 	public void saveSite(@RequestBody Site site) {
 		generateNewSiteId(site);
-		siteDao.save(site);		
+		siteDao.save(site);
 	}
 
 	private void generateNewSiteId(Site site) {

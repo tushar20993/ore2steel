@@ -2,7 +2,7 @@
 	<div class="modal-content">
 
 		<div class = "modal-header">
-			<h4 class = "modal-title">Site Information</h4>
+			<h4 class = "modal-title">Edit Site Information</h4>
 			<button type="button" class="close" ng-click="close()">&times;</button>
 		</div>
 		
@@ -11,18 +11,16 @@
 			
 				<div class="container">
 				
-					<div class = "form-group row" ng-init="site.siteId = {}">
+					<div class = "form-group row">
 						<div class="col-5">
 							<label for="companyName">Company Name</label>
 						</div>
 						
 						<div class="col-7">
-							<select class = "form-control" 
-									ng-model = "site.siteId.company" 
-									ng-options="company as company.companyName for company in companies | orderBy: 'companyName' track by company.companyId" 
-									required>
-								<option value="">--Select One--</option>
-							</select>
+							<input class = "form-control" 
+									ng-model = "site.siteId.companyName"
+									ng-disabled="site"
+									>
 						</div>
 					</div>
 					
@@ -98,10 +96,7 @@
 							<label for="contactNumber">Contact Number</label>
 						</div>
 						<div class = "col-7">
-							<input  type = "text" 
-									class="form-control"
-									placeholder = "Eg: +91 98450 12222" 
-									ng-model="site.contactNumber">
+							<input type = "text" class="form-control" placeholder = "Eg: +91 98450 12222" ng-model="site.contactNumber">
 						</div>
 					</div>
 					
@@ -116,8 +111,7 @@
 								placeholder = "Eg: AJAPA9388A" 
 								ng-model="site.sitePan"
 								pattern="[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}"
-								style="text-transform: uppercase" 
-								required>
+								style="text-transform: uppercase" required>
 						</div>
 					</div>
 					
@@ -127,11 +121,7 @@
 						</div>
 						
 						<div class = "col-7">
-							<select 
-									class = "form-control" 
-									ng-model = "site.registrationStatus" 
-									ng-options="status for status in statuses" 
-									required>
+							<select class = "form-control" ng-model = "site.registrationStatus" ng-options="status for status in statuses" required>
 								<option value="">--Select One--</option>
 							</select>
 						</div>
