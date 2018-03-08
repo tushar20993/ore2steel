@@ -1,5 +1,6 @@
 package portal.models;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -138,6 +139,14 @@ public class PurchaseOrder {
 	
 	public Integer getSiteId() {
 		return getPurchaseOrderId().getSiteId();
+	}
+
+	@Override
+	public String toString() {
+		return "PurchaseOrder [purchaseOrderId=" + purchaseOrderId + ", orderDate=" + orderDate + ", orderItems="
+				+ orderItems + ", orderDispatches=" + orderDispatches + ", file=" + Arrays.toString(file)
+				+ ", additionalInformation=" + additionalInformation + ", orderStatus=" + orderStatus
+				+ ", orderStatusDate=" + orderStatusDate + "]";
 	}
 	
 	

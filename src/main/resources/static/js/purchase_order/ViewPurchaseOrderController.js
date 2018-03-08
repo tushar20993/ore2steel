@@ -49,7 +49,6 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 	}
 	
 	$scope.editPurchaseOrder = function(purchaseOrder){
-		console.log("PO--", purchaseOrder)
 		var modalInstance = $uibModal.open({
 			animation: false,
 			templateUrl: "partials/purchase_order/editPurchaseOrder.html",

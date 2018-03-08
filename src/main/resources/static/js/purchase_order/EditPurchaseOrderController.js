@@ -1,7 +1,6 @@
 portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, purchaseOrder){
 	
 	$scope.purchaseOrder = purchaseOrder;
-	console.log($scope.purchaseOrder);
 	if($scope.purchaseOrder.orderDate){
 		$scope.purchaseOrder.orderDate = new Date($scope.purchaseOrder.orderDate);
 	}

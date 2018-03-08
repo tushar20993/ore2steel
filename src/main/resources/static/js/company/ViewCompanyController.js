@@ -1,14 +1,10 @@
 portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal){
 	console.log("Company Controller");
-	
-	
-	
 	$scope.alerts = [];
 	$scope.getCompanies = function(){
 		$http.get("/company/getAll").then(
 				function(response){
 					$scope.companies = response.data;
-					console.log(response.data)
 					$scope.gridOptions = {
 							exporterMenuCsv: true,
 							enableGridMenu: true,

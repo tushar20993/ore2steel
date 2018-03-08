@@ -5,7 +5,6 @@ import java.util.*;
 public final class OrderStatuses {
 
 	public static final String ACCEPTED = "ACCEPTED";
-	public static final String REJECTED = "REJECTED";
 
 	public static final String PROCESSING = "PROCESSING";
 	public static final String LOADING = "LOADING";
@@ -15,8 +14,10 @@ public final class OrderStatuses {
 	public static final String HALTED = "HALTED";
 	
 	public static final String DELIVERED = "DELIVERED";
+
+	public static final String REJECTED = "REJECTED";
 	public static final String COMPLETED = "COMPLETED";
-	
+		
 	public static List<String> getAll() {
 		List<String> statuses = new ArrayList<String>();
 		statuses.add(ACCEPTED);
