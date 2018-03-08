@@ -9,15 +9,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		$scope.purchaseOrder.orderStatusDate = new Date($scope.purchaseOrder.orderStatusDate);
 	}
 	
-	$scope.companies = [];
 	$scope.statuses = [];
-	$http.get("/company/getAll").then(
-			function(response){
-				$scope.companies = response.data;
-			},
-			function(response){
-				console.error(response.data);
-			});
 	
 	$scope.orderStatuses = [];
 	$http.get("/order_status/getAll").then(

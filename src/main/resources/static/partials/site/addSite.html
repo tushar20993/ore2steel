@@ -20,7 +20,8 @@
 							<select class = "form-control" 
 									ng-model = "site.siteId.company" 
 									ng-options="company as company.companyName for company in companies | orderBy: 'companyName' track by company.companyId" 
-									required>
+									required
+									autofocus>
 								<option value="">--Select One--</option>
 							</select>
 						</div>

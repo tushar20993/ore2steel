@@ -7,7 +7,7 @@
 		</div>
 		
 		<div class = "modal-body">
-			<form class = "form-inline" ng-submit="savePurchaseOrder()">
+			<form class = "form-inline" ng-submit="savePurchaseOrder()" enctype="multipart/form-data">
 				
 				<div class="container">
 				
@@ -47,7 +47,8 @@
 							<input  type = "text" 
 									class="form-control" 
 									placeholder="Eg: PO-200" 
-									ng-model="purchaseOrder.purchaseOrderId.purchaseOrderNumber">
+									ng-model="purchaseOrder.purchaseOrderId.purchaseOrderNumber"
+									autofocus>
 						</div>
 					</div>
 					
@@ -75,23 +76,6 @@
 								type = "text" 
 								class="form-control" 
 								ng-model="purchaseOrder.additionalInformation"
-								>
-						</div>
-					</div>
-					
-					
-					
-					<div class = "form-group row">
-						<div class = "col-5">
-							<label for="file">PO File</label>
-						</div>
-						
-						<div class = "col-5">
-							<input  
-								type = "file" 
-								class = "form-control"
-								width="inherit"
-								ng-model = "purchaseOrder.file"
 								>
 						</div>
 					</div>

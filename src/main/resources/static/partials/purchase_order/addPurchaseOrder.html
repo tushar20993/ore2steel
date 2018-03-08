@@ -21,7 +21,8 @@
 							ng-model = "purchaseOrder.company" 
 							ng-options="company as company.companyName for company in companies | orderBy: 'companyName' track by company.companyId"
 							ng-change="companySelected(company)" 
-							required>
+							required
+							autofocus>
 							<option value="">--Select One--</option>
 						</select>
 						</div>
@@ -82,22 +83,6 @@
 						</div>
 					</div>
 					
-					
-					
-					<div class = "form-group row">
-						<div class = "col-5">
-							<label for="file">PO File</label>
-						</div>
-						
-						<div class = "col-5">
-							<input  
-								type = "file" 
-								class = "form-control"
-								width="inherit"
-								ng-model = "purchaseOrder.file"
-								>
-						</div>
-					</div>
 					
 					<div class = "form-group row">
 						<div class = "col-5">

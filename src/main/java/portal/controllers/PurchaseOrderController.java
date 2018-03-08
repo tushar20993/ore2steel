@@ -32,8 +32,8 @@ public class PurchaseOrderController {
 	}
 
 	@RequestMapping(value = "/purchase_order/save", method = RequestMethod.POST)
-	public void savePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder/*, @RequestParam MultipartFile file*/) throws Exception{
-		//logger.info("{}", file);
+	public void savePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) throws Exception{
+		logger.info("saving purchase order {}", purchaseOrder);
 		boolean orderExists = purchaseOrderDao.findOne(purchaseOrder.getPurchaseOrderId()) != null;
 		if(orderExists) {
 			throw new Exception("Purchase order already exists");
@@ -42,9 +42,8 @@ public class PurchaseOrderController {
 	}
 	
 	@RequestMapping(value = "/purchase_order/update", method = RequestMethod.POST)
-	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder/*, @RequestParam MultipartFile file*/) throws Exception{
-		//logger.info("{}", file);
-		//logger.info("Updating purchase order: {}", purchaseOrder);
+	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
+		logger.info("Updating purchase order: {}", purchaseOrder);
 		purchaseOrderDao.save(purchaseOrder);
 	}
 	

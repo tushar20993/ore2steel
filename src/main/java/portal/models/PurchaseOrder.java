@@ -1,16 +1,12 @@
 package portal.models;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -37,9 +33,6 @@ public class PurchaseOrder {
 	@OneToMany(mappedBy = "orderDispatchId.purchaseOrder", cascade = CascadeType.ALL)
 	private List<OrderDispatch> orderDispatches;
 		
-	@Lob
-	@Basic(fetch = FetchType.LAZY)
-	private byte[] file;
 
 	@Column(name = "additional_information")
 	private String additionalInformation;
@@ -75,14 +68,7 @@ public class PurchaseOrder {
 		this.orderDispatches = orderDispatches;
 	}
 
-	public byte[] getFile() {
-		return file;
-	}
-
-	public void setFile(byte[] file) {
-		this.file = file;
-	}
-
+	
 	public String getAdditionalInformation() {
 		return additionalInformation;
 	}
@@ -141,13 +127,7 @@ public class PurchaseOrder {
 		return getPurchaseOrderId().getSiteId();
 	}
 
-	@Override
-	public String toString() {
-		return "PurchaseOrder [purchaseOrderId=" + purchaseOrderId + ", orderDate=" + orderDate + ", orderItems="
-				+ orderItems + ", orderDispatches=" + orderDispatches + ", file=" + Arrays.toString(file)
-				+ ", additionalInformation=" + additionalInformation + ", orderStatus=" + orderStatus
-				+ ", orderStatusDate=" + orderStatusDate + "]";
-	}
+	
 	
 	
 }

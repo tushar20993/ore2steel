@@ -19,7 +19,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 								{name: "companyName", 			visible: true, field: "purchaseOrderId.site.siteId.companyName"},
 								{name: "siteName", 				visible: true, field: "purchaseOrderId.site.siteName"},
 								{name: "orderStatus", 			visible: true, field: "orderStatus"},
-								{name: "Edit", 
+								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 
 

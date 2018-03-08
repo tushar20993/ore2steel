@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CompanyController {
 	
-	private final String HEAD_OFFICE = "Head Office";
+	private final String REGISTERED_OFFICE = "Registered Office";
 	
 	@Autowired
 	private CompanyDao companyDao;
@@ -52,15 +52,15 @@ public class CompanyController {
 	@RequestMapping(value = "/company/save", method = RequestMethod.POST)
 	public void saveCompany(@RequestBody Company company) throws Exception{
 		companyDao.save(company);
-		saveHeadOffice(company);
+		saveRegisteredOffice(company);
 	}
 	
-	public void saveHeadOffice(Company company) {
+	public void saveRegisteredOffice(Company company) {
 		Site site = new Site();
 		site.setSiteId(new SiteId());
 		site.getSiteId().setCompany(company);
 		site.getSiteId().setSiteId(1);
-		site.setSiteName(HEAD_OFFICE);
+		site.setSiteName(REGISTERED_OFFICE);
 		site.setSiteAddress(company.getCompanyAddress());
 		site.setStateCode(company.getStateCode());
 		site.setPinCode(company.getPinCode());
