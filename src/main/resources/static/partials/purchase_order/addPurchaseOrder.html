@@ -20,7 +20,7 @@
 							class = "form-control" 
 							ng-model = "purchaseOrder.company" 
 							ng-options="company as company.companyName for company in companies | orderBy: 'companyName' track by company.companyId"
-							ng-change="companySelected(company)" 
+							ng-change="onCompanySelect(company)" 
 							required
 							autofocus>
 							<option value="">--Select One--</option>
@@ -64,7 +64,6 @@
 								type = "date" 
 								class="form-control" 
 								ng-model="purchaseOrder.orderDate"
-								max="{{today | date: 'dd-MM-yyyy'}}"
 								required>
 						</div>
 					</div>
@@ -115,14 +114,102 @@
 						</div>
 					</div>
 					
+					
+					<div class = "row">
+						<button class = "btn btn-info" type = "button" ng-click="addItem()">Add Item</button>
+					</div>
+					
+					<table class = "table table-condensed" ng-if='purchaseOrder.items.length > 0'>
+						<thead>
+							<tr>
+								<td>Item Name</td>
+								<td>Quantity</td>
+								<td>Unit (UOM)</td>
+								<td>Price</td>
+								<td>Comments</td>
+								<td>Action</td>							
+							</tr>							
+						</thead>
+						
+						<tbody>
+							<tr ng-repeat="item in purchaseOrder.items">
+								<td class = "form-control form-control-sm">
+									<select
+										ng-model = "purchaseOrder.items[$index].orderItem.orderItemId.item"
+										ng-options = "item as item.itemName disable when itemAlreadySelected(item) for item in items | orderBy: 'itemName' "
+										required
+										>
+										<option value="" data-id="null">---Select One----</option>
+									</select>
+								</td>
+								
+								<td>
+									<input
+										class = "small" 	
+										type = "number"
+										ng-model = "purchaseOrder.items[$index].quantity"
+										min="0"
+										required>
+								</td>
+								
+								<td>
+									<select  
+										class = "form-control form-control-sm"
+										ng-options = "uom for uom in uoms"
+										ng-model = "purchaseOrder.items[$index].unitOfMeasurement"
+										required>
+								</select>
+								</td>
+								
+								<td></td>
+								
+								<td></td>
+								
+								<td>
+									<button 
+										class = "btn btn-danger btn-sm" 
+										ng-click = "deleteItem($index)"
+										type = "button">Delete</button>
+								</td>
+							</tr>
+						</tbody>
+						
+					</table>
+					
+					<!-- <div class = "form-group" ng-repeat="item in purchaseOrder.items">
+						<div class = "row">
+							<div class="col-2">
+								<select
+									class="form-control"
+									ng-options = "item as item.itemName for item in items | orderBy: 'itemName' disable when $ctrl.itemIsAlreadySelected(item) track by item.itemId"
+									ng-model = "purchaseOrder.items[$index]"
+									required
+									>
+								</select>
+							</div>
+							
+							<div class="col-2">
+								
+							</div>
+							
+							<div class="col-2">
+								<select  
+									class = "form-control"
+									ng-options = "uom for uom in uoms"
+									required>
+								</select>
+							</div>
+							
+							<button class = "btn btn-danger btn-sm" ng-click = "deleteItem($index)">Delete item</button>
+						</div>
+					</div> -->
+					
+					
 					<div class = "form-group row">
 					 	<div class = "col-5">
 					 		<button type="submit" class="btn btn-primary">Save Purchase Order</button>
 					 	</div>
 					 	
-					 	<div class = "col-5">
-					 		<button type="reset" class="btn btn-danger">Reset Information</button>
-					 	</div>
 					 </div>
 					 
 				</div>

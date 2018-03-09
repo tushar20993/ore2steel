@@ -2,8 +2,29 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	
 	$scope.today = new Date();
 	$scope.purchaseOrder = {};
+	$scope.purchaseOrder.items = [];
 	$scope.companies = [];
 	$scope.statuses = [];
+	$scope.items = [];
+	$scope.uoms = [];
+
+	$http.get("/item/getAllUnits").then(
+			function(response){
+				$scope.uoms = response.data;
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
+	$http.get("/item/getAll").then(
+			function(response){
+				$scope.items= response.data;
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
+
 	$http.get("/company/getAll").then(
 			function(response){
 				$scope.companies = response.data;
@@ -23,7 +44,8 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	
 	
 
-	$scope.companySelected = function(){
+	
+	$scope.onCompanySelect = function(){
 		var company = $scope.purchaseOrder.company;
 		$http.get("/site/get?id=" + company.companyId).then(
 				function success(response){
@@ -34,10 +56,25 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 				});
 	};
 	
+	$scope.onCompanyTypeaheadSelect = function(item, model, label){
+		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
+	}
 	
-	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
-	};
+	$scope.addItem = function(){
+		var item = {};
+		$scope.purchaseOrder.items.push(item);
+		console.log($scope.purchaseOrder.items)
+	}
+	
+	$scope.deleteItem = function(index){
+		$scope.purchaseOrder.items.splice(index, 1);
+	}
+	
+	$scope.itemAlreadySelected = function(item){
+		console.log(item.itemName)
+		return ( ($scope.purchaseOrder.items).indexOf(item) != -1);
+	}
+	
 	
 	$scope.savePurchaseOrder = function(){		
 		$scope.purchaseOrder.purchaseOrderId.site = JSON.parse(JSON.stringify($scope.purchaseOrder.site));
@@ -58,9 +95,9 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 			//$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
 		});
 	};
-	
-	$scope.onCompanyTypeaheadSelect = function(item, model, label){
-		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
-	}
+
+	$scope.close = function(){
+		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+	};
 	
 });

@@ -1,5 +1,6 @@
 package portal.models;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -39,6 +40,56 @@ public class Invoice {
 	@Column(name = "driver_number")
 	private String driverNumber;
 	
+	
+	
+	public String getInvoiceNumber() {
+		return invoiceNumber;
+	}
+
+	public void setInvoiceNumber(String invoiceNumber) {
+		this.invoiceNumber = invoiceNumber;
+	}
+
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
+	}
+
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
+	}
+
+	public Site getSite() {
+		return site;
+	}
+
+	public void setSite(Site site) {
+		this.site = site;
+	}
+
+	public Transporter getTransporter() {
+		return transporter;
+	}
+
+	public void setTransporter(Transporter transporter) {
+		this.transporter = transporter;
+	}
+
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
+	}
+
+	public String getDriverNumber() {
+		return driverNumber;
+	}
+
+	public void setDriverNumber(String driverNumber) {
+		this.driverNumber = driverNumber;
+	}
+
 	@PrePersist
 	public void prePersist() throws Exception{
 		if( (site == null) && (purchaseOrder == null) ) {

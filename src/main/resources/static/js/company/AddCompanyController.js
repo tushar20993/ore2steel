@@ -32,8 +32,6 @@ portal.controller("AddCompanyController", function($scope, $rootScope, $http, $u
 	};
 	
 	$scope.saveCompany = function(){
-		console.log($scope.company);
-		
 		$http({
 			method: "POST",
 			url: "/company/save",

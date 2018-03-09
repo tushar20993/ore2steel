@@ -1,14 +1,8 @@
 package portal.models;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
@@ -28,7 +22,7 @@ public class PurchaseOrder {
 
 	
 	@OneToMany(mappedBy = "orderItemId.purchaseOrder", cascade = CascadeType.ALL)
-	private List<OrderItem> orderItems;
+	private List<OrderItem> items;
 	
 	@OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
 	private List<Invoice> invoices;
@@ -77,23 +71,21 @@ public class PurchaseOrder {
 		this.additionalInformation = additionalInformation;
 	}
 
-	public List<OrderItem> getOrderItems() {
-		if(hasItems()) {
-			return orderItems;
-		}
-		return null;
+		
+	public List<OrderItem> getItems() {
+		return items;
 	}
 
-	public void setOrderItems(List<OrderItem> orderItems) {
-		this.orderItems = orderItems;
+	public void setItems(List<OrderItem> items) {
+		this.items = items;
 	}
-	
+
 	public boolean isDispatched() {
 		return OrderStatuses.isDispatched(orderStatus);
 	}
 	
 	public boolean hasItems() {
-		if( (orderItems != null) && (orderItems.size() > 0)) {
+		if( (items != null) && (items.size() > 0)) {
 			return true;
 		}
 		return false;

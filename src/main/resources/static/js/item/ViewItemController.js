@@ -15,25 +15,19 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 							enableSorting: true,
 							data: $scope.items,
 							columnDefs: [
-								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
-								{name: "companyAddress", 		visible: true, },
-								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
-								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
-								{name: "gstNumber", 			visible: true, displayName: "GSTIN"},
-								{name: "registrationStatus", 	visible: false, displayName: "GST Type"},
-								{name: "contactPerson", 		visible: true, },
-								{name: "contactNumber", 		visible: true, },
-								{name: "Edit", 
+								{name: "itemName", 				visible: true, },
+								{name: "hsnCode", 				visible: true, displayName: "HSN Code"},
+								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 
 
 										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
-											'ng-click = "grid.appScope.editCompany(row.entity)" >' + 
+											'ng-click = "grid.appScope.editItem(row.entity)" >' + 
 												'Edit'+ 
 										'</button>' +
 										
 										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
-													'ng-click = "grid.appScope.deleteCompany(row.entity)" >' + 
+													'ng-click = "grid.appScope.deleteItem(row.entity)" >' + 
 													'Delete'+ 
 										'</button>' + 
 											
