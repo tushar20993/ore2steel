@@ -1,20 +1,19 @@
-portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal){
-	console.log("Company Controller");
-	$scope.alerts = [];
-	$scope.getCompanies = function(){
-		$http.get("/company/getAll").then(
+portal.controller("ItemController", function($scope, $rootScope, $http, $uibModal){
+	console.log("Item Controller");
+	
+	$scope.getItems = function(){
+		$http.get("/item/getAll").then(
 				function(response){
-					$scope.companies = response.data;
+					$scope.items = response.data;
 					$scope.gridOptions = {
 							exporterMenuCsv: true,
 							enableGridMenu: true,
 							enableFiltering : true,
 							enableColumnResizing: true,
 							enableRowReordering: true,
-							data: $scope.companies,
 							rowHeight: 40,
 							enableSorting: true,
-							data: $scope.companies,
+							data: $scope.items,
 							columnDefs: [
 								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
 								{name: "companyAddress", 		visible: true, },
@@ -51,22 +50,19 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 				});		
 	};
 	
-	$scope.getCompanies();
+	$scope.getItems();
 	
-	$scope.editCompany = function(company){
+	$scope.editItem = function(item){
 		var modalInstance = $uibModal.open({
 			animation: false,
-			templateUrl: "partials/company/editCompany.html",
+			templateUrl: "partials/item/editItem.html",
 			backdrop: "static",
 			keyboard: false,
 			size: "lg",
-			controller: "EditCompanyController",
+			controller: "EditItemController",
 			resolve: {
-				companies: function(){
-					return $scope.companies;
-				},
-				company: function(){
-					return JSON.parse(JSON.stringify(company));
+				item: function(){
+					return JSON.parse(JSON.stringify(item));
 				}
 			}
 		});
@@ -85,24 +81,24 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 		});
 	};
 	
-	$scope.addCompany = function(){
+	$scope.addItem = function(){
 		var modalInstance = $uibModal.open({
 			animation: false,
-			templateUrl: "partials/company/addCompany.html",
+			templateUrl: "partials/item/addItem.html",
 			backdrop: "static",
 			keyboard: false,
 			size: "lg",
-			controller: "AddCompanyController",
+			controller: "AddItemController",
 			resolve: {
-				companies: function(){
-					return $scope.companies;
+				items: function(){
+					return $scope.items;
 				}
 			}
 		});
 		
 		modalInstance.result.then(function(data){
 			if(data.status == 1){
-				$scope.getCompanies();
+				$scope.getItems();
 				$rootScope.addAlert(data.msg, "success");
 			}
 			else if(data.status == 0){
@@ -116,6 +112,4 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 	
 	
 	
-});portal.controller("ItemController", function($scope, $rootScope, $http){
-	console.log("Item Controller");
 });
