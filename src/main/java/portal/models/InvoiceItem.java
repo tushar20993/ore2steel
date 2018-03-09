@@ -6,15 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import portal.models.embeddables.OrderItemId;
+import portal.models.embeddables.InvoiceItemId;
 
 @Entity
-@Table(name = "order_item")
-public class OrderItem {
-
-	@EmbeddedId
-	private OrderItemId orderItemId;
+@Table(name = "invoice_item")
+public class InvoiceItem {
 	
+	@EmbeddedId
+	private InvoiceItemId invoiceItemId;
+
 	@NotNull
 	@Column(name = "quantity")
 	private Double quantity;
@@ -30,12 +30,12 @@ public class OrderItem {
 	@Column(name = "additional_information")
 	private String additionalInformation;
 
-	public OrderItemId getOrderItemId() {
-		return orderItemId;
+	public InvoiceItemId getInvoiceItemId() {
+		return invoiceItemId;
 	}
 
-	public void setOrderItemId(OrderItemId orderItemId) {
-		this.orderItemId = orderItemId;
+	public void setInvoiceItemId(InvoiceItemId invoiceItemId) {
+		this.invoiceItemId = invoiceItemId;
 	}
 
 	public Double getQuantity() {
@@ -69,7 +69,5 @@ public class OrderItem {
 	public void setAdditionalInformation(String additionalInformation) {
 		this.additionalInformation = additionalInformation;
 	}
-	
-	
-	
+
 }

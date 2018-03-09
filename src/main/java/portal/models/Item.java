@@ -22,7 +22,7 @@ public class Item {
 	
 	@Column(name = "hsn_code")
 	private String hsnCode;
-
+	
 	public Integer getItemId() {
 		return itemId;
 	}
