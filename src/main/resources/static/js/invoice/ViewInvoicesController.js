@@ -1,41 +1,40 @@
-portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibModal){
 	
+	console.log("Invoice Controller");
 	
-	$scope.getSites = function(){
-		$scope.sites = [];
-		$http.get("/site/getAll").then(
+	$scope.getInvoices = function(){
+		$http.get("/invoice/getAll").then(
 				function(response){
-					$scope.sites = response.data;
+					$scope.invoices = response.data;
 					$scope.gridOptions = {
 							exporterMenuCsv: true,
 							enableGridMenu: true,
 							enableFiltering : true,
 							enableColumnResizing: true,
 							enableRowReordering: true,
-							data: $scope.sites,
+							data: $scope.invoices,
 							rowHeight: 40,
 							enableSorting: true,
 							columnDefs: [
-								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.siteId.companyName}}</div>'},
-								{name: "siteName", 				visible: true, },
-								{name: "siteAddress", 			visible: false, },
+								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
+								{name: "companyAddress", 		visible: true, },
 								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
-								{name: "gstNumber", 			visible: true, },
-								{name: "contactPerson", 		visible: true, },
+								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
+								{name: "gstNumber", 			visible: true, displayName: "GSTIN"},
+								{name: "registrationStatus", 	visible: false, displayName: "GST Type"},
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactNumber", 		visible: true, },
-								{name: "sitePan", 				visible: false, },
-								{name: "Modify", 
+								{name: "Edit", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 
 
 										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
-											'ng-click = "grid.appScope.editSite(row.entity)" >' + 
+											'ng-click = "grid.appScope.editCompany(row.entity)" >' + 
 												'Edit'+ 
 										'</button>' +
 										
 										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
-													'ng-click = "grid.appScope.deleteSite(row.entity)" >' + 
+													'ng-click = "grid.appScope.deleteCompany(row.entity)" >' + 
 													'Delete'+ 
 										'</button>' + 
 											
@@ -52,27 +51,55 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 				});		
 	};
 	
-	$scope.getSites();
+	$scope.getInvoices();
 	
-	$scope.editSite = function(site){
+	$scope.editInvoice = function(invoice){
 		var modalInstance = $uibModal.open({
 			animation: false,
-			templateUrl: "partials/site/editSite.html",
+			templateUrl: "partials/invoice/editInvoice.html",
 			backdrop: "static",
 			keyboard: false,
 			size: "lg",
-			controller: "EditSiteController",
+			controller: "EditInvoiceController",
 			resolve: {
-				site: function(){
-					return JSON.parse(JSON.stringify(site));
+				invoice: function(){
+					return JSON.parse(JSON.stringify(invoice));
 				}
 			}
 		});
 		
 		modalInstance.result.then(function(data){
-			console.log(data);
 			if(data.status == 1){
-				$scope.getSites();
+				$scope.getInvoices();
+				$rootScope.addAlert(data.msg, "success");
+			}
+			else if(data.status == 0){
+				$rootScope.addAlert(data.msg, "danger");
+			}
+			else{
+				$rootScope.addAlert(data.msg, "info");
+			}
+		});
+	};
+	
+	$scope.addInvoice = function(){
+		var modalInstance = $uibModal.open({
+			animation: false,
+			templateUrl: "partials/invoice/addInvoice.html",
+			backdrop: "static",
+			keyboard: false,
+			size: "lg",
+			controller: "AddInvoiceController",
+			resolve: {
+				companies: function(){
+					return $scope.companies;
+				}
+			}
+		});
+		
+		modalInstance.result.then(function(data){
+			if(data.status == 1){
+				$scope.getCompanies();
 				$rootScope.addAlert(data.msg, "success");
 			}
 			else if(data.status == 0){
@@ -85,34 +112,5 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 	};
 	
 	
-	$scope.addSite = function(){
-		var modalInstance = $uibModal.open({
-			animation: false,
-			templateUrl: "partials/site/addSite.html",
-			backdrop: "static",
-			keyboard: false,
-			size: "lg",
-			controller: "AddSiteController",
-			resolve: {
-				sites: function(){
-					return $scope.sites;
-				}
-			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getSites();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		});
-	};
 	
 });
-

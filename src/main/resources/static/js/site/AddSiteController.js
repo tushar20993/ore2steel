@@ -14,7 +14,6 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 	$http.get("/state_code/getAll").then(
 			function(response){
 				$scope.stateCodes = response.data;
-				console.log($scope.stateCodes )
 			},
 			function(response){
 				console.error(response.data);

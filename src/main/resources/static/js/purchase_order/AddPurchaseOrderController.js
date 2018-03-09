@@ -1,7 +1,6 @@
 portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance){
 	
 	$scope.today = new Date();
-	console.log($scope.today);
 	$scope.purchaseOrder = {};
 	$scope.companies = [];
 	$scope.statuses = [];

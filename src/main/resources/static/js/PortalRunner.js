@@ -8,6 +8,7 @@ portal.config(function($routeProvider, $locationProvider){
 	.when("/purchase_orders", {templateUrl: "partials/purchase_order/viewPurchaseOrders.html", controller: "PurchaseOrderController"})
 	.when("/sites", {templateUrl: "partials/site/viewSites.html", controller: "SiteController"})
 	.when("/state_codes", {templateUrl: "partials/state_code/viewStateCodes.html", controller: "StateCodesController"})
+	.when("/invoices", {templateUrl: "partials/invoice/viewInvoices.html", controller: "InvoiceController"})
 });
 
 portal.run(function($rootScope, $timeout){

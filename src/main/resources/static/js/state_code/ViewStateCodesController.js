@@ -2,7 +2,6 @@ portal.controller("StateCodesController", function($scope, $rootScope, $http, $u
 	$scope.getStateCodes = function(){
 		$http.get("/state_code/getAll").then(
 				function success(response){
-					console.log(response.data);
 					$scope.stateCodes = response.data;
 					$scope.gridOptions = {
 							exporterMenuCsv: true,

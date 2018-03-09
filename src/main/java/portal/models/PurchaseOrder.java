@@ -30,8 +30,8 @@ public class PurchaseOrder {
 	@OneToMany(mappedBy = "orderItemId.purchaseOrder", cascade = CascadeType.ALL)
 	private List<OrderItem> orderItems;
 	
-	@OneToMany(mappedBy = "orderDispatchId.purchaseOrder", cascade = CascadeType.ALL)
-	private List<OrderDispatch> orderDispatches;
+	@OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
+	private List<Invoice> invoices;
 		
 
 	@Column(name = "additional_information")
@@ -60,12 +60,12 @@ public class PurchaseOrder {
 		this.purchaseOrderId = purchaseOrderId;
 	}
 	
-	public List<OrderDispatch> getOrderDispatches() {
-		return orderDispatches;
+	public List<Invoice> getInvoices() {
+		return invoices;
 	}
 
-	public void setOrderDispatches(List<OrderDispatch> orderDispatches) {
-		this.orderDispatches = orderDispatches;
+	public void setInvoices(List<Invoice> invoices) {
+		this.invoices = invoices;
 	}
 
 	
