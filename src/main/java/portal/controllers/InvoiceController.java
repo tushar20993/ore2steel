@@ -3,6 +3,7 @@ package portal.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,11 @@ public class InvoiceController {
 	@ResponseBody
 	public List<Invoice> getAllInvoices(){
 		return invoiceDao.findAll();
+	}
+	
+	@RequestMapping(value = "/invoice/save", method = RequestMethod.POST)
+	public void saveInvoices(@RequestBody Invoice invoice){
+		invoiceDao.save(invoice);
 	}
 
 }

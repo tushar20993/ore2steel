@@ -16,26 +16,24 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 							rowHeight: 40,
 							enableSorting: true,
 							columnDefs: [
-								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
-								{name: "companyAddress", 		visible: true, },
-								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
-								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
-								{name: "gstNumber", 			visible: true, displayName: "GSTIN"},
-								{name: "registrationStatus", 	visible: false, displayName: "GST Type"},
-								{name: "contactPerson", 		visible: true, },
-								{name: "contactNumber", 		visible: true, },
-								{name: "Edit", 
+								{name: "invoiceNumber", 		visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.invoiceNumber}}</div>'},
+								{name: "purchaseOrderNumber", 	visible: true, field: "purchaseOrder.purchaseOrderId.purchaseOrderNumber"},
+								{name: "siteName", 				visible: true, field: "purchaseOrder.purchaseOrderId.site.siteName", cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
+								{name: "companyName", 			visible: true, field: "purchaseOrder.purchaseOrderId.site.siteId.company.companyName",},
+								{name: "transporter", 			visible: true, field: "transporter.transporterName"},
+								{name: "vehicleNumber", 		visible: true, field: "vehicle.vehicleNumber"},
+								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 
 
 										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
 											'ng-click = "grid.appScope.editCompany(row.entity)" >' + 
-												'Edit'+ 
+												'<span class="material-icons">mode_edit</span>'+ 
 										'</button>' +
 										
 										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
 													'ng-click = "grid.appScope.deleteCompany(row.entity)" >' + 
-													'Delete'+ 
+													'<span class="material-icons">delete</span>'+ 
 										'</button>' + 
 											
 											

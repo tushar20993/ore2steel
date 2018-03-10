@@ -22,11 +22,7 @@ public class PurchaseOrder {
 
 	
 	@OneToMany(mappedBy = "orderItemId.purchaseOrder", cascade = CascadeType.ALL)
-	private List<OrderItem> items;
-	
-	@OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL)
-	private List<Invoice> invoices;
-		
+	private List<OrderItem> items;	
 
 	@Column(name = "additional_information")
 	private String additionalInformation;
@@ -53,15 +49,6 @@ public class PurchaseOrder {
 	public void setPurchaseOrderId(PurchaseOrderId purchaseOrderId) {
 		this.purchaseOrderId = purchaseOrderId;
 	}
-	
-	public List<Invoice> getInvoices() {
-		return invoices;
-	}
-
-	public void setInvoices(List<Invoice> invoices) {
-		this.invoices = invoices;
-	}
-
 	
 	public String getAdditionalInformation() {
 		return additionalInformation;

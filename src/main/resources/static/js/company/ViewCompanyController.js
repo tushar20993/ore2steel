@@ -30,12 +30,12 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 
 										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
 											'ng-click = "grid.appScope.editCompany(row.entity)" >' + 
-												'Edit'+ 
+													'<span class="material-icons">mode_edit</span>'+ 
 										'</button>' +
 										
 										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
 													'ng-click = "grid.appScope.deleteCompany(row.entity)" >' + 
-													'Delete'+ 
+													'<span class="material-icons">delete</span>'+ 
 										'</button>' + 
 											
 											

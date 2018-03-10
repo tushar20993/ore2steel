@@ -25,12 +25,12 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 
 										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
 											'ng-click = "grid.appScope.editPurchaseOrder(row.entity)" >' + 
-												'Edit'+ 
+													'<span class="material-icons">mode_edit</span>'+ 
 										'</button>' +
 										
 										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
 													'ng-click = "grid.appScope.deletePurchaseOrder(row.entity)" >' + 
-													'Delete'+ 
+													'<span class="material-icons">delete</span>'+ 
 										'</button>' + 
 											
 											
