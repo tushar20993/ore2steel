@@ -5,10 +5,10 @@ import java.util.List;
 
 public final class VehicleType {
 
+	public static final String UNKNOWN = "UNKNOWN";
 	public static final String TRAILER = "TRAILER";
 	public static final String LORRY = "LORRY";
 	public static final String TEMPO = "TEMPO";
-	public static final String UNKNOWN = "UNKNOWN";
 	
 	public static List<String> getAllVehicleTypes(){
 		List<String> vehicleTypes = new ArrayList<String>();

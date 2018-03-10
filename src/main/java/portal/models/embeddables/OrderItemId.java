@@ -8,11 +8,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import portal.models.Brand;
 import portal.models.Item;
 import portal.models.PurchaseOrder;
 
 @Embeddable
+@JsonIgnoreProperties(allowSetters = true, value = {"purchaseOrder"})
 public class OrderItemId implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

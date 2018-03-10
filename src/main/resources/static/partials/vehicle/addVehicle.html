@@ -1,0 +1,67 @@
+<div class="">
+	<div class="modal-content">
+
+		<div class = "modal-header">
+			<h4 class = "modal-title">Vehicle Information</h4>
+			<button type="button" class="close" ng-click="close()">&times;</button>
+		</div>
+		
+		<div class = "modal-body">
+			<form ng-submit="saveVehicle()" class="form-inline">
+				<div class = "container-fluid">
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="vehicleNumber">Vehicle Number</label>
+						</div>
+						<div class="col-7">
+							<input 
+								type = "text" 
+								class="form-control big" 
+								placeholder="Eg: KA 01 AD 1288" 
+								ng-model="vehicle.vehicleNumber"
+								uib-typeahead="oldVehicle.vehicleNumber for oldVehicle in oldVehicles | filter: $viewValue"
+								typeahead-editable="true" 
+								typeahead-on-select="onVehicleTypeaheadSelect($item, $model, $label)"
+								required
+								autofocus>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="vehicle.vehicleType">Type</label>
+						</div>
+						
+						<div class="col-7">
+							<select class = "form-control" 
+									ng-model = "vehicle.vehicleType" 
+									ng-options="type for type in vehicleTypes"
+									required>
+								<option value="">--Select One--</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class = "form-group row">
+						<div class="col-5">
+							<label for="vehicleCapacity">Capacity (in MT)</label>
+						</div>
+						<div class="col-7">
+							<input type = "number"
+									step = "any" 
+									class="form-control" 
+									placeholder = "Eg: 10.000" 
+									ng-model="vehicle.vehicleCapacity" 
+									>
+						</div>
+					</div>
+					
+					 <button type="submit" class="btn btn-primary">Save Vehicle</button>
+					 <button type="reset" class="btn btn-danger">Reset Information</button>		
+				</div>
+			</form>
+		</div>
+		
+	</div>
+</div>

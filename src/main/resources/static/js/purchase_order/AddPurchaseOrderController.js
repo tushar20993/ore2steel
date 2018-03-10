@@ -48,10 +48,8 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 				$scope.orderStatuses = response.data;
 			},
 			function(response){
-				console.error(response.data);
+				console.error("Failed to get order status types");
 			});
-	
-	
 
 	
 	$scope.onCompanySelect = function(){

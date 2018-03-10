@@ -50,8 +50,8 @@ public class PurchaseOrderController {
 
 	@RequestMapping(value = "/purchase_order/update", method = RequestMethod.POST)
 	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
-		logger.info("Updating purchase order: {}", purchaseOrder);
-		purchaseOrderDao.save(purchaseOrder);
+		backReference(purchaseOrder);
+		purchaseOrderDao.saveAndFlush(purchaseOrder);
 	}
 	
 	@ResponseBody

@@ -17,8 +17,9 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 							columnDefs: [
 								{name: "transporterName", 		visible: true, },
 								{name: "contactPerson", 		visible: true, },
+								{name: "stateCode", 			field: "stateCode.stateName", displayName: "State", visible: true, },
 								{name: "contactNumber", 		visible: true, },
-								{name: "transporterPan", 		visible: true, displayName: "PAN Code"},
+								{name: "transporterPan", 		visible: true, displayName: "PAN Number"},
 								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 

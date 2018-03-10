@@ -50,9 +50,4 @@ public class SiteId implements Serializable{
 	public Company getCompany() {
 		return company;
 	}
-
-	@Override
-	public String toString() {
-		return "SiteId [company=" + company.getCompanyId() + ", siteId=" + siteId + "]";
-	}
 }

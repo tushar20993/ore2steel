@@ -40,6 +40,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 									resizable: false},
 							]
 						};
+					console.log(response.data)
 				}, function fail(response){
 					console.log("Failed to get all purchase orders");
 				});
@@ -58,7 +59,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 			controller: "EditPurchaseOrderController",
 			resolve: {
 				purchaseOrder: function(){
-					return JSON.parse(JSON.stringify(purchaseOrder));
+					return purchaseOrder;
 				}
 			}
 		});

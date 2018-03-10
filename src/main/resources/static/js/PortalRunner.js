@@ -27,23 +27,31 @@ portal.run(function($rootScope, $http){
 		});
 	};
 	
-	$rootScope.stateCodes = [];
-	$http.get("/state_code/getAll").then(
-			function(response){
-				$rootScope.stateCodes = response.data;
-			},
-			function(response){
-				console.log("Failed to get state codes");
-			});
+	$rootScope.getStateCodes = function(){
+		$rootScope.stateCodes = [];
+		$http.get("/state_code/getAll").then(
+				function(response){
+					$rootScope.stateCodes = response.data;
+				},
+				function(response){
+					console.log("Failed to get state codes");
+				});
+	}
+	$rootScope.getStateCodes();
 	
-	$rootScope.statuses = [];
-	$http.get("/status/getAll").then(
-			function(response){
-				$rootScope.statuses = response.data;
-			},
-			function(response){
-				console.log("Failed to get registration statuses");
-			});
+	$rootScope.getRegistrationStatuses = function(){
+		$rootScope.statuses = [];
+		$http.get("/status/getAll").then(
+				function(response){
+					$rootScope.statuses = response.data;
+				},
+				function(response){
+					console.log("Failed to get registration statuses");
+				});
+	}
+	$rootScope.getRegistrationStatuses();
+	
+	
 	
 	
 });

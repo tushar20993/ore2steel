@@ -1,5 +1,5 @@
 portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, purchaseOrder){
-	
+
 	$scope.purchaseOrder = purchaseOrder;
 	if($scope.purchaseOrder.orderDate){
 		$scope.purchaseOrder.orderDate = new Date($scope.purchaseOrder.orderDate);
@@ -9,7 +9,29 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		$scope.purchaseOrder.orderStatusDate = new Date($scope.purchaseOrder.orderStatusDate);
 	}
 	
-	$scope.statuses = [];
+	$http.get("/item/getAllUnits").then(
+			function(response){
+				$scope.uoms = response.data;
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
+	$http.get("/brand/getAll").then(
+			function(response){
+				$scope.brands = response.data;
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
+	$http.get("/item/getAll").then(
+			function(response){
+				$scope.items= response.data;
+			},
+			function(response){
+				console.error(response.data);
+			});
 	
 	$scope.orderStatuses = [];
 	$http.get("/order_status/getAll").then(
@@ -39,6 +61,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	};
 	
 	$scope.savePurchaseOrder = function(){		
+		console.log($scope.purchaseOrder)
 		$http({
 			method: "POST",
 			url: "/purchase_order/update",
@@ -47,12 +70,22 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		}).then(function success(response){
 			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
 		}, function error(response){
+			console.log(response)
 			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
 		});
 	};
 	
 	$scope.onCompanyTypeaheadSelect = function(item, model, label){
 		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
+	}
+	
+	$scope.addItem = function(){
+		var item = {};
+		$scope.purchaseOrder.items.push(item);
+	}
+	
+	$scope.deleteItem = function(index){
+		$scope.purchaseOrder.items.splice(index, 1);
 	}
 	
 });

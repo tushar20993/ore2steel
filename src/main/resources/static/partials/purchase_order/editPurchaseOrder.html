@@ -7,7 +7,7 @@
 		</div>
 		
 		<div class = "modal-body">
-			<form class = "form-inline" ng-submit="savePurchaseOrder()" enctype="multipart/form-data">
+			<form class = "form-inline" ng-submit="savePurchaseOrder()">
 				
 				<div class="container">
 				
@@ -20,8 +20,7 @@
 							class = "form-control" 
 							ng-model = "purchaseOrder.purchaseOrderId.site.siteId.company.companyName" 
 							disabled="disabled"
-							required
-							>
+							required>
 						</div>
 					</div>
 					
@@ -33,9 +32,8 @@
 							<input
 								class = "form-control select" 
 								ng-model = "purchaseOrder.purchaseOrderId.site.siteName"
-								disabled="disabled"
-								required 
-								>
+								disabled="disabled" 
+								required >
 						</div>
 					</div>
 					
@@ -48,7 +46,7 @@
 									class="form-control" 
 									placeholder="Eg: PO-200" 
 									ng-model="purchaseOrder.purchaseOrderId.purchaseOrderNumber"
-									autofocus>
+									required>
 						</div>
 					</div>
 					
@@ -61,7 +59,6 @@
 								type = "date" 
 								class="form-control" 
 								ng-model="purchaseOrder.orderDate"
-								max="{{today | date: 'dd-MM-yyyy'}}"
 								required>
 						</div>
 					</div>
@@ -80,6 +77,7 @@
 						</div>
 					</div>
 					
+					
 					<div class = "form-group row">
 						<div class = "col-5">
 							<label for="orderStatus">Status</label>
@@ -96,7 +94,7 @@
 						</div>
 					</div>
 					
-					<div class = "form-group row" ng-if = "purchaseOrder.orderStatus">
+					<div class = "form-group row">
 						<div class="col-5">
 							<label for="orderStatusDate">Status Date</label>
 						</div>
@@ -104,17 +102,103 @@
 							<input 
 								type = "date" 
 								class="form-control" 
-								placeholder="Eg: dd-mm-yyyy" 
 								ng-model="purchaseOrder.orderStatusDate"
 								ng-required = "purchaseOrder.orderStatus"
 								>
 						</div>
 					</div>
 					
+					
+					<div class = "row">
+						<button class = "btn btn-info" type = "button" ng-click="addItem()">Add Item</button>
+					</div>
+					
+					<table class = "table table-sm table-bordered" ng-if='purchaseOrder.items.length > 0'>
+						<thead>
+							<tr class="row">
+								<td class="col-2">Item Name</td>
+								<td class="col-2">Brand</td>
+								<td class="col-2">Quantity</td>
+								<td class="col-1">UOM</td>
+								<td class="col-2">Price</td>
+								<td class="col-2">Comments</td>
+								<td class="col-1">Action</td>							
+							</tr>							
+						</thead>
+						
+						<tbody>
+							<tr ng-repeat="item in purchaseOrder.items" class="row">
+
+								<td class = "form-control form-control-sm col-2">
+									<input  type = "text"
+											ng-model = "purchaseOrder.items[$index].orderItemId.item"
+											uib-typeahead = "item as item.itemName for item in items | filter: $viewValue"
+											typeahead-editable = "false"
+											typeahead-on-select="itemSelected($item)"
+											typeahead-focus-first = "true"
+											required>
+								</td>
+								
+								<td class = "form-control form-control-sm col-2">
+									<input  type = "text"
+											ng-model = "purchaseOrder.items[$index].orderItemId.brand"
+											uib-typeahead = "brand as brand.brandName for brand in brands "
+											typeahead-editable = "false"
+											typeahead-on-select="brandSelected($index)"
+											ng-disabled="!purchaseOrder.items[$index].orderItemId.item"
+											required>
+								</td>
+								
+								<td class = "form-control form-control-sm col-2">
+									<input
+										class = "small" 	
+										type = "number"
+										ng-model = "purchaseOrder.items[$index].quantity"
+										min="0"
+										required>
+								</td>
+								
+								<td class = "form-control form-control-sm col-1">
+									<select  
+										class = "form-control form-control-sm"
+										ng-options = "uom for uom in uoms track by uom"
+										ng-model = "purchaseOrder.items[$index].unitOfMeasurement"
+										required>
+								</select>
+								</td>
+								
+								<td class = "form-control form-control-sm col-2">
+									<input
+										type = "number"
+										step = "any"
+										ng-model = "purchaseOrder.items[$index].price"
+										required>
+								</td>
+								
+								<td class = "form-control form-control-sm col-2">
+									<input  
+										class = "form-control form-control-sm"
+										type = "text"
+										ng-model = "purchaseOrder.items[$index].additionalInformation"
+										>
+								</td>
+																
+								<td class = "form-control form-control-sm col-1">
+									<button type = "button" class = "btn btn-danger" ng-click = "deleteItem($index)">
+										<span class="material-icons">delete</span>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+						
+					</table>
+					
+					
 					<div class = "form-group row">
-					 	<div class = "col-12">
+					 	<div class = "col-5">
 					 		<button type="submit" class="btn btn-primary">Save Purchase Order</button>
-					 	</div>					
+					 	</div>
+					 	
 					 </div>
 					 
 				</div>
