@@ -118,8 +118,5 @@ public class PurchaseOrder {
 	public Integer getSiteId() {
 		return getPurchaseOrderId().getSiteId();
 	}
-
-	
-	
 	
 }

@@ -51,7 +51,8 @@
 							<input  type = "text" 
 									class="form-control" 
 									placeholder="Eg: PO-200" 
-									ng-model="purchaseOrder.purchaseOrderId.purchaseOrderNumber">
+									ng-model="purchaseOrder.purchaseOrderId.purchaseOrderNumber"
+									required>
 						</div>
 					</div>
 					
@@ -119,31 +120,43 @@
 						<button class = "btn btn-info" type = "button" ng-click="addItem()">Add Item</button>
 					</div>
 					
-					<table class = "table table-condensed" ng-if='purchaseOrder.items.length > 0'>
+					<table class = "table table-sm table-bordered" ng-if='purchaseOrder.items.length > 0'>
 						<thead>
-							<tr>
-								<td>Item Name</td>
-								<td>Quantity</td>
-								<td>Unit (UOM)</td>
-								<td>Price</td>
-								<td>Comments</td>
-								<td>Action</td>							
+							<tr class="row">
+								<td class="col-2">Item Name</td>
+								<td class="col-2">Brand</td>
+								<td class="col-2">Quantity</td>
+								<td class="col-1">UOM</td>
+								<td class="col-2">Price</td>
+								<td class="col-2">Comments</td>
+								<td class="col-1">Action</td>							
 							</tr>							
 						</thead>
 						
 						<tbody>
-							<tr ng-repeat="item in purchaseOrder.items">
-								<td class = "form-control form-control-sm">
-									<select
-										ng-model = "purchaseOrder.items[$index].orderItem.orderItemId.item"
-										ng-options = "item as item.itemName disable when itemAlreadySelected(item) for item in items | orderBy: 'itemName' "
-										required
-										>
-										<option value="" data-id="null">---Select One----</option>
-									</select>
+							<tr ng-repeat="item in purchaseOrder.items" class="row">
+
+								<td class = "form-control form-control-sm col-2">
+									<input  type = "text"
+											ng-model = "purchaseOrder.items[$index].orderItemId.item"
+											uib-typeahead = "item as item.itemName for item in items | filter: $viewValue"
+											typeahead-editable = "false"
+											typeahead-on-select="itemSelected($item)"
+											typeahead-focus-first = "true"
+											required>
 								</td>
 								
-								<td>
+								<td class = "form-control form-control-sm col-2">
+									<input  type = "text"
+											ng-model = "purchaseOrder.items[$index].orderItemId.brand"
+											uib-typeahead = "brand as brand.brandName for brand in brands "
+											typeahead-editable = "false"
+											typeahead-on-select="brandSelected($index)"
+											ng-disabled="!purchaseOrder.items[$index].orderItemId.item"
+											required>
+								</td>
+								
+								<td class = "form-control form-control-sm col-2">
 									<input
 										class = "small" 	
 										type = "number"
@@ -152,7 +165,7 @@
 										required>
 								</td>
 								
-								<td>
+								<td class = "form-control form-control-sm col-1">
 									<select  
 										class = "form-control form-control-sm"
 										ng-options = "uom for uom in uoms"
@@ -161,15 +174,26 @@
 								</select>
 								</td>
 								
-								<td></td>
+								<td class = "form-control form-control-sm col-2">
+									<input
+										type = "number"
+										step = "any"
+										ng-model = "purchaseOrder.items[$index].price"
+										required>
+								</td>
 								
-								<td></td>
-								
-								<td>
-									<button 
-										class = "btn btn-danger btn-sm" 
-										ng-click = "deleteItem($index)"
-										type = "button">Delete</button>
+								<td class = "form-control form-control-sm col-2">
+									<input  
+										class = "form-control form-control-sm"
+										type = "text"
+										ng-model = "purchaseOrder.items[$index].additionalInformation"
+										>
+								</td>
+																
+								<td class = "form-control form-control-sm col-1">
+									<button type = "button" class = "btn btn-danger" ng-click = "deleteItem($index)">
+										<span class="material-icons">delete</span>
+									</button>
 								</td>
 							</tr>
 						</tbody>

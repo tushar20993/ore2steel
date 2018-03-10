@@ -2,6 +2,7 @@ package portal.models.embeddables;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
@@ -16,7 +17,7 @@ public class OrderItemId implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumns({
 		@JoinColumn(name = "company_id", referencedColumnName = "company_id"),
 		@JoinColumn(name = "site_id", referencedColumnName = "site_id"),

@@ -8,8 +8,6 @@ portal.controller("AddItemController", function($scope, $rootScope, $http, $uibM
 	};
 	
 	$scope.saveItem = function(){
-		console.log($scope.company);
-		
 		$http({
 			method: "POST",
 			url: "/item/save",

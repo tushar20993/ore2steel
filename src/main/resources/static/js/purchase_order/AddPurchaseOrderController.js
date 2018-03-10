@@ -6,11 +6,20 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	$scope.companies = [];
 	$scope.statuses = [];
 	$scope.items = [];
+	$scope.brands = [];
 	$scope.uoms = [];
 
 	$http.get("/item/getAllUnits").then(
 			function(response){
 				$scope.uoms = response.data;
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
+	$http.get("/brand/getAll").then(
+			function(response){
+				$scope.brands = response.data;
 			},
 			function(response){
 				console.error(response.data);
@@ -55,32 +64,49 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 					console.log("Error in getting sites for " + company.companyName);
 				});
 	};
+
+	$scope.itemSelected = function(item){
+		for(var i = 0; i < $scope.items.length; i++){
+			if($scope.items[i].itemId == item.itemId){
+				//$scope.items.splice(i, 1);
+				return true;
+			}
+		}
+	}
 	
-	$scope.onCompanyTypeaheadSelect = function(item, model, label){
-		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
+	$scope.brandSelected = function(index){
+		var item = $scope.purchaseOrder.items[index].orderItemId.item;
+		var brand = $scope.purchaseOrder.items[index].orderItemId.brand;
+		for(var i = 0; i < $scope.purchaseOrder.items.length; i++){
+			if(i == index){
+				continue;
+			}
+			var currItem = $scope.purchaseOrder.items[i].orderItemId.item;
+			var currBrand = $scope.purchaseOrder.items[i].orderItemId.brand;
+			if(	(item.itemId == currItem.itemId) && (brand.brandId == currBrand.brandId) ){
+				$scope.purchaseOrder.items.splice(index, 1);
+			}
+		}
 	}
 	
 	$scope.addItem = function(){
 		var item = {};
 		$scope.purchaseOrder.items.push(item);
-		console.log($scope.purchaseOrder.items)
 	}
 	
 	$scope.deleteItem = function(index){
 		$scope.purchaseOrder.items.splice(index, 1);
 	}
 	
-	$scope.itemAlreadySelected = function(item){
-		console.log(item.itemName)
-		return ( ($scope.purchaseOrder.items).indexOf(item) != -1);
-	}
-	
-	
 	$scope.savePurchaseOrder = function(){		
 		$scope.purchaseOrder.purchaseOrderId.site = JSON.parse(JSON.stringify($scope.purchaseOrder.site));
-		delete $scope.purchaseOrder.site;
-		
 		$scope.purchaseOrder.purchaseOrderId.site.siteId.company = JSON.parse(JSON.stringify($scope.purchaseOrder.company));
+		
+		for(var i = 0; i < $scope.purchaseOrder.items.length; i ++){
+			$scope.purchaseOrder.items[i].orderItemId.site = $scope.purchaseOrder.site;
+		}
+		
+		delete $scope.purchaseOrder.site;
 		delete $scope.purchaseOrder.company;
 		
 		console.log($scope.purchaseOrder);
@@ -92,7 +118,8 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 		}).then(function success(response){
 			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
 		}, function error(response){
-			//$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
+			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
+			alert(response.data.message);
 		});
 	};
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import portal.dao.PurchaseOrderDao;
+import portal.models.OrderItem;
 import portal.models.PurchaseOrder;
 import portal.models.constants.OrderStatuses;
 
@@ -36,9 +37,17 @@ public class PurchaseOrderController {
 		if(orderExists) {
 			throw new Exception("Purchase order already exists");
 		}
+		backReference(purchaseOrder);
 		purchaseOrderDao.save(purchaseOrder);
 	}
 	
+	private void backReference(PurchaseOrder purchaseOrder) {
+		for(OrderItem item : purchaseOrder.getItems()) {
+			item.getOrderItemId().setPurchaseOrder(purchaseOrder);
+		}
+		
+	}
+
 	@RequestMapping(value = "/purchase_order/update", method = RequestMethod.POST)
 	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
 		logger.info("Updating purchase order: {}", purchaseOrder);
