@@ -1,6 +1,9 @@
 package portal.models;
 
 
+import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +13,9 @@ public class Invoice {
 	@Id
 	@Column(name = "invoice_number")
 	private String invoiceNumber;
+	
+	@Column(name = "invoice_date")
+	private Date invoiceDate;
 	
 	@ManyToOne
 	@JoinColumns({
@@ -28,19 +34,20 @@ public class Invoice {
 	private Site site;
 	
 	
-	@ManyToOne
-	@JoinColumn(name = "transporter_id", referencedColumnName = "transporter_id")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "transporter_id", referencedColumnName = "transporter_id", insertable = true)
 	private Transporter transporter;
 	
 	
-	@ManyToOne
-	@JoinColumn(name = "vehicle_number", referencedColumnName = "vehicle_number")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "vehicle_number", referencedColumnName = "vehicle_number", insertable = true)
 	private Vehicle vehicle;
 	
 	@Column(name = "driver_number")
 	private String driverNumber;
 	
-	
+	@OneToMany(mappedBy="invoiceItemId.invoice", cascade = CascadeType.ALL)
+	private List<InvoiceItem> items;
 	
 	public String getInvoiceNumber() {
 		return invoiceNumber;
@@ -90,6 +97,22 @@ public class Invoice {
 		this.driverNumber = driverNumber;
 	}
 
+	public Date getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(Date invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+
+	public List<InvoiceItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<InvoiceItem> items) {
+		this.items = items;
+	}
+
 	@PrePersist
 	public void prePersist() throws Exception{
 		if( (site == null) && (purchaseOrder == null) ) {
@@ -97,6 +120,4 @@ public class Invoice {
 		}
 	}
 	
-	
-
 }

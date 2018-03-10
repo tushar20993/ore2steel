@@ -3,30 +3,8 @@ portal.controller("AddCompanyController", function($scope, $rootScope, $http, $u
 	$scope.company = {};
 	$scope.companies = companies;
 	
-	$scope.stateCodes = [];
-	$http.get("/state_code/getAll").then(
-			function(response){
-				$scope.stateCodes = response.data;
-				console.log($scope.stateCodes )
-			},
-			function(response){
-				console.error(response.data);
-			});
-	
-	$scope.statuses = [];
-	$http.get("/status/getAll").then(
-			function(response){
-				$scope.statuses = response.data;
-			},
-			function(response){
-				console.error(response.data);
-			});
-	
-	
-	
-	
-
-	
+	$scope.stateCodes =  JSON.parse(JSON.stringify($rootScope.stateCodes));
+	$scope.statuses = JSON.parse(JSON.stringify($rootScope.statuses));	
 	$scope.close = function(){
 		$uibModalInstance.close({status: 2, msg: "You closed the window"});
 	};

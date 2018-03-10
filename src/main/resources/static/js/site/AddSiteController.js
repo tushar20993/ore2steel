@@ -10,26 +10,8 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 				alert("error in getting companies");
 			});
 	
-	$scope.stateCodes = [];
-	$http.get("/state_code/getAll").then(
-			function(response){
-				$scope.stateCodes = response.data;
-			},
-			function(response){
-				console.error(response.data);
-			});
-	
-	
-	
-	$http.get("/status/getAll").then(
-			function(response){
-				$scope.statuses = response.data;
-			},
-			function(response){
-				console.error(response.data);
-			});
-
-	
+	$scope.stateCodes =  JSON.parse(JSON.stringify($rootScope.stateCodes));
+	$scope.statuses = JSON.parse(JSON.stringify($rootScope.statuses));	
 	$scope.close = function(){
 		$uibModalInstance.close({status: 2, msg: "You closed the window"});
 	};
