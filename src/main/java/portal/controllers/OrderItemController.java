@@ -15,7 +15,7 @@ public class OrderItemController {
 	@Autowired
 	private OrderItemDao orderItemDao;
 	
-	@RequestMapping(value = "/order_item/delete", method = RequestMethod.GET)
+	@RequestMapping(value = "/order_item/delete", method = RequestMethod.POST)
 	public void deleteOrderItem(@RequestBody OrderItem orderItem) {
 		orderItemDao.delete(orderItem);
 	}

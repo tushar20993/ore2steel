@@ -9,13 +9,16 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		$scope.purchaseOrder.orderStatusDate = new Date($scope.purchaseOrder.orderStatusDate);
 	}
 	
-	$http.post("/order_item/getFor", $scope.purchaseOrder).then(
-			function(response){
-				$scope.purchaseOrder.items = response.data;
-			},
-			function(response){
-				console.error(response.data);
-			});
+	$scope.getOrderItems = function(){
+		$http.post("/order_item/getFor", $scope.purchaseOrder).then(
+				function(response){
+					$scope.purchaseOrder.items = response.data;
+				},
+				function(response){
+					console.error(response.data);
+				});
+	}
+	$scope.getOrderItems();
 	
 	
 	$http.get("/item/getAllUnits").then(

@@ -12,7 +12,7 @@ import portal.models.embeddables.PurchaseOrderId;
 
 @Entity
 @Table(name = "purchase_order")
-@JsonIgnoreProperties(allowSetters = true, value = {"items"})
+@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"items"})
 public class PurchaseOrder {
 
 	@EmbeddedId

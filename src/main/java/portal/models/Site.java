@@ -5,12 +5,14 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import portal.models.constants.GSTRegistrationType;
 import portal.models.embeddables.SiteId;
 
-
 @Entity
 @Table(name = "site")
+@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"purchaseOrders"})
 public class Site {
 
 	@EmbeddedId
