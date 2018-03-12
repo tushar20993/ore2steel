@@ -1,6 +1,4 @@
 portal.controller("ItemController", function($scope, $rootScope, $http, $uibModal){
-	console.log("Item Controller");
-	
 	$scope.getItems = function(){
 		$http.get("/item/getAll").then(
 				function(response){

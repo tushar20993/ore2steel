@@ -22,8 +22,7 @@ public class PurchaseOrder {
 	@Column
 	private Date orderDate;
 
-	
-	@OneToMany(mappedBy = "orderItemId.purchaseOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "orderItemId.purchaseOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderItem> items;
 
 	@Column(name = "additional_information")
@@ -73,13 +72,6 @@ public class PurchaseOrder {
 		return OrderStatuses.isDispatched(orderStatus);
 	}
 	
-	public boolean hasItems() {
-		if( (items != null) && (items.size() > 0)) {
-			return true;
-		}
-		return false;
-	}
-
 	public String getOrderStatus() {
 		return orderStatus;
 	}
@@ -94,18 +86,6 @@ public class PurchaseOrder {
 
 	public void setOrderStatusDate(Date orderStatusDate) {
 		this.orderStatusDate = orderStatusDate;
-	}
-	
-	public String getCompanyName() {
-		return purchaseOrderId.getCompanyName();
-	}
-		
-	public Site getSite() {
-		return getPurchaseOrderId().getSite();
-	}
-	
-	public Integer getSiteId() {
-		return getPurchaseOrderId().getSiteId();
 	}
 	
 }

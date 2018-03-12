@@ -168,9 +168,10 @@
 								<td class = "form-control form-control-sm col-1">
 									<select  
 										class = "form-control form-control-sm"
-										ng-options = "uom for uom in uoms"
+										ng-options = "uom for uom in uoms track by uom"
 										ng-model = "purchaseOrder.items[$index].unitOfMeasurement"
 										required>
+										<option value="">--Select One--</option>
 								</select>
 								</td>
 								

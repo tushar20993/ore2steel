@@ -1,6 +1,4 @@
 portal.controller("TransporterController", function($scope, $rootScope, $http, $uibModal){
-	console.log("Transporter Controller");
-	
 	$scope.getTransporters = function(){
 		$http.get("/transporter/getAll").then(
 				function(response){

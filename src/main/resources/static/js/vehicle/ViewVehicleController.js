@@ -1,6 +1,4 @@
 portal.controller("VehicleController", function($scope, $rootScope, $http, $uibModal){
-	console.log("Vehicle Controller");
-	
 	$scope.getVehicles = function(){
 		$http.get("/vehicle/getAll").then(
 				function(response){

@@ -61,11 +61,29 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	};
 	
 	$scope.savePurchaseOrder = function(){		
-		console.log($scope.purchaseOrder)
+		
+		var purchaseOrder = JSON.parse(JSON.stringify($scope.purchaseOrder));
+		var newItems = [];
+		for(var i = 0; i < purchaseOrder.items.length; i++){
+			if(purchaseOrder.items[i].isNew){
+				delete purchaseOrder.items[i].isNew;
+				newItems.push(purchaseOrder.items[i]);
+			}
+		}
+		var data = {
+			newItems: newItems,
+			purchaseOrderId: purchaseOrder.purchaseOrderId
+		};
+		console.log(data)
+		if(newItems.length > 0){
+			$http.post("/order_item/save", data);
+			console.log(newItems)
+		}
+		
 		$http({
 			method: "POST",
 			url: "/purchase_order/update",
-			data: JSON.parse(JSON.stringify($scope.purchaseOrder)),
+			data: purchaseOrder,
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
 			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
@@ -77,6 +95,22 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	
 	$scope.onCompanyTypeaheadSelect = function(item, model, label){
 		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
+	}
+	
+	$scope.brandSelected = function(index){
+		var item = $scope.purchaseOrder.items[index].orderItemId.item;
+		var brand = $scope.purchaseOrder.items[index].orderItemId.brand;
+		for(var i = 0; i < $scope.purchaseOrder.items.length; i++){
+			if(i == index){
+				continue;
+			}
+			var currItem = $scope.purchaseOrder.items[i].orderItemId.item;
+			var currBrand = $scope.purchaseOrder.items[i].orderItemId.brand;
+			if(	(item.itemId == currItem.itemId) && (brand.brandId == currBrand.brandId) ){
+				$window.alert("Item already exists")
+				$scope.purchaseOrder.items.splice(index, 1);
+			}
+		}
 	}
 	
 	$scope.addItem = function(){

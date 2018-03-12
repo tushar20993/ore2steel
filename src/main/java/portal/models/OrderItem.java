@@ -69,7 +69,4 @@ public class OrderItem {
 	public void setAdditionalInformation(String additionalInformation) {
 		this.additionalInformation = additionalInformation;
 	}
-	
-	
-	
 }

@@ -136,6 +136,7 @@
 											typeahead-editable = "false"
 											typeahead-on-select="itemSelected($item)"
 											typeahead-focus-first = "true"
+											ng-disabled = "!purchaseOrder.items[$index].isNew"
 											required>
 								</td>
 								
@@ -145,7 +146,7 @@
 											uib-typeahead = "brand as brand.brandName for brand in brands "
 											typeahead-editable = "false"
 											typeahead-on-select="brandSelected($index)"
-											ng-disabled="!purchaseOrder.items[$index].orderItemId.item"
+											ng-disabled="!purchaseOrder.items[$index].isNew || !purchaseOrder.items[$index].orderItemId.item"
 											required>
 								</td>
 								

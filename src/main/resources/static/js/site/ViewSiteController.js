@@ -6,7 +6,6 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 		$http.get("/site/getAll").then(
 				function(response){
 					$scope.sites = response.data;
-					console.log($scope.sites)
 					$scope.gridOptions = {
 							exporterMenuCsv: true,
 							enableGridMenu: true,
@@ -17,6 +16,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 							rowHeight: 40,
 							enableSorting: true,
 							columnDefs: [
+								{name: "siteId", 				visible: true, field: "siteId.siteId"},
 								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.siteId.companyName}}</div>'},
 								{name: "siteName", 				visible: true, },
 								{name: "siteAddress", 			visible: false, },

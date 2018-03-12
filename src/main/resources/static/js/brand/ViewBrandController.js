@@ -1,6 +1,4 @@
 portal.controller("BrandController", function($scope, $rootScope, $http, $uibModal){
-	console.log("Brand Controller");
-	
 	$scope.getBrands = function(){
 		$http.get("/brand/getAll").then(
 				function(response){

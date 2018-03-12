@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import portal.dao.OrderItemDao;
 import portal.dao.PurchaseOrderDao;
 import portal.models.OrderItem;
 import portal.models.PurchaseOrder;
@@ -23,6 +24,9 @@ public class PurchaseOrderController {
 	
 	@Autowired
 	private PurchaseOrderDao purchaseOrderDao;
+	
+	@Autowired
+	private OrderItemDao orderItemDao;
 	
 	@ResponseBody
 	@RequestMapping(value = "/purchase_order/getAll", method = RequestMethod.GET)
@@ -37,11 +41,11 @@ public class PurchaseOrderController {
 		if(orderExists) {
 			throw new Exception("Purchase order already exists");
 		}
-		backReference(purchaseOrder);
+		backReferenceOrderItems(purchaseOrder);
 		purchaseOrderDao.save(purchaseOrder);
 	}
 	
-	private void backReference(PurchaseOrder purchaseOrder) {
+	private void backReferenceOrderItems(PurchaseOrder purchaseOrder) {
 		for(OrderItem item : purchaseOrder.getItems()) {
 			item.getOrderItemId().setPurchaseOrder(purchaseOrder);
 		}
@@ -50,7 +54,7 @@ public class PurchaseOrderController {
 
 	@RequestMapping(value = "/purchase_order/update", method = RequestMethod.POST)
 	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
-		backReference(purchaseOrder);
+		purchaseOrder.setItems(orderItemDao.findByOrderItemIdPurchaseOrder(purchaseOrder));
 		purchaseOrderDao.save(purchaseOrder);
 	}
 	

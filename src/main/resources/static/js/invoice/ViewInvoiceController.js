@@ -1,7 +1,4 @@
 portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibModal){
-	
-	console.log("Invoice Controller");
-	
 	$scope.getInvoices = function(){
 		$http.get("/invoice/getAll").then(
 				function(response){
