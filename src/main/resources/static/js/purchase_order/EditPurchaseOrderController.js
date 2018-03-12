@@ -1,4 +1,4 @@
-portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, purchaseOrder){
+portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, purchaseOrder, $window){
 
 	$scope.purchaseOrder = purchaseOrder;
 	if($scope.purchaseOrder.orderDate){
@@ -8,6 +8,15 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	if($scope.purchaseOrder.orderStatusDate){
 		$scope.purchaseOrder.orderStatusDate = new Date($scope.purchaseOrder.orderStatusDate);
 	}
+	
+	$http.post("/order_item/getFor", $scope.purchaseOrder).then(
+			function(response){
+				$scope.purchaseOrder.items = response.data;
+			},
+			function(response){
+				console.error(response.data);
+			});
+	
 	
 	$http.get("/item/getAllUnits").then(
 			function(response){
@@ -43,18 +52,6 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			});
 	
 	
-
-	$scope.companySelected = function(){
-		var company = $scope.purchaseOrder.company;
-		$http.get("/site/get?id=" + company.companyId).then(
-				function success(response){
-					$scope.sites = response.data;				
-				},
-				function fail(response){
-					console.log("Error in getting sites for " + company.companyName);
-				});
-	};
-	
 	
 	$scope.close = function(){
 		$uibModalInstance.close({status: 2, msg: "You closed the window"});
@@ -81,11 +78,32 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	
 	$scope.addItem = function(){
 		var item = {};
+		item.isNew = true;
 		$scope.purchaseOrder.items.push(item);
 	}
 	
 	$scope.deleteItem = function(index){
-		$scope.purchaseOrder.items.splice(index, 1);
+		if($scope.purchaseOrder.items[index].isNew){
+			$scope.purchaseOrder.items.splice(index, 1);
+			return;
+		}
+		
+		var deleteItem = $window.confirm("Are you sure you want to delete this item?");
+		if(!deleteItem){
+			return;
+		}
+		
+		var orderItem = $scope.purchaseOrder.items[index]; 
+		$http({
+			method: "POST",
+			url: "/order_item/delete",
+			data: JSON.parse(JSON.stringify(orderItem)),
+			headers: {"Content-Type": "application/json; charset=utf8"}
+		}).then(function success(response){
+			$scope.getOrderItems();
+		}, function error(response){
+			alert("Could not delete Item");
+		});
 	}
 	
 });

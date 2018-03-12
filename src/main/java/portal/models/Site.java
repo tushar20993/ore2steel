@@ -1,5 +1,7 @@
 package portal.models;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -46,7 +48,9 @@ public class Site {
 	@Column(name = "gst_number")
 	private String gstNumber;
 	
-
+	@OneToMany(mappedBy = "purchaseOrderId.site", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PurchaseOrder> purchaseOrders;
+	
 	public SiteId getSiteId() {
 		return siteId;
 	}
@@ -138,6 +142,14 @@ public class Site {
 	
 	public boolean isRegistered() {
 		return registrationStatus.equals(GSTRegistrationType.REGISTERED);
+	}
+
+	public List<PurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
+	}
+
+	public void setPurchaseOrders(List<PurchaseOrder> purchaseOrders) {
+		this.purchaseOrders = purchaseOrders;
 	}
 	
 	

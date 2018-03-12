@@ -2,21 +2,17 @@ package portal.models.embeddables;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 
 import portal.models.Company;
 
+@Embeddable
 public class SiteId implements Serializable{
 	
 	private static final long serialVersionUID = -8336365945204319899L;
 
-
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false, insertable = false)
 	private Company company;
 	
@@ -25,6 +21,9 @@ public class SiteId implements Serializable{
 	@Digits(integer=3, fraction=0)
 	private Integer siteId;
 		
+	public Company getCompany() {
+		return company;
+	}
 
 	public Integer getSiteId() {
 		return siteId;
@@ -44,10 +43,6 @@ public class SiteId implements Serializable{
 
 	public void setCompany(Company company) {
 		this.company = company;
-	}
+	}	
 	
-	
-	public Company getCompany() {
-		return company;
-	}
 }

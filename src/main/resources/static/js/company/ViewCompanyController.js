@@ -1,4 +1,4 @@
-portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal, $window){
 	console.log("Company Controller");
 	$scope.alerts = [];
 	$scope.getCompanies = function(){
@@ -24,7 +24,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 								{name: "registrationStatus", 	visible: false, displayName: "GST Type"},
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactNumber", 		visible: true, },
-								{name: "Edit", 
+								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 
 
@@ -52,6 +52,21 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 	};
 	
 	$scope.getCompanies();
+	
+	$scope.deleteCompany = function(company){
+		var confirm = $window.confirm("Are you sure you want to delete " + company.companyName + "?");
+		$http({
+			method: "POST",
+			url: "/company/delete",
+			data: JSON.parse(JSON.stringify(company)),
+			headers: {"Content-Type": "application/json; charset=utf8"}
+		}).then(function success(response){
+			$scope.getCompanies();
+			$rootScope.addAlert("Successfully deleted company", "success");
+		}, function error(response){
+			$rootScope.addAlert("Failed to delete company", "danger");
+		});
+	}
 	
 	$scope.editCompany = function(company){
 		var modalInstance = $uibModal.open({

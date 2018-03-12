@@ -5,12 +5,14 @@ import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import portal.models.constants.OrderStatuses;
 import portal.models.embeddables.PurchaseOrderId;
 
 @Entity
 @Table(name = "purchase_order")
+@JsonIgnoreProperties(allowSetters = true, value = {"items"})
 public class PurchaseOrder {
 
 	@EmbeddedId
@@ -21,8 +23,8 @@ public class PurchaseOrder {
 	private Date orderDate;
 
 	
-	@OneToMany(mappedBy = "orderItemId.purchaseOrder", cascade = CascadeType.ALL)
-	private List<OrderItem> items;	
+	@OneToMany(mappedBy = "orderItemId.purchaseOrder", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private List<OrderItem> items;
 
 	@Column(name = "additional_information")
 	private String additionalInformation;

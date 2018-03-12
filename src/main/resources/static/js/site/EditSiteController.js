@@ -27,6 +27,7 @@ portal.controller("EditSiteController", function($scope, $rootScope, $http, $uib
 	
 	$scope.saveSite = function(){
 		var site = JSON.parse(JSON.stringify($scope.site));
+		console.log(site);
 		$http({
 			method: "POST",
 			url: "/site/update",

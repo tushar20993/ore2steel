@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import portal.dao.PurchaseOrderDao;
 import portal.dao.SiteDao;
 import portal.models.Site;
 
@@ -18,6 +19,8 @@ public class SiteController {
 	@Autowired
 	private SiteDao siteDao;
 	
+	@Autowired
+	private PurchaseOrderDao purchaseOrderDao;
 	
 	@ResponseBody
 	@RequestMapping(value = "/site/getAll", method = RequestMethod.GET)
@@ -28,6 +31,7 @@ public class SiteController {
 	
 	@RequestMapping(value = "/site/update", method = RequestMethod.POST)
 	public void updateSite(@RequestBody Site site) {
+		site.setPurchaseOrders(purchaseOrderDao.findByPurchaseOrderIdSite(site));
 		siteDao.save(site);		
 	}
 	
@@ -46,6 +50,13 @@ public class SiteController {
 	@RequestMapping(value = "/site/get", method = RequestMethod.GET)
 	public List<Site> getSiteById(@RequestParam("id") Integer companyId){
 		return siteDao.findBySiteIdCompanyCompanyId(companyId);
+	}
+	
+
+	
+	@RequestMapping(value = "/site/delete", method = RequestMethod.POST)
+	public void deleteSite(@RequestBody Site site){
+		siteDao.delete(site);
 	}
 
 }

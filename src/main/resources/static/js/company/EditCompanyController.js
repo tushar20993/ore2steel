@@ -3,14 +3,7 @@ portal.controller("EditCompanyController", function($scope, $rootScope, $http, $
 	$scope.company = company;
 	$scope.companies = companies;
 	
-	$scope.stateCodes = [];
-	$http.get("/state_code/getAll").then(
-			function(response){
-				$scope.stateCodes = response.data;
-			},
-			function(response){
-				console.error(response.data);
-			});
+	$scope.stateCodes = $rootScope.stateCodes;
 	
 	$scope.statuses = [];
 	$http.get("/status/getAll").then(
@@ -22,15 +15,12 @@ portal.controller("EditCompanyController", function($scope, $rootScope, $http, $
 			});
 	
 	
-	
-	
-
-	
 	$scope.close = function(){
 		$uibModalInstance.close({status: 2, msg: "You closed the window"});
 	};
 	
 	$scope.saveCompany = function(){
+		console.log(JSON.parse(JSON.stringify($scope.company)))
 		$http({
 			method: "POST",
 			url: "/company/update",

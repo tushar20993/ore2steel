@@ -3,14 +3,24 @@ package portal.models;
 
 import java.util.List;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import portal.models.constants.GSTRegistrationType;
 
-@JsonIgnoreProperties(allowSetters = true, value = {"sites"})
+@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"sites"})
 @Entity
 @Table(name = "company")
 public class Company {
@@ -54,7 +64,7 @@ public class Company {
 	@Column(name = "gst_number")
 	private String gstNumber;
 
-	@OneToMany(mappedBy = "siteId.company")
+	@OneToMany(mappedBy = "siteId.company", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Site> sites;
 
 	public Integer getCompanyId() {
@@ -82,7 +92,7 @@ public class Company {
 	}
 
 	public String getContactPerson() {
-		return contactPerson;
+		return (contactPerson != null ? contactPerson : "");
 	}
 
 	public void setContactPerson(String contactPerson) {
@@ -90,7 +100,7 @@ public class Company {
 	}
 
 	public String getContactNumber() {
-		return contactNumber;
+		return (contactNumber != null ? contactNumber : "");
 	}
 
 	public void setContactNumber(String contactNumber) {
@@ -115,7 +125,7 @@ public class Company {
 
 	public String getGstNumber() {
 		if(registrationStatus.equals(GSTRegistrationType.REGISTERED)) {
-			return gstNumber;
+			return (gstNumber == null ? "" : gstNumber);
 		}
 		return "";
 	}
@@ -151,13 +161,6 @@ public class Company {
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
 	}
-
-	public boolean equals(Company c) {
-		return  c.getCompanyId().equals(this.getCompanyId()) 
-				&& 
-				c.getCompanyName().equals(this.getCompanyName());
-	}
-
 	
 	public boolean isRegistered() {
 		return (registrationStatus != null && registrationStatus.equals(GSTRegistrationType.REGISTERED));

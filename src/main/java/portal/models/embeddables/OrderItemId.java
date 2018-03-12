@@ -2,42 +2,35 @@ package portal.models.embeddables;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import portal.models.Brand;
 import portal.models.Item;
 import portal.models.PurchaseOrder;
 
 @Embeddable
-@JsonIgnoreProperties(allowSetters = true, value = {"purchaseOrder"})
 public class OrderItemId implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumns({
-		@JoinColumn(name = "company_id", referencedColumnName = "company_id"),
-		@JoinColumn(name = "site_id", referencedColumnName = "site_id"),
-		@JoinColumn(name = "purchase_order_number", referencedColumnName = "purchase_order_number"),
-	})
+	@ManyToOne(fetch = FetchType.EAGER)
 	private PurchaseOrder purchaseOrder;
 	
 	@ManyToOne
-	@JoinColumn(name = "item_id", referencedColumnName = "item_id")
 	private Item item;
 	
 	@ManyToOne
-	@JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
 	private Brand brand;
 
 	public String getPurchaseOrderNumber() {
 		return purchaseOrder.getPurchaseOrderId().getPurchaseOrderNumber();
+	}
+	
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
 	}
 
 	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {

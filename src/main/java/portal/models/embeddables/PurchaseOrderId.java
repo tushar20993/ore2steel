@@ -2,9 +2,9 @@ package portal.models.embeddables;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
@@ -13,14 +13,13 @@ import portal.models.Site;
 @Embeddable
 public class PurchaseOrderId implements Serializable {
 	
-
 	private static final long serialVersionUID = 1L;
 
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 		@JoinColumn(name = "company_id", insertable = false, updatable = false),
 		@JoinColumn(name = "site_id", insertable = false, updatable = false)
 		})
-	@ManyToOne(cascade = CascadeType.ALL)
 	private Site site;
 	
 	@Column(name = "purchase_order_number", length = 20)

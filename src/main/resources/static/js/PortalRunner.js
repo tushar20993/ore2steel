@@ -50,8 +50,4 @@ portal.run(function($rootScope, $http){
 				});
 	}
 	$rootScope.getRegistrationStatuses();
-	
-	
-	
-	
 });

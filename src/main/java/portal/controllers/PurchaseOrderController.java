@@ -51,7 +51,7 @@ public class PurchaseOrderController {
 	@RequestMapping(value = "/purchase_order/update", method = RequestMethod.POST)
 	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
 		backReference(purchaseOrder);
-		purchaseOrderDao.saveAndFlush(purchaseOrder);
+		purchaseOrderDao.save(purchaseOrder);
 	}
 	
 	@ResponseBody
@@ -59,5 +59,11 @@ public class PurchaseOrderController {
 	public List<String> getAllPurchaseOrderStatuses(){
 		return OrderStatuses.getAll();
 	}
+
+	@RequestMapping(value = "/purchase_order/delete", method = RequestMethod.POST)
+	public void deletePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
+		purchaseOrderDao.delete(purchaseOrderDao.findOne(purchaseOrder.getPurchaseOrderId()));
+	}
+	
 
 }

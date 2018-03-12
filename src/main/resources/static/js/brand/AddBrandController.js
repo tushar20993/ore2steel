@@ -8,7 +8,6 @@ portal.controller("AddBrandController", function($scope, $rootScope, $http, $uib
 	};
 	
 	$scope.saveBrand = function(){
-		console.log($scope.brand);
 		$http({
 			method: "POST",
 			url: "/brand/save",

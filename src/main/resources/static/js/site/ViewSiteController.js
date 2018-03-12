@@ -1,4 +1,4 @@
-portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal, $window){
 	
 	
 	$scope.getSites = function(){
@@ -6,6 +6,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 		$http.get("/site/getAll").then(
 				function(response){
 					$scope.sites = response.data;
+					console.log($scope.sites)
 					$scope.gridOptions = {
 							exporterMenuCsv: true,
 							enableGridMenu: true,
@@ -25,7 +26,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactNumber", 		visible: true, },
 								{name: "sitePan", 				visible: false, },
-								{name: "Modify", 
+								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 
 
@@ -53,6 +54,21 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 	};
 	
 	$scope.getSites();
+	
+	$scope.deleteSite = function(site){
+		var confirm = $window.confirm("Are you sure you want to delete " + site.siteName + " in " + site.siteId.companyName+ "?");
+		$http({
+			method: "POST",
+			url: "/site/delete",
+			data: JSON.parse(JSON.stringify(site)),
+			headers: {"Content-Type": "application/json; charset=utf8"}
+		}).then(function success(response){
+			$scope.getSites();
+			$rootScope.addAlert("Successfully deleted site", "success");
+		}, function error(response){
+			$rootScope.addAlert("Failed to delete site", "danger");
+		});
+	}
 	
 	$scope.editSite = function(site){
 		var modalInstance = $uibModal.open({

@@ -1,4 +1,4 @@
-portal.controller("PurchaseOrderController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("PurchaseOrderController", function($scope, $rootScope, $http, $uibModal, $window){
 	$scope.getPurchaseOrders = function(){
 		$http.get("/purchase_order/getAll").then(
 				function success(response){
@@ -40,13 +40,25 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 									resizable: false},
 							]
 						};
-					console.log(response.data)
 				}, function fail(response){
 					console.log("Failed to get all purchase orders");
 				});
 	}
 
-	$scope.deleteOrder = function(){
+	$scope.deletePurchaseOrder = function(purchaseOrder){
+		deleteOrder = $window.confirm("Are you sure you want to delete this Purchase Order?");
+		if(deleteOrder){
+			$http({
+				method: "POST",
+				url: "/purchase_order/delete",
+				data: JSON.parse(JSON.stringify(purchaseOrder)),
+				headers: {"Content-Type": "application/json; charset=utf8"}
+			}).then(function success(response){
+				$scope.getPurchaseOrders();
+			}, function error(response){
+				console.log(response)
+			});
+		};
 	}
 	
 	$scope.editPurchaseOrder = function(purchaseOrder){

@@ -43,16 +43,21 @@ public class CompanyController {
 	
 	@RequestMapping(value = "/company/update", method = RequestMethod.POST)
 	public void updateCompany(@RequestBody Company company) {
+		company.setSites(siteDao.findBySiteIdCompanyCompanyId(company.getCompanyId()));
 		companyDao.save(company);
 	}
 	
-
-
 	@Transactional
 	@RequestMapping(value = "/company/save", method = RequestMethod.POST)
 	public void saveCompany(@RequestBody Company company) throws Exception{
 		companyDao.save(company);
 		saveRegisteredOffice(company);
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/company/delete", method = RequestMethod.POST)
+	public void deleteCompany(@RequestBody Company company) throws Exception{
+		companyDao.delete(companyDao.findOne(company.getCompanyId()));
 	}
 	
 	public void saveRegisteredOffice(Company company) {
