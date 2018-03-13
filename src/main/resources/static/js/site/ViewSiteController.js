@@ -72,7 +72,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 	
 	$scope.editSite = function(site){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/site/editSite.html",
 			backdrop: "static",
 			keyboard: false,
@@ -103,7 +103,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 	
 	$scope.addSite = function(){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/site/addSite.html",
 			backdrop: "static",
 			keyboard: false,

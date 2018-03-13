@@ -84,10 +84,12 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 				$http.post("/order_item/save", newItems).then(
 						function success(response){
 							$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
-				}, function error(response){
-					alert("Failed to save items")
-				});
+						}, function error(response){
+							alert("Failed to save items")
+						}
+					);
 			}
+			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
 		}, function error(response){
 			console.log(response)
 			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});

@@ -70,7 +70,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 	
 	$scope.editCompany = function(company){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/company/editCompany.html",
 			backdrop: "static",
 			keyboard: false,
@@ -102,7 +102,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 	
 	$scope.addCompany = function(){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/company/addCompany.html",
 			backdrop: "static",
 			keyboard: false,

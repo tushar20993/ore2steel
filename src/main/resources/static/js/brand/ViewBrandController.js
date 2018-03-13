@@ -46,7 +46,7 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 	
 	$scope.editBrand = function(brand){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/brand/editBrand.html",
 			backdrop: "static",
 			keyboard: false,
@@ -75,7 +75,7 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 	
 	$scope.addBrand = function(){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/brand/addBrand.html",
 			backdrop: "static",
 			keyboard: false,

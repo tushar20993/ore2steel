@@ -63,7 +63,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 	
 	$scope.editPurchaseOrder = function(purchaseOrder){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/purchase_order/editPurchaseOrder.html",
 			backdrop: "static",
 			keyboard: false,
@@ -94,7 +94,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 	
 	$scope.addPurchaseOrder = function(){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/purchase_order/addPurchaseOrder.html",
 			backdrop: "static",
 			keyboard: false,

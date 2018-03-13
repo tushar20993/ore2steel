@@ -47,7 +47,7 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 	
 	$scope.editVehicle = function(vehicle){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/vehicle/editVehicle.html",
 			backdrop: "static",
 			keyboard: false,
@@ -76,7 +76,7 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 	
 	$scope.addVehicle = function(){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/vehicle/addVehicle.html",
 			backdrop: "static",
 			keyboard: false,

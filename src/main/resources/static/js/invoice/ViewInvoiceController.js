@@ -50,7 +50,7 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 	
 	$scope.editInvoice = function(invoice){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/invoice/editInvoice.html",
 			backdrop: "static",
 			keyboard: false,
@@ -79,7 +79,7 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 	
 	$scope.addInvoice = function(){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/invoice/addInvoice.html",
 			backdrop: "static",
 			keyboard: false,

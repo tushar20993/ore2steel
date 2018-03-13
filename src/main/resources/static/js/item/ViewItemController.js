@@ -46,7 +46,7 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 	
 	$scope.editItem = function(item){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/item/editItem.html",
 			backdrop: "static",
 			keyboard: false,
@@ -75,7 +75,7 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 	
 	$scope.addItem = function(){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/item/addItem.html",
 			backdrop: "static",
 			keyboard: false,

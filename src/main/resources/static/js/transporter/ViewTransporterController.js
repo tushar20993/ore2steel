@@ -49,7 +49,7 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 	
 	$scope.editTransporter = function(transporter){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/transporter/editTransporter.html",
 			backdrop: "static",
 			keyboard: false,
@@ -78,7 +78,7 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 	
 	$scope.addTransporter = function(){
 		var modalInstance = $uibModal.open({
-			animation: false,
+			animation: true,
 			templateUrl: "partials/transporter/addTransporter.html",
 			backdrop: "static",
 			keyboard: false,
