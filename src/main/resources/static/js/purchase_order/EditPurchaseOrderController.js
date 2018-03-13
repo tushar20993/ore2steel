@@ -55,38 +55,39 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			});
 	
 	
+	$scope.itemEdited = function(orderItem){
+		orderItem.isDirty = true;
+	}
+	
 	
 	$scope.close = function(){
 		$uibModalInstance.close({status: 2, msg: "You closed the window"});
 	};
 	
 	$scope.savePurchaseOrder = function(){		
-		
 		var purchaseOrder = JSON.parse(JSON.stringify($scope.purchaseOrder));
-		var newItems = [];
-		for(var i = 0; i < purchaseOrder.items.length; i++){
-			if(purchaseOrder.items[i].isNew){
-				delete purchaseOrder.items[i].isNew;
-				newItems.push(purchaseOrder.items[i]);
-			}
-		}
-		var data = {
-			newItems: newItems,
-			purchaseOrderId: purchaseOrder.purchaseOrderId
-		};
-		console.log(data)
-		if(newItems.length > 0){
-			$http.post("/order_item/save", data);
-			console.log(newItems)
-		}
-		
 		$http({
 			method: "POST",
 			url: "/purchase_order/update",
 			data: purchaseOrder,
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
+			
+			var newItems = [];
+			for(var i = 0; i < purchaseOrder.items.length; i++){
+				if(purchaseOrder.items[i].isNew || purchaseOrder.items[i].isDirty){
+					delete purchaseOrder.items[i].isNew;
+					newItems.push(purchaseOrder.items[i]);
+				}
+			}
+			if(newItems.length > 0){
+				$http.post("/order_item/save", newItems).then(
+						function success(response){
+							$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
+				}, function error(response){
+					alert("Failed to save items")
+				});
+			}
 		}, function error(response){
 			console.log(response)
 			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
@@ -115,7 +116,12 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	
 	$scope.addItem = function(){
 		var item = {};
+		item.orderItemId = {}
+		item.orderItemId.purchaseOrder = {}
+		item.orderItemId.purchaseOrder.purchaseOrderId = {}
 		item.isNew = true;
+		item.orderItemId.purchaseOrder.purchaseOrderId.purchaseOrderNumber = $scope.purchaseOrder.purchaseOrderId.purchaseOrderNumber;
+		item.orderItemId.purchaseOrder.purchaseOrderId.site = $scope.purchaseOrder.purchaseOrderId.site;
 		$scope.purchaseOrder.items.push(item);
 	}
 	
