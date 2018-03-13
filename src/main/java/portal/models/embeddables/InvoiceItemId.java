@@ -3,6 +3,7 @@ package portal.models.embeddables;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -16,7 +17,7 @@ public class InvoiceItemId implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "invoice_number", referencedColumnName = "invoice_number")
 	private Invoice invoice;
 	

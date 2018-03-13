@@ -6,8 +6,11 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "invoice")
+@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"items"})
 public class Invoice {
 
 	@Id
@@ -46,7 +49,7 @@ public class Invoice {
 	@Column(name = "driver_number")
 	private String driverNumber;
 	
-	@OneToMany(mappedBy="invoiceItemId.invoice", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="invoiceItemId.invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<InvoiceItem> items;
 	
 	public String getInvoiceNumber() {

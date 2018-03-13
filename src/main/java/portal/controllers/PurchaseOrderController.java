@@ -2,8 +2,6 @@ package portal.controllers;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +18,6 @@ import portal.models.constants.OrderStatuses;
 @RestController
 public class PurchaseOrderController {
 	
-	private Logger logger = (Logger)LoggerFactory.getLogger(PurchaseOrderController.class);
-	
 	@Autowired
 	private PurchaseOrderDao purchaseOrderDao;
 	
@@ -36,7 +32,6 @@ public class PurchaseOrderController {
 
 	@RequestMapping(value = "/purchase_order/save", method = RequestMethod.POST)
 	public void savePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) throws Exception{
-		logger.info("saving purchase order {}", purchaseOrder);
 		boolean orderExists = purchaseOrderDao.findOne(purchaseOrder.getPurchaseOrderId()) != null;
 		if(orderExists) {
 			throw new Exception("Purchase order already exists");

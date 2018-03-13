@@ -66,7 +66,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 			animation: true,
 			templateUrl: "partials/purchase_order/editPurchaseOrder.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "EditPurchaseOrderController",
 			resolve: {
@@ -87,6 +87,9 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 	
@@ -97,7 +100,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 			animation: true,
 			templateUrl: "partials/purchase_order/addPurchaseOrder.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "AddPurchaseOrderController",
 			resolve: {
@@ -118,6 +121,9 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 });

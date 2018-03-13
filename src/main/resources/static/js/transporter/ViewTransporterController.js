@@ -52,7 +52,7 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 			animation: true,
 			templateUrl: "partials/transporter/editTransporter.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "EditTransporterController",
 			resolve: {
@@ -73,6 +73,9 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 	
@@ -81,7 +84,7 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 			animation: true,
 			templateUrl: "partials/transporter/addTransporter.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "AddTransporterController",
 			resolve: {
@@ -102,6 +105,9 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 	

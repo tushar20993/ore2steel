@@ -50,7 +50,7 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 			animation: true,
 			templateUrl: "partials/vehicle/editVehicle.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "EditVehicleController",
 			resolve: {
@@ -71,6 +71,9 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 	
@@ -79,7 +82,7 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 			animation: true,
 			templateUrl: "partials/vehicle/addVehicle.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "AddVehicleController",
 			resolve: {
@@ -100,6 +103,9 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 	

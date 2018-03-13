@@ -8,10 +8,8 @@ import javax.persistence.ManyToOne;
 
 
 import portal.models.Brand;
-import portal.models.Company;
 import portal.models.Item;
 import portal.models.PurchaseOrder;
-import portal.models.Site;
 
 @Embeddable
 public class OrderItemId implements Serializable{

@@ -1,4 +1,4 @@
-portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal, $window){
+portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal, $window, Notification){
 	
 	
 	$scope.getSites = function(){
@@ -64,9 +64,9 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
 			$scope.getSites();
-			$rootScope.addAlert("Successfully deleted site", "success");
+			Notification.success("Deleted " + site.siteName + " from " + site.siteId.company.companyName)
 		}, function error(response){
-			$rootScope.addAlert("Failed to delete site", "danger");
+			Notification.error("Failed to delete " + site.siteName + " from " + site.siteId.company.companyName)
 		});
 	}
 	
@@ -75,7 +75,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 			animation: true,
 			templateUrl: "partials/site/editSite.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "EditSiteController",
 			resolve: {
@@ -85,19 +85,16 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 			}
 		});
 		
-		modalInstance.result.then(function(data){
-			console.log(data);
-			if(data.status == 1){
-				$scope.getSites();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		});
+		modalInstance.result.then(
+				function success(data){
+					Notification.success("Successfully updated site information!")
+				},
+				function error(data){
+					if( (data == "escape key press") || (data == 'cancel') )
+						angular.noop;
+					else
+						Notification.error("Couldn't update site information")
+				});
 	};
 	
 	
@@ -106,7 +103,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 			animation: true,
 			templateUrl: "partials/site/addSite.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "AddSiteController",
 			resolve: {
@@ -116,18 +113,16 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 			}
 		});
 		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getSites();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		});
+		modalInstance.result.then(
+				function success(data){
+					Notification.success("Successfully added the site!")
+				},
+				function error(data){
+					if( (data == "escape key press") || (data == 'cancel') )
+						angular.noop;
+					else
+						Notification.error("Couldn't add site")
+				});
 	};
 	
 });

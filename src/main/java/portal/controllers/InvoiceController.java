@@ -24,9 +24,14 @@ public class InvoiceController {
 	public List<Invoice> getAllInvoices(){
 		return invoiceDao.findAll();
 	}
-	
+
 	@RequestMapping(value = "/invoice/save", method = RequestMethod.POST)
-	public void saveInvoices(@RequestBody Invoice invoice){
+	public void saveInvoice(@RequestBody Invoice invoice){
+		invoiceDao.save(invoice);
+	}
+	
+	@RequestMapping(value = "/invoice/update", method = RequestMethod.POST)
+	public void updateInvoice(@RequestBody Invoice invoice){
 		invoiceDao.save(invoice);
 	}
 

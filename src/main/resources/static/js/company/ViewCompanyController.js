@@ -1,5 +1,4 @@
-portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal, $window){
-	$scope.alerts = [];
+portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal, $window, Notification){
 	$scope.getCompanies = function(){
 		$http.get("/company/getAll").then(
 				function(response){
@@ -62,9 +61,9 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
 			$scope.getCompanies();
-			$rootScope.addAlert("Successfully deleted company", "success");
+			Notification.success("Successfully deleted " + company.companyName)
 		}, function error(response){
-			$rootScope.addAlert("Failed to delete company", "danger");
+			Notification.error("Failed to delete " + company.companyName)
 		});
 	}
 	
@@ -73,7 +72,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 			animation: true,
 			templateUrl: "partials/company/editCompany.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "EditCompanyController",
 			resolve: {
@@ -87,16 +86,16 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 		});
 		
 		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getCompanies();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
+			Notification.success("Successfully updated company")
+		},
+		function error(data){
+			console.log(data)
+			if( (data == "escape key press") || (data == 'cancel') || (data == "close"))
+				angular.noop;
+			else if (data = "fail")
+				Notification.error("Couldn't update company")
+			else
+				Notification.error(data);
 		});
 	};
 	
@@ -105,7 +104,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 			animation: true,
 			templateUrl: "partials/company/addCompany.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "AddCompanyController",
 			resolve: {
@@ -115,20 +114,17 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 			}
 		});
 		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getCompanies();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		});
-	};
-	
-	
-	
+		modalInstance.result.then(
+				function success(data){
+					Notification.success("Successfully added the company!")
+				},
+				function error(data){
+					if( (data == "escape key press") || (data == 'cancel') )
+						angular.noop;
+					else if (data = "fail")
+						Notification.error("Couldn't add company")
+					else
+						Notification.error(data);
+				});
+	};	
 });

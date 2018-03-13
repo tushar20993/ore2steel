@@ -1,4 +1,4 @@
-portal = angular.module("PortalRunner", ['ngAria', 'ngMessages', 'ngAnimate', 'ngRoute', 'ui.grid', 'ui.bootstrap', 'ui.grid.resizeColumns']);
+portal = angular.module("PortalRunner", ['ngAria', 'ngMessages', 'ngAnimate', 'ngRoute', 'ui.grid', 'ui.bootstrap', 'ui.grid.resizeColumns', 'ui-notification']);
 
 portal.config(function($routeProvider, $locationProvider){
 	$routeProvider
@@ -14,7 +14,6 @@ portal.config(function($routeProvider, $locationProvider){
 });
 
 portal.run(function($rootScope, $http){
-	
 	$rootScope.alerts = [];	
 	$rootScope.closeAlert = function(index){
 		$rootScope.alerts.splice(index, 1);

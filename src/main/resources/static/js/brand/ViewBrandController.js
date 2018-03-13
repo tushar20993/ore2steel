@@ -49,7 +49,7 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 			animation: true,
 			templateUrl: "partials/brand/editBrand.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "EditBrandController",
 			resolve: {
@@ -70,6 +70,9 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 	
@@ -78,7 +81,7 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 			animation: true,
 			templateUrl: "partials/brand/addBrand.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "AddBrandController",
 			resolve: {
@@ -99,6 +102,9 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 });

@@ -49,7 +49,7 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 			animation: true,
 			templateUrl: "partials/item/editItem.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "EditItemController",
 			resolve: {
@@ -70,6 +70,9 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 	
@@ -78,7 +81,7 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 			animation: true,
 			templateUrl: "partials/item/addItem.html",
 			backdrop: "static",
-			keyboard: false,
+			keyboard: true,
 			size: "lg",
 			controller: "AddItemController",
 			resolve: {
@@ -99,6 +102,9 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 			else{
 				$rootScope.addAlert(data.msg, "info");
 			}
+		},
+		function error(data){
+			
 		});
 	};
 	

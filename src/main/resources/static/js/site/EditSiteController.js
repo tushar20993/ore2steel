@@ -22,21 +22,20 @@ portal.controller("EditSiteController", function($scope, $rootScope, $http, $uib
 
 	
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss('cancel');
 	};
 	
 	$scope.saveSite = function(){
 		var site = JSON.parse(JSON.stringify($scope.site));
-		console.log(site);
 		$http({
 			method: "POST",
 			url: "/site/update",
 			data: $scope.site,
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved site!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save site!"});
+			$uibModalInstance.dismiss("fail");
 		});
 	}
 	

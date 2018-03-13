@@ -1,4 +1,4 @@
-portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibModalInstance, sites){
+portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibModalInstance, sites, Notification){
 	$scope.site = {};
 	$scope.sites = sites;
 	$scope.statuses = [];
@@ -7,13 +7,13 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 			function success(response){
 				$scope.companies = response.data;
 			}, function fail(response){
-				alert("error in getting companies");
+				Notification.error("Failed to fetch companies");
 			});
 	
 	$scope.stateCodes =  JSON.parse(JSON.stringify($rootScope.stateCodes));
 	$scope.statuses = JSON.parse(JSON.stringify($rootScope.statuses));	
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss('cancel');
 	};
 	
 	$scope.saveSite = function(){

@@ -16,25 +16,24 @@ portal.controller("EditCompanyController", function($scope, $rootScope, $http, $
 	
 	
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss('cancel');
 	};
 	
 	$scope.saveCompany = function(){
-		console.log(JSON.parse(JSON.stringify($scope.company)))
 		$http({
 			method: "POST",
 			url: "/company/update",
 			data: JSON.parse(JSON.stringify($scope.company)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully updated company!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to update company!"});
+			$uibModalInstance.dismiss("fail");
 		});
 	};
 	
 	$scope.onCompanyTypeaheadSelect = function(item, model, label){
-		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
+		$uibModalInstance.dismiss(label + " already exists!");
 	}
 	
 });
