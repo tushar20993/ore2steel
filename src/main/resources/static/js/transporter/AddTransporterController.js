@@ -7,7 +7,7 @@ portal.controller("AddTransporterController", function($scope, $rootScope, $http
 	
 		
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss("cancel");
 	};
 	
 	$scope.saveTransporter = function(){
@@ -17,15 +17,15 @@ portal.controller("AddTransporterController", function($scope, $rootScope, $http
 			data: JSON.parse(JSON.stringify($scope.transporter)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved transporter!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save transporter!"});
+			$uibModalInstance.dismiss("fail")
 		});
 	}
 	
 
 	$scope.onTransporterTypeaheadSelect = function(item, model, label){
-		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
+		$uibModalInstance.dismiss({status: 2, msg: label + " already exists!"});
 	}
 	
 });

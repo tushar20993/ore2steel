@@ -1,4 +1,4 @@
-portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance){
+portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, Notification){
 	
 	$scope.today = new Date();
 	$scope.purchaseOrder = {};
@@ -14,7 +14,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 				$scope.uoms = response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Failed to fetch Unit of Measurements");
 			});
 	
 	$http.get("/brand/getAll").then(
@@ -22,7 +22,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 				$scope.brands = response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Failed to fetch brands");
 			});
 	
 	$http.get("/item/getAll").then(
@@ -30,7 +30,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 				$scope.items= response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Failed to fetch items");
 			});
 	
 
@@ -39,7 +39,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 				$scope.companies = response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Failed to fetch companies");
 			});
 	
 	$scope.orderStatuses = [];
@@ -48,7 +48,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 				$scope.orderStatuses = response.data;
 			},
 			function(response){
-				console.error("Failed to get order status types");
+				Notification.error("Failed to get order status types");
 			});
 
 	
@@ -59,7 +59,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 					$scope.sites = response.data;				
 				},
 				function fail(response){
-					console.log("Error in getting sites for " + company.companyName);
+					Notification.error("Error in getting sites for " + company.companyName);
 				});
 	};
 
@@ -67,6 +67,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 		for(var i = 0; i < $scope.items.length; i++){
 			if($scope.items[i].itemId == item.itemId){
 				//$scope.items.splice(i, 1);
+				// not needed to do this on item selection, as two same items can be of different brands
 				return true;
 			}
 		}
@@ -107,22 +108,20 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 		delete $scope.purchaseOrder.site;
 		delete $scope.purchaseOrder.company;
 		
-		console.log($scope.purchaseOrder);
 		$http({
 			method: "POST",
 			url: "/purchase_order/save",
 			data: JSON.parse(JSON.stringify($scope.purchaseOrder)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
-			alert(response.data.message);
+			$uibModalInstance.dismiss("fail");
 		});
 	};
 
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss("cancel");
 	};
 	
 });

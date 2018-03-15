@@ -1,4 +1,4 @@
-portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, purchaseOrder, $window){
+portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, purchaseOrder, $window, Notification){
 
 	$scope.purchaseOrder = purchaseOrder;
 	if($scope.purchaseOrder.orderDate){
@@ -15,7 +15,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 					$scope.purchaseOrder.items = response.data;
 				},
 				function(response){
-					console.error(response.data);
+					Notification.error("Failed to get order items for selected purchase order. Please try again");
 				});
 	}
 	$scope.getOrderItems();
@@ -26,7 +26,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 				$scope.uoms = response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Couldn't fetch units of measurement. Please try again");
 			});
 	
 	$http.get("/brand/getAll").then(
@@ -34,7 +34,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 				$scope.brands = response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Failed to fetch brand information");
 			});
 	
 	$http.get("/item/getAll").then(
@@ -42,7 +42,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 				$scope.items= response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Failed to fetch items");
 			});
 	
 	$scope.orderStatuses = [];
@@ -51,7 +51,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 				$scope.orderStatuses = response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Failed to fetch order status list");
 			});
 	
 	
@@ -61,7 +61,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	
 	
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss('cancel');
 	};
 	
 	$scope.savePurchaseOrder = function(){		
@@ -72,7 +72,6 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			data: purchaseOrder,
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			
 			var newItems = [];
 			for(var i = 0; i < purchaseOrder.items.length; i++){
 				if(purchaseOrder.items[i].isNew || purchaseOrder.items[i].isDirty){
@@ -83,16 +82,15 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			if(newItems.length > 0){
 				$http.post("/order_item/save", newItems).then(
 						function success(response){
-							$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
+							$uibModalInstance.close("success");
 						}, function error(response){
-							alert("Failed to save items")
+							$uibModalInstance.close("fail");
 						}
 					);
 			}
-			$uibModalInstance.close({status: 1, msg: "Successfully saved purchase order!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			console.log(response)
-			$uibModalInstance.close({status: 0, msg: "Failed to save purchase order: " + response.data.message});
+			$uibModalInstance.dismiss("fail");
 		});
 	};
 	
@@ -110,7 +108,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			var currItem = $scope.purchaseOrder.items[i].orderItemId.item;
 			var currBrand = $scope.purchaseOrder.items[i].orderItemId.brand;
 			if(	(item.itemId == currItem.itemId) && (brand.brandId == currBrand.brandId) ){
-				$window.alert("Item already exists")
+				Notification.error("Item already exists")
 				$scope.purchaseOrder.items.splice(index, 1);
 			}
 		}
@@ -145,9 +143,10 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			data: JSON.parse(JSON.stringify(orderItem)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
+			Notification.success("Successfully deleted item");
 			$scope.getOrderItems();
 		}, function error(response){
-			alert("Could not delete Item");
+			Notification.error("Could not delete Item");
 		});
 	}
 	

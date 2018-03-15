@@ -1,17 +1,11 @@
-portal.controller("PurchaseOrderController", function($scope, $rootScope, $http, $uibModal, $window){
+portal.controller("PurchaseOrderController", function($scope, $rootScope, $http, $uibModal, $window, Notification){
+	
 	$scope.getPurchaseOrders = function(){
 		$http.get("/purchase_order/getAll").then(
 				function success(response){
 					
 					$scope.purchaseOrders = response.data;
 					$scope.gridOptions = {
-							exporterMenuCsv: true,
-							enableGridMenu: true,
-							enableFiltering : true,
-							enableColumnResizing: true,
-							enableRowReordering: true,
-							enableSorting: true,
-							rowHeight: 40,
 							data: $scope.purchaseOrders,
 							columnDefs: [
 								{name: "purchaseOrderNumber", 	visible: true, field: "purchaseOrderId.purchaseOrderNumber"},
@@ -40,8 +34,9 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 									resizable: false},
 							]
 						};
+					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
 				}, function fail(response){
-					console.log("Failed to get all purchase orders");
+					Notification.error("Failed to get all purchase orders");
 				});
 	}
 
@@ -55,75 +50,42 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 				headers: {"Content-Type": "application/json; charset=utf8"}
 			}).then(function success(response){
 				$scope.getPurchaseOrders();
+				Notification.success("Successfully deleted purchase order");
 			}, function error(response){
-				console.log(response)
+				Notification.error("Failed to delete purchase order");
 			});
 		};
 	}
 	
 	$scope.editPurchaseOrder = function(purchaseOrder){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/purchase_order/editPurchaseOrder.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "EditPurchaseOrderController",
-			resolve: {
-				purchaseOrder: function(){
-					return purchaseOrder;
+		var modalOptions = {
+				templateUrl: "partials/purchase_order/editPurchaseOrder.html",
+				controller: "EditPurchaseOrderController",
+				resolve: {
+					purchaseOrder: function(){
+						return purchaseOrder;
+					}
 				}
-			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getPurchaseOrders();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+			};
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "Purchase Order", false, $scope.getPurchaseOrders);
 	};
 	
 	$scope.getPurchaseOrders();
 	
 	$scope.addPurchaseOrder = function(){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/purchase_order/addPurchaseOrder.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "AddPurchaseOrderController",
-			resolve: {
-				purchaseOrders: function(){
-					return $scope.purchaseOrders;
+		var modalOptions = {
+				templateUrl: "partials/purchase_order/addPurchaseOrder.html",
+				controller: "AddPurchaseOrderController",
+				resolve: {
+					purchaseOrders: function(){
+						return $scope.purchaseOrders;
+					}
 				}
-			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getPurchaseOrders();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+			};
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);		
+		$rootScope.getModalCloseFunctions(modalInstance, "Purchase Order", true, $scope.getPurchaseOrders);
 	};
 });

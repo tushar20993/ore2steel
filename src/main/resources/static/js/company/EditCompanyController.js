@@ -1,4 +1,4 @@
-portal.controller("EditCompanyController", function($scope, $rootScope, $http, $uibModalInstance, companies, company){
+portal.controller("EditCompanyController", function($scope, $rootScope, $http, $uibModalInstance, companies, company, Notification){
 	
 	$scope.company = company;
 	$scope.companies = companies;
@@ -11,7 +11,7 @@ portal.controller("EditCompanyController", function($scope, $rootScope, $http, $
 				$scope.statuses = response.data;
 			},
 			function(response){
-				console.error(response.data);
+				Notification.error("Failed to get registration statuses");
 			});
 	
 	

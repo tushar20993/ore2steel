@@ -1,4 +1,4 @@
-portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $uibModalInstance, sites){
+portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $uibModalInstance, sites, Notification){
 	$scope.invoice = {};
 	$scope.invoices = invoices;
 	
@@ -6,7 +6,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 			function success(response){
 				$scope.companies = response.data;
 			}, function fail(response){
-				alert("error in getting companies");
+				Notification.error("Failed to get companies. Please try again later!")
 			});
 	
 	$scope.onCompanySelect = function(){
@@ -16,7 +16,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 					$scope.sites = response.data;				
 				},
 				function fail(response){
-					console.log("Error in getting sites for " + company.companyName);
+					Notification.error("Error in getting sites for " + company.companyName);
 				});
 	};
 	
@@ -28,13 +28,13 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 					$scope.purchaseOrders = response.data;				
 				},
 				function fail(response){
-					console.log("Error in getting purchase orders for " + company.companyName);
+					Notification.error("Error in getting purchase orders for " + company.companyName);
 				});
 	};
 	
 		
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss("cancel");
 	};
 	
 	$scope.saveInvoice = function(){
@@ -44,9 +44,9 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 			data: JSON.parse(JSON.stringify($scope.invoice)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved invoice!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save invoice!"});
+			$uibModalInstance.dismiss("fail");
 		});
 	}
 	

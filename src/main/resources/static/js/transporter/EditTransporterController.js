@@ -2,7 +2,7 @@ portal.controller("EditTransporterController", function($scope, $rootScope, $htt
 	$scope.transporter = transporter;
 	
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss("cancel");
 	};
 	
 	$scope.saveTransporter = function(){
@@ -13,9 +13,9 @@ portal.controller("EditTransporterController", function($scope, $rootScope, $htt
 			data: $scope.transporter,
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved transporter!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save transporter!"});
+			$uibModalInstance.dismiss("fail");
 		});
 	}
 	

@@ -1,10 +1,10 @@
-portal.controller("AddVehicleController", function($scope, $rootScope, $http, $uibModalInstance, vehicles){
+portal.controller("AddVehicleController", function($scope, $rootScope, $http, $uibModalInstance, vehicles, Notification){
 	
 	$scope.vehicle = {};
 	$scope.vehicles = vehicles;
 
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss("cancel");
 	};
 	
 	$rootScope.vehicleTypes = [];
@@ -13,7 +13,7 @@ portal.controller("AddVehicleController", function($scope, $rootScope, $http, $u
 				$rootScope.vehicleTypes = response.data;
 			},
 			function(response){
-				console.log("Failed to get vehicle Types");
+				Notification.error("Failed to get vehicle Types");
 			});
 	
 	
@@ -24,14 +24,14 @@ portal.controller("AddVehicleController", function($scope, $rootScope, $http, $u
 			data: JSON.parse(JSON.stringify($scope.vehicle)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved vehicle!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save vehicle!"});
+			$uibModalInstance.dismiss("fail");
 		});
 	};
 	
 	$scope.onVehicleTypeaheadSelect = function(item, model, label){
-		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
+		$uibModalInstance.dismiss({status: 2, msg: label + " already exists!"});
 	}
 	
 });

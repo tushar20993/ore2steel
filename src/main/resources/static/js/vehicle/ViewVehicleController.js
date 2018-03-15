@@ -1,16 +1,9 @@
-portal.controller("VehicleController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("VehicleController", function($scope, $rootScope, $http, $uibModal, Notification){
 	$scope.getVehicles = function(){
 		$http.get("/vehicle/getAll").then(
 				function(response){
 					$scope.vehicles = response.data;
 					$scope.gridOptions = {
-							exporterMenuCsv: true,
-							enableGridMenu: true,
-							enableFiltering : true,
-							enableColumnResizing: true,
-							enableRowReordering: true,
-							rowHeight: 40,
-							enableSorting: true,
 							data: $scope.vehicles,
 							columnDefs: [
 								{name: "vehicleNumber", 		visible: true, },
@@ -37,76 +30,43 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 									resizable: false},
 							]
 						};
+					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
 				},
 				function(response){
-					console.log("ERROR", response);
+					Notification.error("Failed to fetch all vehicles");
 				});		
 	};
 	
 	$scope.getVehicles();
 	
 	$scope.editVehicle = function(vehicle){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/vehicle/editVehicle.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "EditVehicleController",
-			resolve: {
-				vehicle: function(){
-					return JSON.parse(JSON.stringify(vehicle));
+		var modalOptions = {
+				templateUrl: "partials/vehicle/editVehicle.html",
+				controller: "EditVehicleController",
+				resolve: {
+					vehicle: function(){
+						return JSON.parse(JSON.stringify(vehicle));
+					}
 				}
 			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getVehicles();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "vehicle", false, $scope.getVehicles);
 	};
 	
 	$scope.addVehicle = function(){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/vehicle/addVehicle.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "AddVehicleController",
-			resolve: {
-				vehicles: function(){
-					return $scope.vehicles;
+		var modalOptions = {
+				templateUrl: "partials/vehicle/addVehicle.html",
+				controller: "AddVehicleController",
+				resolve: {
+					vehicles: function(){
+						return $scope.vehicles;
+					}
 				}
-			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getVehicles();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+			};
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "vehicle", true, $scope.getVehicles);
 	};
 	
 });

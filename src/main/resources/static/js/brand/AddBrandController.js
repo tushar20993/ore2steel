@@ -4,7 +4,7 @@ portal.controller("AddBrandController", function($scope, $rootScope, $http, $uib
 	$scope.brands = brands;
 
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss("cancel");
 	};
 	
 	$scope.saveBrand = function(){
@@ -14,14 +14,14 @@ portal.controller("AddBrandController", function($scope, $rootScope, $http, $uib
 			data: JSON.parse(JSON.stringify($scope.brand)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved brand!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save brand!"});
+			$uibModalInstance.dismiss("fail");
 		});
 	};
 	
 	$scope.onBrandTypeaheadSelect = function(item, model, label){
-		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
+		$uibModalInstance.dismiss({status: 2, msg: label + " already exists!"});
 	}
 	
 });

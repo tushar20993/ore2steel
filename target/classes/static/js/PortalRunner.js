@@ -13,18 +13,7 @@ portal.config(function($routeProvider, $locationProvider){
 	.when("/vehicles", {templateUrl: "partials/vehicle/viewVehicles.html", controller: "VehicleController"})
 });
 
-portal.run(function($rootScope, $http){
-	$rootScope.alerts = [];	
-	$rootScope.closeAlert = function(index){
-		$rootScope.alerts.splice(index, 1);
-	};
-	
-	$rootScope.addAlert = function(message, type){
-		$rootScope.alerts.push({
-			msg: message,
-			type: type 
-		});
-	};
+portal.run(function($rootScope, $http, Notification){
 	
 	$rootScope.getStateCodes = function(){
 		$rootScope.stateCodes = [];
@@ -33,7 +22,7 @@ portal.run(function($rootScope, $http){
 					$rootScope.stateCodes = response.data;
 				},
 				function(response){
-					console.log("Failed to get state codes");
+					Notification.error("Failed to get state codes");
 				});
 	}
 	$rootScope.getStateCodes();
@@ -45,8 +34,46 @@ portal.run(function($rootScope, $http){
 					$rootScope.statuses = response.data;
 				},
 				function(response){
-					console.log("Failed to get registration statuses");
+					Notification.error("Failed to get registration statuses");
 				});
 	}
 	$rootScope.getRegistrationStatuses();
+	
+	$rootScope.getModalCloseFunctions = function(modalInstance, modalFor, addNew, successCallback){
+		var verbPresent = addNew ? " add " : " edit ";
+		var verbPast = addNew ? " added " : " edited ";
+		modalInstance.result.then(
+				function success(data){
+					Notification.success("Successfully" + verbPast + modalFor);
+					if(successCallback)
+						successCallback();
+				},
+				function error(data){
+					if( (data == "escape key press") || (data == 'cancel') || (data == "close"))
+						angular.noop;
+					else if (data == "fail")
+						Notification.error("Couldn't" + verbPresent + modalFor)
+					else
+						Notification.error(data);
+				}
+			);
+	};
+	
+	
+	$rootScope.defaultGridOptions = {
+			exporterMenuCsv: true,
+			enableGridMenu: true,
+			enableFiltering : true,
+			enableColumnResizing: true,
+			enableRowReordering: true,
+			rowHeight: 40,
+			enableSorting: true
+		};
+	
+	$rootScope.defaultModalOptions = {
+			animation: true,
+			backdrop: "static",
+			keyboard: true,
+			size: "lg",
+		};
 });

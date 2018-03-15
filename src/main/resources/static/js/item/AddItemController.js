@@ -4,7 +4,7 @@ portal.controller("AddItemController", function($scope, $rootScope, $http, $uibM
 	$scope.items = items;
 
 	$scope.close = function(){
-		$uibModalInstance.close({status: 2, msg: "You closed the window"});
+		$uibModalInstance.dismiss("cancel");
 	};
 	
 	$scope.saveItem = function(){
@@ -14,9 +14,9 @@ portal.controller("AddItemController", function($scope, $rootScope, $http, $uibM
 			data: JSON.parse(JSON.stringify($scope.item)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved item!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save item!"});
+			$uibModalInstance.dismiss("fail");
 		});
 	};
 	

@@ -17,17 +17,15 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 	};
 	
 	$scope.saveSite = function(){
-		console.log($scope.site);
-		
 		$http({
 			method: "POST",
 			url: "/site/save",
 			data: JSON.parse(JSON.stringify($scope.site)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			$uibModalInstance.close({status: 1, msg: "Successfully saved site!"});
+			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.close({status: 0, msg: "Failed to save site!"});
+			$uibModalInstance.dismiss("fail");
 		});
 	}
 	

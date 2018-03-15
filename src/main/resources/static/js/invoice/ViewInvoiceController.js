@@ -1,4 +1,4 @@
-portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibModal, Notification){
 	$scope.getInvoices = function(){
 		$http.get("/invoice/getAll").then(
 				function(response){
@@ -42,7 +42,7 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 						};
 				},
 				function(response){
-					console.log("ERROR", response);
+					Notification.error("Failed to fetch all Invoices")
 				});		
 	};
 	
@@ -63,18 +63,7 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 			}
 		});
 		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getInvoices();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		});
+		$rootScope.getModalCloseFunctions(modalInstance, "invoice", false, $scope.getInvoices);
 	};
 	
 	$scope.addInvoice = function(){
@@ -92,18 +81,7 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 			}
 		});
 		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getCompanies();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		});
+		$rootScope.getModalCloseFunctions(modalInstance, "Invoice", true, $scope.getInvoices);
 	};
 	
 	

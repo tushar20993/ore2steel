@@ -1,113 +1,68 @@
-portal.controller("ItemController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("ItemController", function($scope, $rootScope, $http, $uibModal, Notification){
 	$scope.getItems = function(){
 		$http.get("/item/getAll").then(
 				function(response){
 					$scope.items = response.data;
 					$scope.gridOptions = {
-							exporterMenuCsv: true,
-							enableGridMenu: true,
-							enableFiltering : true,
-							enableColumnResizing: true,
-							enableRowReordering: true,
-							rowHeight: 40,
-							enableSorting: true,
 							data: $scope.items,
 							columnDefs: [
 								{name: "itemName", 				visible: true, },
 								{name: "hsnCode", 				visible: true, displayName: "HSN Code"},
 								{name: "Actions", 
 									cellTemplate: 
-										'<div class="ui-grid-cell-contents row">' + 
-
-										'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
-											'ng-click = "grid.appScope.editItem(row.entity)" >' + 
-											'<span class="material-icons">mode_edit</span>'+
-										'</button>' +
-										
-										'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
-													'ng-click = "grid.appScope.deleteItem(row.entity)" >' + 
-													'<span class="material-icons">delete</span>'+ 
-										'</button>' + 
+										'<div class="ui-grid-cell-contents row">' +
+											'<button type = "button" class = "btn btn-sm btn-info col-md-4 offset-md-1" ' + 
+												'ng-click = "grid.appScope.editItem(row.entity)" >' + 
+												'<span class="material-icons">mode_edit</span>'+
+											'</button>' +
 											
-											
+											'<button type = "button" class = "btn btn-sm btn-danger col-md-4 offset-md-1" ' + 
+														'ng-click = "grid.appScope.deleteItem(row.entity)" >' + 
+														'<span class="material-icons">delete</span>'+ 
+											'</button>' + 
 										'</div>',
 									enableSorting : false, 
 									enableFiltering: false, 
 									resizable: false},
 							]
 						};
+					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
 				},
 				function(response){
-					console.log("ERROR", response);
+					Notification.error("Failed to fetch all items");
 				});		
 	};
 	
 	$scope.getItems();
 	
 	$scope.editItem = function(item){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/item/editItem.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "EditItemController",
-			resolve: {
-				item: function(){
-					return JSON.parse(JSON.stringify(item));
+		var modalOptions = {
+				templateUrl: "partials/item/editItem.html",
+				controller: "EditItemController",
+				resolve: {
+					item: function(){
+						return JSON.parse(JSON.stringify(item));
+					}
 				}
 			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getCompanies();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+		angular.extend(modalOptions, $rootScope.defaultModalOptions)
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "item", false, $scope.getItems);
 	};
 	
 	$scope.addItem = function(){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/item/addItem.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "AddItemController",
-			resolve: {
-				items: function(){
-					return $scope.items;
+		var modalOptions = {
+				templateUrl: "partials/item/addItem.html",
+				controller: "AddItemController",
+				resolve: {
+					items: function(){
+						return $scope.items;
+					}
 				}
 			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getItems();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "item", true, $scope.getItems);
 	};
-	
-	
-	
+
 });

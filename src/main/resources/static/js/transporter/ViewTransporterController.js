@@ -1,15 +1,9 @@
-portal.controller("TransporterController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("TransporterController", function($scope, $rootScope, $http, $uibModal, Notification){
 	$scope.getTransporters = function(){
 		$http.get("/transporter/getAll").then(
 				function(response){
 					$scope.transporters = response.data;
 					$scope.gridOptions = {
-							exporterMenuCsv: true,
-							enableGridMenu: true,
-							enableFiltering : true,
-							enableColumnResizing: true,
-							enableRowReordering: true,
-							rowHeight: 40,
 							enableSorting: true,
 							data: $scope.transporters,
 							columnDefs: [
@@ -39,76 +33,44 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 									resizable: false},
 							]
 						};
+					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
 				},
 				function(response){
-					console.log("ERROR", response);
+					Notification.error("Failed to fetch transporter information");
 				});		
 	};
 	
 	$scope.getTransporters();
 	
 	$scope.editTransporter = function(transporter){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/transporter/editTransporter.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "EditTransporterController",
-			resolve: {
-				transporter: function(){
-					return JSON.parse(JSON.stringify(transporter));
+		var modalOptions = {
+				templateUrl: "partials/transporter/editTransporter.html",
+				controller: "EditTransporterController",
+				resolve: {
+					transporter: function(){
+						return JSON.parse(JSON.stringify(transporter));
+					}
 				}
 			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getTransporters();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "transporter", false, $scope.getTransporters);
 	};
 	
 	$scope.addTransporter = function(){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/transporter/addTransporter.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "AddTransporterController",
-			resolve: {
-				transporters: function(){
-					return $scope.transporters;
+		var modalOptions = {
+				animation: true,
+				templateUrl: "partials/transporter/addTransporter.html",
+				controller: "AddTransporterController",
+				resolve: {
+					transporters: function(){
+						return $scope.transporters;
+					}
 				}
 			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getTransporters();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "transporter", true, $scope.getTransporters);
 	};
 	
 });

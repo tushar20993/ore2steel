@@ -1,4 +1,4 @@
-portal.controller("EditSiteController", function($scope, $rootScope, $http, $uibModalInstance, site){
+portal.controller("EditSiteController", function($scope, $rootScope, $http, $uibModalInstance, site, Notification){
 	$scope.site = site;
 	$scope.statuses = [];
 	$scope.stateCodes = [];
@@ -7,7 +7,7 @@ portal.controller("EditSiteController", function($scope, $rootScope, $http, $uib
 				$scope.stateCodes = response.data;
 			},
 			function(response){
-				console.log(response.data.message);
+				Notification.error("Failed to fetch states");
 			});
 	
 	
@@ -17,7 +17,7 @@ portal.controller("EditSiteController", function($scope, $rootScope, $http, $uib
 				$scope.statuses = response.data;
 			},
 			function(response){
-				console.log(response.data.message);
+				Notification.error("Failed to fetch registration statuses");
 			});
 
 	

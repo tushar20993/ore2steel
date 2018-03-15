@@ -1,16 +1,9 @@
-portal.controller("BrandController", function($scope, $rootScope, $http, $uibModal){
+portal.controller("BrandController", function($scope, $rootScope, $http, $uibModal, Notification){
 	$scope.getBrands = function(){
 		$http.get("/brand/getAll").then(
 				function(response){
 					$scope.brands = response.data;
 					$scope.gridOptions = {
-							exporterMenuCsv: true,
-							enableGridMenu: true,
-							enableFiltering : true,
-							enableColumnResizing: true,
-							enableRowReordering: true,
-							rowHeight: 40,
-							enableSorting: true,
 							data: $scope.brands,
 							columnDefs: [
 								{name: "brandId", 				visible: true, displayName: "Brand ID"},
@@ -36,75 +29,42 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 									resizable: false},
 							]
 						};
+					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
 				},
 				function(response){
-					console.log("ERROR", response);
+					Notification.error("Failed to fetch all brands");
 				});		
 	};
 	
 	$scope.getBrands();
 	
 	$scope.editBrand = function(brand){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/brand/editBrand.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "EditBrandController",
-			resolve: {
-				brand: function(){
-					return JSON.parse(JSON.stringify(brand));
+		var modalOptions = {
+				templateUrl: "partials/brand/editBrand.html",
+				controller: "EditBrandController",
+				resolve: {
+					brand: function(){
+						return JSON.parse(JSON.stringify(brand));
+					}
 				}
 			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getBrands();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "brand", false, $scope.getBrands);
 	};
 	
 	$scope.addBrand = function(){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/brand/addBrand.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "AddBrandController",
-			resolve: {
-				brands: function(){
-					return $scope.brands;
+		var modalOptions = {
+				templateUrl: "partials/brand/addBrand.html",
+				controller: "AddBrandController",
+				resolve: {
+					brands: function(){
+						return $scope.brands;
+					}
 				}
-			}
-		});
-		
-		modalInstance.result.then(function(data){
-			if(data.status == 1){
-				$scope.getBrands();
-				$rootScope.addAlert(data.msg, "success");
-			}
-			else if(data.status == 0){
-				$rootScope.addAlert(data.msg, "danger");
-			}
-			else{
-				$rootScope.addAlert(data.msg, "info");
-			}
-		},
-		function error(data){
-			
-		});
+		};
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "brand", true, $scope.getBrands);
 	};
 });

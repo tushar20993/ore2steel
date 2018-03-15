@@ -4,14 +4,6 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 				function(response){
 					$scope.companies = response.data;
 					$scope.gridOptions = {
-							exporterMenuCsv: true,
-							enableGridMenu: true,
-							enableFiltering : true,
-							enableColumnResizing: true,
-							enableRowReordering: true,
-							data: $scope.companies,
-							rowHeight: 40,
-							enableSorting: true,
 							data: $scope.companies,
 							columnDefs: [
 								{name: "companyId", 			visible: true, },
@@ -44,9 +36,10 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 									resizable: false},
 							]
 						};
+					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
 				},
 				function(response){
-					console.log("ERROR", response);
+					Notification.error("Failed to fetch companies!");
 				});		
 	};
 	
@@ -54,77 +47,56 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 	
 	$scope.deleteCompany = function(company){
 		var confirm = $window.confirm("Are you sure you want to delete " + company.companyName + "?");
-		$http({
-			method: "POST",
-			url: "/company/delete",
-			data: JSON.parse(JSON.stringify(company)),
-			headers: {"Content-Type": "application/json; charset=utf8"}
-		}).then(function success(response){
-			$scope.getCompanies();
-			Notification.success("Successfully deleted " + company.companyName)
-		}, function error(response){
-			Notification.error("Failed to delete " + company.companyName)
-		});
+		
+		if(confirm){
+			$http({
+				method: "POST",
+				url: "/company/delete",
+				data: JSON.parse(JSON.stringify(company)),
+				headers: {"Content-Type": "application/json; charset=utf8"}
+			}).then(
+					function success(response){
+						$scope.getCompanies();
+						Notification.success("Successfully deleted " + company.companyName)
+					}, 
+					function error(response){
+						Notification.error("Failed to delete " + company.companyName)
+					}
+				);
+		}
 	}
 	
 	$scope.editCompany = function(company){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/company/editCompany.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "EditCompanyController",
-			resolve: {
-				companies: function(){
-					return $scope.companies;
-				},
-				company: function(){
-					return JSON.parse(JSON.stringify(company));
+		var modalOptions = {
+				templateUrl: "partials/company/editCompany.html",
+				controller: "EditCompanyController",
+				resolve: {
+					companies: function(){
+						return $scope.companies;
+					},
+					company: function(){
+						return JSON.parse(JSON.stringify(company));
+					}
 				}
-			}
-		});
+			};
+		angular.extend(modalOptions, $rootScope.defaultModalOptions)
+		var modalInstance = $uibModal.open(modalOptions);
 		
-		modalInstance.result.then(function(data){
-			Notification.success("Successfully updated company")
-		},
-		function error(data){
-			console.log(data)
-			if( (data == "escape key press") || (data == 'cancel') || (data == "close"))
-				angular.noop;
-			else if (data = "fail")
-				Notification.error("Couldn't update company")
-			else
-				Notification.error(data);
-		});
+		$rootScope.getModalCloseFunctions(modalInstance, "company", false, $scope.getCompanies)
 	};
 	
 	$scope.addCompany = function(){
-		var modalInstance = $uibModal.open({
-			animation: true,
-			templateUrl: "partials/company/addCompany.html",
-			backdrop: "static",
-			keyboard: true,
-			size: "lg",
-			controller: "AddCompanyController",
-			resolve: {
-				companies: function(){
-					return $scope.companies;
+		var modalOptions = {
+				templateUrl: "partials/company/addCompany.html",
+				controller: "AddCompanyController",
+				resolve: {
+					companies: function(){
+						return $scope.companies;
+					}
 				}
-			}
-		});
-		
-		modalInstance.result.then(
-				function success(data){
-					Notification.success("Successfully added the company!")
-				},
-				function error(data){
-					if( (data == "escape key press") || (data == 'cancel') )
-						angular.noop;
-					else if (data = "fail")
-						Notification.error("Couldn't add company")
-					else
-						Notification.error(data);
-				});
+			};
+		angular.extend(modalOptions, $rootScope.defaultModalOptions);
+		var modalInstance = $uibModal.open(modalOptions);
+		$rootScope.getModalCloseFunctions(modalInstance, "company", true, $scope.getCompanies);
 	};	
 });
