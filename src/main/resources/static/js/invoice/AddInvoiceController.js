@@ -16,7 +16,6 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 		$http.get("/site/get?id=" + company.companyId).then(
 				function success(response){
 					$scope.sites = response.data;
-					console.log($scope.sites)
 				},
 				function fail(response){
 					Notification.error("Error in getting sites for " + company.companyName);
@@ -28,7 +27,6 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 		$http.post("/purchase_order/getBySite", site).then(
 				function success(response){
 					$scope.purchaseOrders = response.data;
-					console.log($scope.purchaseOrders)
 				},
 				function fail(response){
 					Notification.error("Error in getting POs for " + site.siteName);
@@ -46,18 +44,17 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	$http.get("/vehicle/getAll").then(
 			function success(response){
 				$scope.vehicles = response.data;
-				console.log($scope.vehicles)
 			}, function fail(response){
 				Notification.error("Failed to get vehicles. Please try again later!")
 			});
 	
 	$scope.invoiceStatuses = [];
 	$http.get("/invoice_status/getAll").then(
-			function(response){
+			function success(response){
 				$scope.invoiceStatuses = response.data;
 			},
-			function(response){
-				Notification.error("Failed to get invoice status types");
+			function fail(response){
+				Notification.error("Failed to get invoice status types. Please try again later!");
 			});	
 	
 		
@@ -67,7 +64,17 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	
 	$scope.saveInvoice = function(){
 		$scope.invoice.site.siteId.company = $scope.invoice.company;
-		console.log($scope.invoice);
+		if(!$scope.invoice.transporter.transporterId){
+			var temp = $scope.invoice.transporter;
+			$scope.invoice.transporter = {}
+			$scope.invoice.transporter.transporterName = temp;
+		}
+		if(!$scope.invoice.vehicle.vehicleNumber){
+			var temp = $scope.invoice.vehicle;
+			$scope.invoice.vehicle = {}
+			$scope.invoice.vehicle.vehicleNumber = temp;
+		}
+		
 		$http({
 			method: "POST",
 			url: "/invoice/save",

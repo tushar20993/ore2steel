@@ -43,12 +43,12 @@ public class Invoice {
 	private Site site;
 	
 	
-	@ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "transporter_id", referencedColumnName = "transporter_id", insertable = true)
 	private Transporter transporter;
 	
 	
-	@ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "vehicle_number", referencedColumnName = "vehicle_number", insertable = true)
 	private Vehicle vehicle;
 	

@@ -28,6 +28,7 @@ public class InvoiceController {
 		return invoiceDao.findAll();
 	}
 
+	@Transactional
 	@RequestMapping(value = "/invoice/save", method = RequestMethod.POST)
 	public void saveInvoice(@RequestBody Invoice invoice){
 		invoiceDao.save(invoice);
