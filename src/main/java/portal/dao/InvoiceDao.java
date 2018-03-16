@@ -6,4 +6,6 @@ import portal.models.Invoice;
 
 public interface InvoiceDao extends JpaRepository<Invoice, Integer>{
 
+	Invoice findByInvoiceNumber(String invoiceNumber);
+
 }

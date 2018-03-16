@@ -2,6 +2,7 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 	$scope.getInvoices = function(){
 		$http.get("/invoice/getAll").then(
 				function(response){
+					console.log(response.data)
 					$scope.invoices = response.data;
 					$scope.gridOptions = {
 							data: $scope.invoices,
@@ -9,7 +10,7 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 								{name: "invoiceNumber", 		visible: true,},
 								{name: "companyName", 			visible: true, field: "site.siteId.company.companyName",},
 								{name: "siteName", 				visible: true, field: "site.siteName",},
-								{name: "purchaseOrderNumber", 	visible: true, field: "purchaseOrder.purchaseOrderId.purchaseOrderNumber"},
+								{name: "purchaseOrderNumber", 	visible: true, field: "purchaseOrder.purchaseOrderId.purchaseOrderNumber", displayName: "PO Number"},
 								{name: "transporter", 			visible: true, field: "transporter.transporterName"},
 								{name: "vehicleNumber", 		visible: true, field: "vehicle.vehicleNumber"},
 								{name: "Actions", 

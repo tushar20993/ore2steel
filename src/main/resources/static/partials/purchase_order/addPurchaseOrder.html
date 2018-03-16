@@ -36,7 +36,9 @@
 										class = "form-control select" 
 										ng-model = "purchaseOrder.site" 
 										ng-options="site as site.siteName for site in sites | orderBy: 'siteName' track by site.siteId.siteId+site.siteId.companyId" 
-										ng-required = "purchaseOrder.company">
+										ng-change="onSiteSelect(site)"
+										required 
+										>
 										<option value="">--Select One--</option>
 									</select>
 								</div>
@@ -52,6 +54,9 @@
 											class="form-control" 
 											placeholder="Eg: PO-200" 
 											ng-model="purchaseOrder.purchaseOrderId.purchaseOrderNumber"
+											uib-typeahead = "purchaseOrder as purchaseOrder.purchaseOrderId.purchaseOrderNumber for purchaseOrder in purchaseOrders | filter: $viewValue"
+											typeahead-editable = "true"
+											typeahead-on-select="onPurchaseOrderSelect($item)"		
 											required>
 								</div>
 							</div>

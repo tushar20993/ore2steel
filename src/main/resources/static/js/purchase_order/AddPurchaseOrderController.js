@@ -1,7 +1,8 @@
 portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, Notification){
 	
-	$scope.today = new Date();
 	$scope.purchaseOrder = {};
+	$scope.purchaseOrder.orderDate = new Date();
+	$scope.purchaseOrder.orderStatusDate = new Date();
 	$scope.purchaseOrder.items = [];
 	$scope.companies = [];
 	$scope.statuses = [];
@@ -66,6 +67,30 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 					Notification.error("Error in getting sites for " + company.companyName);
 				});
 	};
+	
+	$scope.onSiteSelect = function(){
+		var site = $scope.purchaseOrder.site;
+		if(site == undefined){
+			$scope.purchaseOrders = [];
+			return;
+		}
+		
+		$http.post("/purchase_order/getBySite", site)
+			.then(
+					function success(response){
+						$scope.purchaseOrders = response.data;
+					},
+					function fail(){
+						Notification.error("Failed to fetch purchase orders for the given site");
+					}
+					);
+		
+	}
+	
+	$scope.onPurchaseOrderSelect = function(){
+		Notification.error("This purchase order number already exists. Please try a different one");
+		delete $scope.purchaseOrder.purchaseOrderId.purchaseOrderNumber; 
+	}
 
 	$scope.itemSelected = function(item){
 		for(var i = 0; i < $scope.items.length; i++){

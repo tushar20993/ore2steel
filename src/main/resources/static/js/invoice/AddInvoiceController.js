@@ -2,6 +2,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	$scope.invoice = {};
 	$scope.invoices = invoices;
 	$scope.invoice.invoiceDate = new Date();
+	$scope.invoice.invoiceStatusDate = new Date();
 	
 	$http.get("/company/getAll").then(
 			function success(response){
@@ -41,6 +42,11 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 				});
 	};
 	
+	$scope.onInvoiceTypeaheadSelect = function(){
+		Notification.error("This invoice number already exists. Please try different Invoice Number");
+		delete $scope.invoice.invoiceNumber;
+	}
+	
 	$http.get("/transporter/getAll").then(
 			function success(response){
 				$scope.transporters = response.data;
@@ -56,7 +62,6 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 				Notification.error("Failed to get vehicles. Please try again later!")
 			});
 	
-	$scope.invoiceStatuses = [];
 	$http.get("/invoice_status/getAll").then(
 			function success(response){
 				$scope.invoiceStatuses = response.data;
@@ -76,28 +81,25 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 			delete invoice.site;
 		}
 		
-		if(!invoice.transporter.transporterId){
+		if(invoice.transporter && !invoice.transporter.transporterId){
 			var temp = invoice.transporter;
 			invoice.transporter = {}
 			invoice.transporter.transporterName = temp;
 		}
-		if(!invoice.vehicle.vehicleNumber){
+		if(invoice.vehicle && !invoice.vehicle.vehicleNumber){
 			var temp = invoice.vehicle;
 			invoice.vehicle = {}
 			invoice.vehicle.vehicleNumber = temp;
 		}
 		
-		$http({
-			method: "POST",
-			url: "/invoice/save",
-			data: JSON.parse(JSON.stringify(invoice)),
-			headers: {"Content-Type": "application/json; charset=utf8"}
-		}).then(function success(response){
-			$uibModalInstance.close("success");
-		}, function error(response){
-			Notification.error(response.data.message)
-			//$uibModalInstance.dismiss("fail");
-		});
+		$http.post( "/invoice/save", invoice)
+		.then(
+				function success(response){
+					$uibModalInstance.close("success");
+				}, function error(response){
+					$uibModalInstance.dismiss("fail");
+				}
+			);
 	}
 	
 });

@@ -30,7 +30,12 @@ public class InvoiceController {
 
 	@Transactional
 	@RequestMapping(value = "/invoice/save", method = RequestMethod.POST)
-	public void saveInvoice(@RequestBody Invoice invoice){
+	public void saveInvoice(@RequestBody Invoice invoice) throws Exception{
+		boolean invoiceExists = (invoiceDao.findByInvoiceNumber(invoice.getInvoiceNumber()) != null);
+		if(invoiceExists) {
+			throw new Exception("Invoice with same number already exists");
+		}
+		
 		invoiceDao.save(invoice);
 	}
 	
