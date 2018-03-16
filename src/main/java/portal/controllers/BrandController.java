@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import portal.dao.BrandDao;
 import portal.models.Brand;
+import portal.models.constants.BrandGroups;
 
 @RestController
 public class BrandController {
@@ -23,6 +24,12 @@ public class BrandController {
 	@RequestMapping(value = "/brand/getAll", method = RequestMethod.GET)
 	public List<Brand> getAllBrands(){
 		return brandDao.findAll();
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/brand_group/getAll", method = RequestMethod.GET)
+	public List<String> getAllBrandGroups(){
+		return BrandGroups.getAllGroups();
 	}
 	
 
