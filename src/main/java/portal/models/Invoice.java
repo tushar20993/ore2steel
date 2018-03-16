@@ -28,9 +28,9 @@ public class Invoice {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
-		@JoinColumn(name = "po_company_id", referencedColumnName = "company_id"),
-		@JoinColumn(name = "po_site_id", referencedColumnName = "site_id"),
-		@JoinColumn(name = "po_purchase_order_number", referencedColumnName = "purchase_order_number"),
+		@JoinColumn(name = "po_company_id", referencedColumnName = "company_id", insertable = false, updatable = false),
+		@JoinColumn(name = "po_site_id", referencedColumnName = "site_id", insertable = false, updatable = false),
+		@JoinColumn(name = "po_purchase_order_number", referencedColumnName = "purchase_order_number", insertable = false, updatable = false),
 	})
 	private PurchaseOrder purchaseOrder;
 	
@@ -193,12 +193,4 @@ public class Invoice {
 	public boolean isDelivered() {
 		return InvoiceStatuses.isDelivered(invoiceStatus);
 	}
-
-	@PrePersist
-	public void prePersist() throws Exception{
-		if( (site == null) && (purchaseOrder == null) ) {
-			throw new Exception("Invoice needs to have either PO reference, or Site Reference.");
-		}
-	}
-	
 }

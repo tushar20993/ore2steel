@@ -77,6 +77,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	
 	$scope.saveInvoice = function(){
 		var invoice = JSON.parse(JSON.stringify($scope.invoice))
+		console.log(invoice.purchaseOrder)
 		if(invoice.purchaseOrder){
 			delete invoice.site;
 		}
@@ -92,6 +93,8 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 			invoice.vehicle.vehicleNumber = temp;
 		}
 		
+		console.log(invoice)
+		return;
 		$http.post( "/invoice/save", invoice)
 		.then(
 				function success(response){
