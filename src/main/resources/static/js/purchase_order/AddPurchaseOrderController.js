@@ -54,6 +54,10 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	
 	$scope.onCompanySelect = function(){
 		var company = $scope.purchaseOrder.company;
+		if(company == undefined){
+			$scope.sites = [];
+			return;
+		}
 		$http.get("/site/get?id=" + company.companyId).then(
 				function success(response){
 					$scope.sites = response.data;				

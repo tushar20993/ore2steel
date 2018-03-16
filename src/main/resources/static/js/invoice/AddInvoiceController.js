@@ -13,6 +13,10 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 
 	$scope.onCompanySelect = function(){
 		var company = $scope.invoice.company;
+		if(company == undefined){
+			$scope.sites = [];
+			return;
+		}
 		$http.get("/site/get?id=" + company.companyId).then(
 				function success(response){
 					$scope.sites = response.data;
@@ -24,6 +28,10 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	
 	$scope.onSiteSelect = function(){
 		var site = $scope.invoice.site;
+		if(site == undefined){
+			$scope.purchaseOrders = [];
+			return;
+		}
 		$http.post("/purchase_order/getBySite", site).then(
 				function success(response){
 					$scope.purchaseOrders = response.data;
@@ -63,22 +71,26 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	};
 	
 	$scope.saveInvoice = function(){
-		$scope.invoice.site.siteId.company = $scope.invoice.company;
-		if(!$scope.invoice.transporter.transporterId){
-			var temp = $scope.invoice.transporter;
-			$scope.invoice.transporter = {}
-			$scope.invoice.transporter.transporterName = temp;
+		var invoice = JSON.parse(JSON.stringify($scope.invoice))
+		if(invoice.purchaseOrder){
+			delete invoice.site;
 		}
-		if(!$scope.invoice.vehicle.vehicleNumber){
-			var temp = $scope.invoice.vehicle;
-			$scope.invoice.vehicle = {}
-			$scope.invoice.vehicle.vehicleNumber = temp;
+		
+		if(!invoice.transporter.transporterId){
+			var temp = invoice.transporter;
+			invoice.transporter = {}
+			invoice.transporter.transporterName = temp;
+		}
+		if(!invoice.vehicle.vehicleNumber){
+			var temp = invoice.vehicle;
+			invoice.vehicle = {}
+			invoice.vehicle.vehicleNumber = temp;
 		}
 		
 		$http({
 			method: "POST",
 			url: "/invoice/save",
-			data: JSON.parse(JSON.stringify($scope.invoice)),
+			data: JSON.parse(JSON.stringify(invoice)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
 			$uibModalInstance.close("success");

@@ -26,7 +26,7 @@ public class Invoice {
 	@Column(name = "invoice_date")
 	private Date invoiceDate;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 		@JoinColumn(name = "po_company_id", referencedColumnName = "company_id"),
 		@JoinColumn(name = "po_site_id", referencedColumnName = "site_id"),
@@ -35,7 +35,7 @@ public class Invoice {
 	private PurchaseOrder purchaseOrder;
 	
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({
 		@JoinColumn(name = "site_site_id", referencedColumnName = "site_id", insertable = false, updatable = false),
 		@JoinColumn(name = "site_company_id", referencedColumnName = "company_id",  insertable = false, updatable = false)
@@ -100,6 +100,9 @@ public class Invoice {
 	}
 
 	public Site getSite() {
+		if(purchaseOrder != null) {
+			return purchaseOrder.getPurchaseOrderId().getSite();
+		}
 		return site;
 	}
 

@@ -6,10 +6,10 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 					$scope.gridOptions = {
 							data: $scope.invoices,
 							columnDefs: [
-								{name: "invoiceNumber", 		visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.invoiceNumber}}</div>'},
+								{name: "invoiceNumber", 		visible: true,},
+								{name: "companyName", 			visible: true, field: "site.siteId.company.companyName",},
+								{name: "siteName", 				visible: true, field: "site.siteName",},
 								{name: "purchaseOrderNumber", 	visible: true, field: "purchaseOrder.purchaseOrderId.purchaseOrderNumber"},
-								{name: "siteName", 				visible: true, field: "purchaseOrder.purchaseOrderId.site.siteName", cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
-								{name: "companyName", 			visible: true, field: "purchaseOrder.purchaseOrderId.site.siteId.company.companyName",},
 								{name: "transporter", 			visible: true, field: "transporter.transporterName"},
 								{name: "vehicleNumber", 		visible: true, field: "vehicle.vehicleNumber"},
 								{name: "Actions", 
