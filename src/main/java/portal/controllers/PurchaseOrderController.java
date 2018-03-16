@@ -13,6 +13,7 @@ import portal.dao.OrderItemDao;
 import portal.dao.PurchaseOrderDao;
 import portal.models.OrderItem;
 import portal.models.PurchaseOrder;
+import portal.models.Site;
 import portal.models.constants.OrderStatuses;
 
 @RestController
@@ -28,6 +29,12 @@ public class PurchaseOrderController {
 	@RequestMapping(value = "/purchase_order/getAll", method = RequestMethod.GET)
 	public List<PurchaseOrder> getAllPurchaseOrders(){
 		return purchaseOrderDao.findAll();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/purchase_order/getBySite", method = RequestMethod.POST)
+	public List<PurchaseOrder> getPurchaseOrderBySite(@RequestBody Site site){
+		return purchaseOrderDao.findByPurchaseOrderIdSite(site);
 	}
 
 	@RequestMapping(value = "/purchase_order/save", method = RequestMethod.POST)

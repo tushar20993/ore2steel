@@ -1,6 +1,7 @@
-portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $uibModalInstance, sites, Notification){
+portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $uibModalInstance, Notification, invoices){
 	$scope.invoice = {};
 	$scope.invoices = invoices;
+	$scope.invoice.invoiceDate = new Date();
 	
 	$http.get("/company/getAll").then(
 			function success(response){
@@ -9,28 +10,55 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 				Notification.error("Failed to get companies. Please try again later!")
 			});
 	
+
 	$scope.onCompanySelect = function(){
-		var company = $scope.purchaseOrder.company;
+		var company = $scope.invoice.company;
 		$http.get("/site/get?id=" + company.companyId).then(
 				function success(response){
-					$scope.sites = response.data;				
+					$scope.sites = response.data;
+					console.log($scope.sites)
 				},
 				function fail(response){
 					Notification.error("Error in getting sites for " + company.companyName);
 				});
 	};
 	
-	$scope.onCompanySelect = function(){
-		var company = $scope.purchaseOrder.company;
-		var site = $scope.purchaseOrder.site;
-		$http.get("/site/get?cid=" + company.companyId + "&sid=" + site.siteId).then(
+	$scope.onSiteSelect = function(){
+		var site = $scope.invoice.site;
+		$http.post("/purchase_order/getBySite", site).then(
 				function success(response){
-					$scope.purchaseOrders = response.data;				
+					$scope.purchaseOrders = response.data;
+					console.log($scope.purchaseOrders)
 				},
 				function fail(response){
-					Notification.error("Error in getting purchase orders for " + company.companyName);
+					Notification.error("Error in getting POs for " + site.siteName);
 				});
 	};
+	
+	$http.get("/transporter/getAll").then(
+			function success(response){
+				$scope.transporters = response.data;
+			}, function fail(response){
+				Notification.error("Failed to get transporters. Please try again later!")
+			});
+	
+	
+	$http.get("/vehicle/getAll").then(
+			function success(response){
+				$scope.vehicles = response.data;
+				console.log($scope.vehicles)
+			}, function fail(response){
+				Notification.error("Failed to get vehicles. Please try again later!")
+			});
+	
+	$scope.invoiceStatuses = [];
+	$http.get("/invoice_status/getAll").then(
+			function(response){
+				$scope.invoiceStatuses = response.data;
+			},
+			function(response){
+				Notification.error("Failed to get invoice status types");
+			});	
 	
 		
 	$scope.close = function(){
@@ -38,6 +66,8 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	};
 	
 	$scope.saveInvoice = function(){
+		$scope.invoice.site.siteId.company = $scope.invoice.company;
+		console.log($scope.invoice);
 		$http({
 			method: "POST",
 			url: "/invoice/save",
@@ -46,7 +76,8 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 		}).then(function success(response){
 			$uibModalInstance.close("success");
 		}, function error(response){
-			$uibModalInstance.dismiss("fail");
+			Notification.error(response.data.message)
+			//$uibModalInstance.dismiss("fail");
 		});
 	}
 	

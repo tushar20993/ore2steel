@@ -8,12 +8,18 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import portal.models.constants.InvoiceStatuses;
+
 @Entity
 @Table(name = "invoice")
 @JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"items"})
 public class Invoice {
 
 	@Id
+	@GeneratedValue
+	@Column(name = "invoice_id")
+	private Integer invoiceId;
+	
 	@Column(name = "invoice_number")
 	private String invoiceNumber;
 	
@@ -37,12 +43,12 @@ public class Invoice {
 	private Site site;
 	
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
 	@JoinColumn(name = "transporter_id", referencedColumnName = "transporter_id", insertable = true)
 	private Transporter transporter;
 	
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.ALL, CascadeType.MERGE})
 	@JoinColumn(name = "vehicle_number", referencedColumnName = "vehicle_number", insertable = true)
 	private Vehicle vehicle;
 	
@@ -52,6 +58,31 @@ public class Invoice {
 	@OneToMany(mappedBy="invoiceItemId.invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<InvoiceItem> items;
 	
+	@Column(name = "invoice_status")
+	private String invoiceStatus;
+	
+	@Column(name = "invoice_status_date")
+	private Date invoiceStatusDate;
+	
+	@Column(name = "receipt_number")
+	private String receiptNumber;
+	
+	@Column(name = "receipt_value")
+	private Double receiptValue;
+	
+	@Column(name = "comments")
+	private String comments;
+	
+	
+	
+	public Integer getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(Integer invoiceId) {
+		this.invoiceId = invoiceId;
+	}
+
 	public String getInvoiceNumber() {
 		return invoiceNumber;
 	}
@@ -114,6 +145,50 @@ public class Invoice {
 
 	public void setItems(List<InvoiceItem> items) {
 		this.items = items;
+	}
+	
+	public String getInvoiceStatus() {
+		return invoiceStatus;
+	}
+
+	public void setInvoiceStatus(String invoiceStatus) {
+		this.invoiceStatus = invoiceStatus;
+	}
+	
+	public Date getInvoiceStatusDate() {
+		return invoiceStatusDate;
+	}
+
+	public void setInvoiceStatusDate(Date invoiceStatusDate) {
+		this.invoiceStatusDate = invoiceStatusDate;
+	}
+
+	public String getReceiptNumber() {
+		return receiptNumber;
+	}
+
+	public void setReceiptNumber(String receiptNumber) {
+		this.receiptNumber = receiptNumber;
+	}
+
+	public Double getReceiptValue() {
+		return receiptValue;
+	}
+
+	public void setReceiptValue(Double receiptValue) {
+		this.receiptValue = receiptValue;
+	}
+	
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	
+	public boolean isDelivered() {
+		return InvoiceStatuses.isDelivered(invoiceStatus);
 	}
 
 	@PrePersist

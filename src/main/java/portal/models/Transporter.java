@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "transporters")
+@Table(name = "transporter")
 public class Transporter {
 
 	@Id
@@ -29,7 +29,6 @@ public class Transporter {
 	@Column(name = "transporter_pan")
 	private String transporterPan;
 	
-	@NotNull
 	@Column(name = "registration_status")
 	private String registrationStatus;
 	
