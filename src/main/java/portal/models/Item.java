@@ -1,6 +1,5 @@
 package portal.models;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,18 +10,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "item")
 public class Item {
-	
+
 	@Id
 	@Column(name = "item_id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer itemId;
-	
+
 	@Column(name = "item_name")
 	private String itemName;
-	
+
 	@Column(name = "hsn_code")
 	private String hsnCode;
-	
+
 	public Integer getItemId() {
 		return itemId;
 	}

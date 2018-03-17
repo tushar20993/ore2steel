@@ -12,47 +12,46 @@ import portal.models.embeddables.SiteId;
 
 @Entity
 @Table(name = "site")
-@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"purchaseOrders"})
+@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = { "purchaseOrders" })
 public class Site {
 
 	@EmbeddedId
 	private SiteId siteId;
-	
+
 	@NotNull
 	@Column(name = "site_name")
 	private String siteName;
-	
+
 	@Column(name = "site_address")
 	private String siteAddress;
-	
+
 	@NotNull
 	@Column(name = "pin_code")
 	private String pinCode;
-	
-	
+
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "state_name", referencedColumnName = "state_name")
 	private StateCode stateCode;
 
 	@Column(name = "contact_person")
 	private String contactPerson;
-	
+
 	@Column(name = "contact_number")
 	private String contactNumber;
-	
+
 	@Column(name = "site_pan")
 	private String sitePan;
-	
+
 	@NotNull
 	@Column(name = "registration_status")
 	private String registrationStatus;
-	
+
 	@Column(name = "gst_number")
 	private String gstNumber;
-	
+
 	@OneToMany(mappedBy = "purchaseOrderId.site", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PurchaseOrder> purchaseOrders;
-	
+
 	public SiteId getSiteId() {
 		return siteId;
 	}
@@ -76,23 +75,18 @@ public class Site {
 	public void setSiteAddress(String siteAddress) {
 		this.siteAddress = siteAddress;
 	}
-	
-	
 
 	public String getContactPerson() {
 		return contactPerson;
 	}
 
-
 	public void setContactPerson(String contactPerson) {
 		this.contactPerson = contactPerson;
 	}
 
-
 	public String getContactNumber() {
 		return contactNumber;
 	}
-
 
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
@@ -137,11 +131,11 @@ public class Site {
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
 	}
-	
+
 	public String getCompanyName() {
 		return siteId.getCompanyName();
 	}
-	
+
 	public boolean isRegistered() {
 		return registrationStatus.equals(GSTRegistrationType.REGISTERED);
 	}
@@ -153,7 +147,5 @@ public class Site {
 	public void setPurchaseOrders(List<PurchaseOrder> purchaseOrders) {
 		this.purchaseOrders = purchaseOrders;
 	}
-	
-	
-	
+
 }

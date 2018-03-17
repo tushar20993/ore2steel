@@ -20,46 +20,46 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CompanyController {
-	
+
 	private final String REGISTERED_OFFICE = "Registered Office";
-	
+
 	@Autowired
 	private CompanyDao companyDao;
-	
+
 	@Autowired
 	private SiteDao siteDao;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/company/getAll", method = RequestMethod.GET)
-	public List<Company> getCompanies(){
+	public List<Company> getCompanies() {
 		return companyDao.findAll();
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/status/getAll", method = RequestMethod.GET)
-	public List<String> getRegistrationStatuses(){
+	public List<String> getRegistrationStatuses() {
 		return GSTRegistrationType.getRegistrationTypes();
 	}
-	
+
 	@RequestMapping(value = "/company/update", method = RequestMethod.POST)
 	public void updateCompany(@RequestBody Company company) {
 		company.setSites(siteDao.findBySiteIdCompanyCompanyId(company.getCompanyId()));
 		companyDao.save(company);
 	}
-	
+
 	@Transactional
 	@RequestMapping(value = "/company/save", method = RequestMethod.POST)
-	public void saveCompany(@RequestBody Company company) throws Exception{
+	public void saveCompany(@RequestBody Company company) throws Exception {
 		companyDao.save(company);
 		saveRegisteredOffice(company);
 	}
-	
+
 	@Transactional
 	@RequestMapping(value = "/company/delete", method = RequestMethod.POST)
-	public void deleteCompany(@RequestBody Company company) throws Exception{
+	public void deleteCompany(@RequestBody Company company) throws Exception {
 		companyDao.delete(companyDao.findOne(company.getCompanyId()));
 	}
-	
+
 	public void saveRegisteredOffice(Company company) {
 		Site site = new Site();
 		site.setSiteId(new SiteId());
@@ -76,5 +76,5 @@ public class CompanyController {
 		site.setContactNumber(company.getContactNumber());
 		siteDao.save(site);
 	}
-	
+
 }

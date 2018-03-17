@@ -20,21 +20,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import portal.models.constants.GSTRegistrationType;
 
-@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"sites"})
+@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = { "sites" })
 @Entity
 @Table(name = "company")
 public class Company {
-	
+
 	@Id
 	@GeneratedValue
 	@Digits(integer = 3, fraction = 0)
 	@Column(name = "company_id", updatable = false)
 	private Integer companyId;
-	
+
 	@NotNull
 	@Column(name = "company_name")
 	private String companyName;
-	
+
 	@NotNull
 	@Column(name = "company_address")
 	private String companyAddress;
@@ -42,25 +42,25 @@ public class Company {
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "state_name", referencedColumnName = "state_name")
 	private StateCode stateCode;
-	
+
 	@NotNull
 	@Column(name = "pin_code")
 	private String pinCode;
-	
+
 	@Column(name = "contact_person")
 	private String contactPerson;
-	
+
 	@Column(name = "contact_number")
 	private String contactNumber;
-	
+
 	@NotNull
 	@Column(name = "company_pan")
 	private String companyPan;
-	
+
 	@NotNull
 	@Column(name = "registration_status")
 	private String registrationStatus;
-	
+
 	@Column(name = "gst_number")
 	private String gstNumber;
 
@@ -81,8 +81,8 @@ public class Company {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
-	}	
-	
+	}
+
 	public String getCompanyAddress() {
 		return companyAddress;
 	}
@@ -114,7 +114,7 @@ public class Company {
 	public void setCompanyPan(String companyPan) {
 		this.companyPan = companyPan.toUpperCase();
 	}
-	
+
 	public String getRegistrationStatus() {
 		return registrationStatus;
 	}
@@ -124,7 +124,7 @@ public class Company {
 	}
 
 	public String getGstNumber() {
-		if(registrationStatus.equals(GSTRegistrationType.REGISTERED)) {
+		if (registrationStatus.equals(GSTRegistrationType.REGISTERED)) {
 			return (gstNumber == null ? "" : gstNumber);
 		}
 		return "";
@@ -141,9 +141,7 @@ public class Company {
 	public void setSites(List<Site> sites) {
 		this.sites = sites;
 	}
-	
-	
-	
+
 	public StateCode getStateCode() {
 		return stateCode;
 	}
@@ -151,8 +149,6 @@ public class Company {
 	public void setStateCode(StateCode stateCode) {
 		this.stateCode = stateCode;
 	}
-	
-	
 
 	public String getPinCode() {
 		return pinCode;
@@ -161,9 +157,9 @@ public class Company {
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
 	}
-	
+
 	public boolean isRegistered() {
 		return (registrationStatus != null && registrationStatus.equals(GSTRegistrationType.REGISTERED));
 	}
-	
+
 }

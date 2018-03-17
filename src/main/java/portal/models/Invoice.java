@@ -1,6 +1,5 @@
 package portal.models;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -12,69 +11,55 @@ import portal.models.constants.InvoiceStatuses;
 
 @Entity
 @Table(name = "invoice")
-@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"items"})
+@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = { "items" })
 public class Invoice {
 
 	@Id
 	@GeneratedValue
 	@Column(name = "invoice_id")
 	private Integer invoiceId;
-	
+
 	@Column(name = "invoice_number")
 	private String invoiceNumber;
-	
+
 	@Column(name = "invoice_date")
 	private Date invoiceDate;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumns({
-		@JoinColumn(name = "po_company_id", referencedColumnName = "company_id", insertable = false, updatable = false),
-		@JoinColumn(name = "po_site_id", referencedColumnName = "site_id", insertable = false, updatable = false),
-		@JoinColumn(name = "po_purchase_order_number", referencedColumnName = "purchase_order_number", insertable = false, updatable = false),
-	})
+
+	@ManyToOne(fetch = FetchType.EAGER, optional = true)
 	private PurchaseOrder purchaseOrder;
-	
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumns({
-		@JoinColumn(name = "site_site_id", referencedColumnName = "site_id", insertable = false, updatable = false),
-		@JoinColumn(name = "site_company_id", referencedColumnName = "company_id",  insertable = false, updatable = false)
-	})
 	private Site site;
-	
-	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "transporter_id", referencedColumnName = "transporter_id", insertable = true)
 	private Transporter transporter;
-	
-	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "vehicle_number", referencedColumnName = "vehicle_number", insertable = true)
 	private Vehicle vehicle;
-	
+
 	@Column(name = "driver_number")
 	private String driverNumber;
-	
-	@OneToMany(mappedBy="invoiceItemId.invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+
+	@OneToMany(mappedBy = "invoiceItemId.invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<InvoiceItem> items;
-	
+
 	@Column(name = "invoice_status")
 	private String invoiceStatus;
-	
+
 	@Column(name = "invoice_status_date")
 	private Date invoiceStatusDate;
-	
+
 	@Column(name = "receipt_number")
 	private String receiptNumber;
-	
+
 	@Column(name = "receipt_value")
 	private Double receiptValue;
-	
+
 	@Column(name = "comments")
 	private String comments;
-	
-	
-	
+
 	public Integer getInvoiceId() {
 		return invoiceId;
 	}
@@ -100,9 +85,6 @@ public class Invoice {
 	}
 
 	public Site getSite() {
-		if(purchaseOrder != null) {
-			return purchaseOrder.getPurchaseOrderId().getSite();
-		}
 		return site;
 	}
 
@@ -149,7 +131,7 @@ public class Invoice {
 	public void setItems(List<InvoiceItem> items) {
 		this.items = items;
 	}
-	
+
 	public String getInvoiceStatus() {
 		return invoiceStatus;
 	}
@@ -157,7 +139,7 @@ public class Invoice {
 	public void setInvoiceStatus(String invoiceStatus) {
 		this.invoiceStatus = invoiceStatus;
 	}
-	
+
 	public Date getInvoiceStatusDate() {
 		return invoiceStatusDate;
 	}
@@ -181,7 +163,7 @@ public class Invoice {
 	public void setReceiptValue(Double receiptValue) {
 		this.receiptValue = receiptValue;
 	}
-	
+
 	public String getComments() {
 		return comments;
 	}
@@ -189,7 +171,7 @@ public class Invoice {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	
+
 	public boolean isDelivered() {
 		return InvoiceStatuses.isDelivered(invoiceStatus);
 	}

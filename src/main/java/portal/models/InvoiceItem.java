@@ -8,22 +8,22 @@ import portal.models.embeddables.InvoiceItemId;
 @Entity
 @Table(name = "invoice_item")
 public class InvoiceItem {
-	
+
 	@EmbeddedId
 	private InvoiceItemId invoiceItemId;
 
 	@NotNull
 	@Column(name = "quantity")
 	private Double quantity;
-	
+
 	@NotNull
 	@Column(name = "unit_of_measurement")
 	private String unitOfMeasurement;
-	
+
 	@NotNull
 	@Column(name = "price")
 	private Double price;
-	
+
 	@Column(name = "additional_information")
 	private String additionalInformation;
 

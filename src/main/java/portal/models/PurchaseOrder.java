@@ -12,12 +12,12 @@ import portal.models.embeddables.PurchaseOrderId;
 
 @Entity
 @Table(name = "purchase_order")
-@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = {"items"})
+@JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = { "items" })
 public class PurchaseOrder {
 
 	@EmbeddedId
 	private PurchaseOrderId purchaseOrderId;
-	
+
 	@NotNull
 	@Column
 	private Date orderDate;
@@ -27,14 +27,13 @@ public class PurchaseOrder {
 
 	@Column(name = "additional_information")
 	private String additionalInformation;
-	
+
 	@Column(name = "order_status")
 	private String orderStatus;
 
 	@Column(name = "order_status_date")
 	private Date orderStatusDate;
-	
-	
+
 	public Date getOrderDate() {
 		return orderDate;
 	}
@@ -50,7 +49,7 @@ public class PurchaseOrder {
 	public void setPurchaseOrderId(PurchaseOrderId purchaseOrderId) {
 		this.purchaseOrderId = purchaseOrderId;
 	}
-	
+
 	public String getAdditionalInformation() {
 		return additionalInformation;
 	}
@@ -59,7 +58,6 @@ public class PurchaseOrder {
 		this.additionalInformation = additionalInformation;
 	}
 
-		
 	public List<OrderItem> getItems() {
 		return items;
 	}
@@ -71,7 +69,7 @@ public class PurchaseOrder {
 	public boolean isDispatched() {
 		return OrderStatuses.isDispatched(orderStatus);
 	}
-	
+
 	public String getOrderStatus() {
 		return orderStatus;
 	}
@@ -87,5 +85,5 @@ public class PurchaseOrder {
 	public void setOrderStatusDate(Date orderStatusDate) {
 		this.orderStatusDate = orderStatusDate;
 	}
-	
+
 }

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class UOM {
-	
+
 	public static final String MT = "MT";
 	public static final String MTRS = "Mtrs";
 	public static final String BUNDLES = "Bundles";
 	public static final String SQ_MT = "Sq. Mtr.";
 	public static final String BAGS = "Bags";
-	
-	public static List<String> getAllUnits(){
+
+	public static List<String> getAllUnits() {
 		List<String> units = new ArrayList<String>();
 		units.add(MT);
 		units.add(MTRS);

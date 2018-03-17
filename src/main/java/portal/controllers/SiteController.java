@@ -15,26 +15,25 @@ import portal.models.Site;
 
 @RestController
 public class SiteController {
-	
+
 	@Autowired
 	private SiteDao siteDao;
-	
+
 	@Autowired
 	private PurchaseOrderDao purchaseOrderDao;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/site/getAll", method = RequestMethod.GET)
-	public List<Site> getAllSites(){
+	public List<Site> getAllSites() {
 		return siteDao.findAll();
 	}
-	
-	
+
 	@RequestMapping(value = "/site/update", method = RequestMethod.POST)
 	public void updateSite(@RequestBody Site site) {
 		site.setPurchaseOrders(purchaseOrderDao.findByPurchaseOrderIdSite(site));
-		siteDao.save(site);		
+		siteDao.save(site);
 	}
-	
+
 	@RequestMapping(value = "/site/save", method = RequestMethod.POST)
 	public void saveSite(@RequestBody Site site) {
 		generateNewSiteId(site);
@@ -45,17 +44,15 @@ public class SiteController {
 		int numSites = siteDao.countBySiteIdCompanyCompanyId(site.getSiteId().getCompanyId());
 		site.getSiteId().setSiteId(++numSites);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/site/get", method = RequestMethod.GET)
-	public List<Site> getSiteById(@RequestParam("id") Integer companyId){
+	public List<Site> getSiteById(@RequestParam("id") Integer companyId) {
 		return siteDao.findBySiteIdCompanyCompanyId(companyId);
 	}
-	
 
-	
 	@RequestMapping(value = "/site/delete", method = RequestMethod.POST)
-	public void deleteSite(@RequestBody Site site){
+	public void deleteSite(@RequestBody Site site) {
 		siteDao.delete(site);
 	}
 

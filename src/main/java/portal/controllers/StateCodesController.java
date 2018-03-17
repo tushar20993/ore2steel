@@ -16,10 +16,10 @@ public class StateCodesController {
 
 	@Autowired
 	private StateCodesDao stateCodesDao;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/state_code/getAll", method = RequestMethod.GET)
-	public List<StateCode> getAllStateCodes(){
+	public List<StateCode> getAllStateCodes() {
 		return stateCodesDao.findAll();
 	}
 }

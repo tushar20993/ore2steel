@@ -12,35 +12,32 @@ import portal.models.PurchaseOrder;
 
 @RestController
 public class OrderItemController {
-	
-	private final Logger logger = (Logger)LoggerFactory.getLogger(OrderItemController.class);
-	
+
+	private final Logger logger = (Logger) LoggerFactory.getLogger(OrderItemController.class);
+
 	@Autowired
 	private OrderItemDao orderItemDao;
-	
 
 	@Transactional
 	@RequestMapping(value = "/order_item/save", method = RequestMethod.POST)
 	public void saveOrderItems(@RequestBody List<OrderItem> newItems) {
 		PurchaseOrder purchaseOrder = newItems.get(0).getOrderItemId().getPurchaseOrder();
-		for(OrderItem item: newItems) {
+		for (OrderItem item : newItems) {
 			logger.info("Saving order Item {}", item);
 			item.getOrderItemId().setPurchaseOrder(purchaseOrder);
 			orderItemDao.save(item);
 		}
 	}
-	
 
 	@RequestMapping(value = "/order_item/delete", method = RequestMethod.POST)
 	public void deleteOrderItem(@RequestBody OrderItem orderItem) {
 		orderItemDao.delete(orderItem);
 	}
-	
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/order_item/getFor", method = RequestMethod.POST)
 	public List<OrderItem> findByPurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
 		return orderItemDao.findByOrderItemIdPurchaseOrder(purchaseOrder);
 	}
-	
+
 }

@@ -9,18 +9,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "brand")
 public class Brand {
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "brand_id")
 	private Integer brandId;
-	
+
 	@Column(name = "brand_name")
 	private String brandName;
-	
+
 	@Column(name = "brand_group")
 	private String brandGroup;
-	
+
 	public Integer getBrandId() {
 		return brandId;
 	}
@@ -44,7 +44,5 @@ public class Brand {
 	public void setBrandGroup(String brandGroup) {
 		this.brandGroup = brandGroup;
 	}
-	
-
 
 }

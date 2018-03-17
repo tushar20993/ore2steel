@@ -15,24 +15,22 @@ import portal.models.constants.UOM;
 
 @RestController
 public class ItemController {
-	
+
 	@Autowired
 	private ItemDao itemDao;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/item/getAll", method = RequestMethod.GET)
-	public List<Item> getAllItems(){
+	public List<Item> getAllItems() {
 		return itemDao.findAll();
 	}
-	
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/item/getAllUnits", method = RequestMethod.GET)
-	public List<String> getAllUnits(){
+	public List<String> getAllUnits() {
 		return UOM.getAllUnits();
 	}
-	
-	
+
 	@RequestMapping(value = "/item/save", method = RequestMethod.POST)
 	public void saveItem(@RequestBody Item item) {
 		itemDao.save(item);

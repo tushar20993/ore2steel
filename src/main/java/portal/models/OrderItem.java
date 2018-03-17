@@ -14,19 +14,19 @@ public class OrderItem {
 
 	@EmbeddedId
 	private OrderItemId orderItemId;
-	
+
 	@NotNull
 	@Column(name = "quantity")
 	private Double quantity;
-	
+
 	@NotNull
 	@Column(name = "unit_of_measurement")
 	private String unitOfMeasurement;
-	
+
 	@NotNull
 	@Column(name = "price")
 	private Double price;
-	
+
 	@Column(name = "additional_information")
 	private String additionalInformation;
 

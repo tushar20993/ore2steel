@@ -13,16 +13,16 @@ public class VehicleController {
 
 	@Autowired
 	private VehicleDao vehicleDao;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/vehicle/getAll", method = RequestMethod.GET)
-	public List<Vehicle> getAllVehicles(){
+	public List<Vehicle> getAllVehicles() {
 		return vehicleDao.findAll();
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/vehicle/getTypes", method = RequestMethod.GET)
-	public List<String> getAllTypes(){
+	public List<String> getAllTypes() {
 		return VehicleType.getAllVehicleTypes();
 	}
 
@@ -30,10 +30,10 @@ public class VehicleController {
 	public void saveVehicle(@RequestBody Vehicle vehicle) {
 		vehicleDao.save(vehicle);
 	}
-	
+
 	@RequestMapping(value = "/vehicle/update", method = RequestMethod.POST)
 	public void updateVehicle(@RequestBody Vehicle vehicle) {
 		vehicleDao.save(vehicle);
 	}
-	
+
 }

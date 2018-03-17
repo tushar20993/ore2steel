@@ -15,7 +15,7 @@ public class Vehicle {
 
 	@Column(name = "vehicle_type")
 	private String vehicleType;
-	
+
 	@Column(name = "vehicle_capacity")
 	private Double vehicleCapacity;
 
@@ -42,6 +42,5 @@ public class Vehicle {
 	public void setVehicleCapacity(Double vehicleCapacity) {
 		this.vehicleCapacity = vehicleCapacity;
 	}
-	
-	
+
 }

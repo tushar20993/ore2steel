@@ -13,18 +13,18 @@ import portal.models.Invoice;
 import portal.models.Item;
 
 @Embeddable
-public class InvoiceItemId implements Serializable{
+public class InvoiceItemId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "invoice_number", referencedColumnName = "invoice_number")
 	private Invoice invoice;
-	
+
 	@OneToOne(optional = false)
 	@JoinColumn(name = "item_id", referencedColumnName = "item_id")
 	private Item item;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
 	private Brand brand;
@@ -52,8 +52,5 @@ public class InvoiceItemId implements Serializable{
 	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
-	
-	
-	
-	
+
 }

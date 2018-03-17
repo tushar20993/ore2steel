@@ -18,20 +18,18 @@ public class BrandController {
 
 	@Autowired
 	private BrandDao brandDao;
-	
 
 	@ResponseBody
 	@RequestMapping(value = "/brand/getAll", method = RequestMethod.GET)
-	public List<Brand> getAllBrands(){
+	public List<Brand> getAllBrands() {
 		return brandDao.findAll();
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/brand_group/getAll", method = RequestMethod.GET)
-	public List<String> getAllBrandGroups(){
+	public List<String> getAllBrandGroups() {
 		return BrandGroups.getAllGroups();
 	}
-	
 
 	@RequestMapping(value = "/brand/save", method = RequestMethod.POST)
 	public void saveBrand(@RequestBody Brand brand) {

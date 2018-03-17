@@ -17,27 +17,27 @@ public class Transporter {
 	@GeneratedValue
 	@Column(name = "transporter_id")
 	private Integer transporterId;
-	
+
 	@NotNull
 	@Column(name = "transporter_name")
 	private String transporterName;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "state_name", referencedColumnName = "state_name")
 	private StateCode stateCode;
-	
+
 	@Column(name = "transporter_pan")
 	private String transporterPan;
-	
+
 	@Column(name = "registration_status")
 	private String registrationStatus;
-	
+
 	@Column(name = "gst_number")
 	private String gstNumber;
-		
+
 	@Column(name = "contact_person")
 	private String contactPerson;
-	
+
 	@Column(name = "contact_number")
 	private String contactNumber;
 

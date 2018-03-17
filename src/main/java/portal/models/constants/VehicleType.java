@@ -9,8 +9,8 @@ public final class VehicleType {
 	public static final String TRAILER = "TRAILER";
 	public static final String LORRY = "LORRY";
 	public static final String TEMPO = "TEMPO";
-	
-	public static List<String> getAllVehicleTypes(){
+
+	public static List<String> getAllVehicleTypes() {
 		List<String> vehicleTypes = new ArrayList<String>();
 		vehicleTypes.add(TRAILER);
 		vehicleTypes.add(LORRY);
