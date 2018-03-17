@@ -70,4 +70,11 @@ public class PurchaseOrderId implements Serializable {
 	public String getCompanyName() {
 		return site.getSiteId().getCompanyName();
 	}
+
+	@Override
+	public String toString() {
+		return "PurchaseOrderId [site=" + site + ", purchaseOrderNumber=" + purchaseOrderNumber + "]";
+	}
+	
+	
 }

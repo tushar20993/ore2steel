@@ -1,4 +1,4 @@
-portal.controller("VehicleController", function($scope, $rootScope, $http, $uibModal, Notification){
+portal.controller("VehicleController", function($scope, $rootScope, $http, $uibModal, Notification, $window){
 	$scope.getVehicles = function(){
 		$http.get("/vehicle/getAll").then(
 				function(response){
@@ -38,6 +38,20 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 	};
 	
 	$scope.getVehicles();
+	
+	$scope.deleteVehicle = function(vehicle){
+		var confirm = $window.confirm("Are you sure you want to delete " + vehicle.vehicleNumber);
+		if(!confirm){
+			return false;
+		}
+		
+		$http.post("/vehicle/delete", vehicle).then(
+				function success(response){
+					Notification.success("Successfully deleted " + vehicle.vehicleNumber);
+				}, function error(response){
+					Notification.error("Failed to delete " + vehicle.vehicleNumber + '. ' + response.data.message);
+				});
+	};
 	
 	$scope.editVehicle = function(vehicle){
 		var modalOptions = {

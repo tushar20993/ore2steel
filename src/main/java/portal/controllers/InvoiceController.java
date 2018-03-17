@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +21,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RestController
 public class InvoiceController {
 
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(InvoiceController.class);
+	
 	@Autowired
 	private InvoiceDao invoiceDao;
 
 	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Invoice> getAllInvoices() {
+		logger.info("Fetching all invoices");
 		return invoiceDao.findAll();
 	}
 
@@ -35,25 +40,28 @@ public class InvoiceController {
 		if (invoiceExists) {
 			throw new Exception("Invoice with same number already exists");
 		}
-
+		logger.info("Saving Invoice {}", invoice);
 		invoiceDao.save(invoice);
 	}
 
 	@Transactional
 	@RequestMapping(value = "/invoice/update", method = RequestMethod.POST)
 	public void updateInvoice(@RequestBody Invoice invoice) {
+		logger.info("Updating invoice {}", invoice);
 		invoiceDao.save(invoice);
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/invoice_status/getAll", method = RequestMethod.GET)
 	public List<String> getAllInvoiceStatuses() {
+		logger.info("Fetching all Invoice statuses");
 		return InvoiceStatuses.getAll();
 	}
 
 	@Transactional
 	@RequestMapping(value = "/invoice/delete", method = RequestMethod.POST)
 	public void deleteCompany(@RequestBody Invoice invoice) throws Exception {
+		logger.info("Deleting Invoice {}", invoice);
 		invoiceDao.delete(invoiceDao.findOne(invoice.getInvoiceId()));
 	}
 

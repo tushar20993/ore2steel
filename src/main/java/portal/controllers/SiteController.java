@@ -1,6 +1,9 @@
 package portal.controllers;
 
 import java.util.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,8 @@ import portal.models.Site;
 
 @RestController
 public class SiteController {
+	
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(SiteController.class);
 
 	@Autowired
 	private SiteDao siteDao;
@@ -25,6 +30,7 @@ public class SiteController {
 	@ResponseBody
 	@RequestMapping(value = "/site/getAll", method = RequestMethod.GET)
 	public List<Site> getAllSites() {
+		logger.info("Fetching all sites");
 		return siteDao.findAll();
 	}
 

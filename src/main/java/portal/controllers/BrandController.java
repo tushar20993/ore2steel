@@ -2,6 +2,8 @@ package portal.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,8 @@ import portal.models.constants.BrandGroups;
 
 @RestController
 public class BrandController {
+	
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(BrandController.class);
 
 	@Autowired
 	private BrandDao brandDao;
@@ -22,6 +26,7 @@ public class BrandController {
 	@ResponseBody
 	@RequestMapping(value = "/brand/getAll", method = RequestMethod.GET)
 	public List<Brand> getAllBrands() {
+		logger.info("Fetching all brands");
 		return brandDao.findAll();
 	}
 

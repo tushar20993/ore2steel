@@ -148,4 +148,14 @@ public class Site {
 		this.purchaseOrders = purchaseOrders;
 	}
 
+	@Override
+	public String toString() {
+		return "Site [siteId=" + siteId + ", siteName=" + siteName + ", siteAddress=" + siteAddress + ", pinCode="
+				+ pinCode + ", stateCode=" + stateCode + ", contactPerson=" + contactPerson + ", contactNumber="
+				+ contactNumber + ", sitePan=" + sitePan + ", registrationStatus=" + registrationStatus + ", gstNumber="
+				+ gstNumber + ", purchaseOrders=" + purchaseOrders + "]";
+	}
+	
+	
+
 }

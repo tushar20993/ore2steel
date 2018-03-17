@@ -1,0 +1,282 @@
+<div class = "modal-header">
+			<h4 class = "modal-title">Invoice Information</h4>
+			<button type="button" class="close" ng-click="close()">&times;</button>
+		</div>
+		
+<form class = "form-inline" ng-submit="saveInvoice()">
+				<div class = "modal-body">
+				
+						<div class="container">
+							
+							<!-- Company Name -->		
+							<div class = "form-group row" >
+								<div class = "col-5">
+									<label for="companyName">Company</label>
+								</div>
+								<div class = "col-7">
+								<select 
+									class = "form-control" 
+									ng-model = "invoice.site.siteId.company" 
+									ng-options="company as company.companyName for company in companies | orderBy: 'companyName' track by company.companyId"
+									ng-change = "onCompanySelect(company)"
+									required
+									autofocus>
+									<option value="">--Select One--</option>
+								</select>
+								</div>
+							</div>
+							
+							<!-- Site Name -->
+							<div class = "form-group row">
+								<div class = "col-5">
+									<label for="registrationStatus">Site Name</label>
+								</div>
+								<div class = "col-7">
+									<select 
+										class = "form-control select" 
+										ng-model = "invoice.site" 
+										ng-options="site as site.siteName for site in sites | orderBy: 'siteName' track by site.siteId.siteId"
+										ng-change = "onSiteSelect(site)" 
+										required>
+										<option value="">--Select One--</option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- PO Number -->
+							<div class = "form-group row">
+								<div class = "col-5">
+									<label for="purchaseOrderNumber">PO Number</label>
+								</div>
+								<div class = "col-7">
+									<select type = "text" 
+											class="form-control" 
+											placeholder="Eg: PO-200" 
+											ng-options = "purchaseOrder as purchaseOrder.purchaseOrderId.purchaseOrderNumber for purchaseOrder in purchaseOrders | orderBy: 'purchaseOrderId.purchaseOrderNumber'"
+											ng-model="invoice.purchaseOrder"
+											>
+											<option value="">--Select One--</option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- Invoice Number -->
+							<div class = "form-group row">
+								<div class = "col-5">
+									<label for="invoiceNumber">Invoice Number</label>
+								</div>
+								<div class = "col-7">
+									<input 
+										type = "text" 
+										class="form-control"
+										ng-model = "invoice.invoiceNumber"
+										uib-typeahead="invoice.invoiceNumber for invoice in invoices | filter: $viewValue"
+										typeahead-editable="true" 
+										typeahead-on-select="onInvoiceTypeaheadSelect()"
+										required
+										>
+								</div>
+							</div>
+							
+							<!-- Invoice Date -->
+							<div class = "form-group row">
+								<div class="col-5">
+									<label for="invoiceDate">Invoice Date</label>
+								</div>
+								<div class="col-7">
+									<input 
+										type = "date"
+										class="form-control"
+										placeholder="Eg: dd-mm-yyyy" 
+										ng-model="invoice.invoiceDate"
+										required
+										>
+								</div>
+							</div>
+							
+							<!-- Transporter -->
+							<div class = "form-group row">
+								<div class = "col-5">
+									<label for="transporter">Transporter</label>
+								</div>
+								
+								<div class = "col-7">
+									<input 
+										type = "text" 
+										uib-typeahead="transporter as transporter.transporterName for transporter in transporters | filter: $viewValue"
+										typeahead-editable="true" 
+										class="form-control" 
+										ng-model="invoice.transporter"
+										>
+								</div>
+							</div>
+							
+							<!-- Vehicle Number -->
+							<div class = "form-group row">
+								<div class = "col-5">
+									<label for="vehicleNumber">Vehicle Number</label>
+								</div>
+								
+								<div class = "col-7">
+									<input 
+										type = "text" 
+										uib-typeahead="vehicle as vehicle.vehicleNumber for vehicle in vehicles | filter: $viewValue"
+										typeahead-editable="true" 
+										class="form-control" 
+										ng-model="invoice.vehicle"
+										>
+								</div>
+							</div>
+							
+							<!-- Driver Number -->
+							<div class = "form-group row">
+								<div class="col-5">
+									<label for="driverNumber">Driver Number</label>
+								</div>
+								
+								<div class="col-7">
+									<input 
+										type = "text" 
+										class="form-control"  
+										ng-model="invoice.driverNumber"
+										>
+								</div>
+							</div>
+			
+							
+							<!-- Status -->
+							<div class = "form-group row">
+								<div class = "col-5">
+									<label for="invoiceStatus">Status</label>
+								</div>
+								<div class = "col-7">
+									<select 
+										class = "form-control" 
+										ng-model = "invoice.invoiceStatus" 
+										ng-options="invoiceStatus for invoiceStatus in invoiceStatuses"
+										required
+										>
+										<option value="">--Select One--</option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- Status Date -->
+							<div class = "form-group row">
+								<div class="col-5">
+									<label for="invoiceStatusDate">Status Date</label>
+								</div>
+								<div class="col-7">
+									<input 
+										type = "date" 
+										class="form-control" 
+										placeholder="Eg: dd-mm-yyyy" 
+										ng-model="invoice.invoiceStatusDate"
+										required
+										>
+								</div>
+							</div>
+							
+							
+							
+							<table class = "table table-sm table-bordered" ng-if='invoice.items.length > 0'>
+								<thead>
+									<tr class="row">
+										<td class="col-2">Item Name</td>
+										<td class="col-2">Brand</td>
+										<td class="col-2">Quantity</td>
+										<td class="col-1">UOM</td>
+										<td class="col-2">Price</td>
+										<td class="col-2">Comments</td>
+										<td class="col-1">Action</td>							
+									</tr>							
+								</thead>
+								
+								<tbody>
+									<tr ng-repeat="item in invoice.items" class="row form-group">
+		
+										<!-- Item name -->
+										<td class = "form-control form-control-sm col-2">
+											<input  type = "text"
+													ng-model = "invoice.items[$index].invoiceItemId.item"
+													uib-typeahead = "item as item.itemName for item in items | filter: $viewValue"
+													typeahead-editable = "false"
+													typeahead-on-select="itemSelected($item)"
+													typeahead-focus-first = "true"
+													required>
+										</td>
+										
+										<!-- Brand Type -->
+										<td class = "form-control form-control-sm col-2">
+											<input  type = "text"
+													ng-model = "invoice.items[$index].orderItemId.brand"
+													uib-typeahead = "brand as brand.brandName for brand in brands "
+													typeahead-editable = "false"
+													typeahead-on-select="brandSelected($index)"
+													ng-disabled="!invoice.items[$index].orderItemId.item"
+													required>
+										</td>
+										
+										<!-- Quantity -->
+										<td class = "form-control form-control-sm col-2">
+											<input
+												class = "small" 	
+												type = "number"
+												ng-model = "invoice.items[$index].quantity"
+												min="0"
+												required>
+										</td>
+										
+										<!-- UOM -->
+										<td class = "form-control form-control-sm col-1">
+											<select  
+												class = "form-control form-control-sm"
+												ng-options = "uom for uom in uoms track by uom"
+												ng-model = "invoice.items[$index].unitOfMeasurement"
+												required>
+												<option value="">--Select One--</option>
+										</select>
+										</td>
+										
+										<!-- Price -->
+										<td class = "form-control form-control-sm col-2">
+											<input
+												type = "number"
+												step = "any"
+												ng-model = "invoice.items[$index].price"
+												required>
+										</td>
+										
+										<!-- Comments -->
+										<td class = "form-control form-control-sm col-2">
+											<input  
+												class = "form-control form-control-sm"
+												type = "text"
+												ng-model = "invoice.items[$index].additionalInformation"
+												>
+										</td>
+										
+										<!-- Actions -->								
+										<td class = "form-control form-control-sm col-1">
+											<button type = "button" class = "btn btn-danger" ng-click = "deleteItem($index)">
+												<span class="material-icons">delete</span>
+											</button>
+										</td>
+									</tr>
+								</tbody>
+								
+							</table>
+							
+							
+							<div class = "modal-footer">
+								<div class = "form-group row">
+									<button class = "btn btn-info" type = "button" ng-click="addItem()">Add Item</button>
+							 		<button type="submit" class="btn btn-primary">Save Invoice</button>
+								 </div>
+						 	</div>
+							 
+						</div>
+				</div>
+							
+			</form>
+		

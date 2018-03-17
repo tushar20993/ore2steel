@@ -175,4 +175,14 @@ public class Invoice {
 	public boolean isDelivered() {
 		return InvoiceStatuses.isDelivered(invoiceStatus);
 	}
+
+	@Override
+	public String toString() {
+		return "Invoice [invoiceId=" + invoiceId + ", invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate
+				+ ", purchaseOrder=" + purchaseOrder + ", site=" + site + ", transporter=" + transporter + ", vehicle="
+				+ vehicle + ", driverNumber=" + driverNumber + ", items=" + items + ", invoiceStatus=" + invoiceStatus
+				+ ", invoiceStatusDate=" + invoiceStatusDate + ", receiptNumber=" + receiptNumber + ", receiptValue="
+				+ receiptValue + ", comments=" + comments + "]";
+	}
+	
 }

@@ -58,13 +58,14 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 						Notification.success("Successfully deleted " + invoice.invoiceNumber);
 					}, 
 					function error(response){
-						Notification.error("Failed to delete " + invoice.invoiceNumber);
+						Notification.error("Failed to delete " + invoice.invoiceNumber + ". " + response.data.message);
 					}
 				);
 		}
 	}
 	
 	$scope.editInvoice = function(invoice){
+		console.log(invoice)
 		var modalOptions = {
 				templateUrl: "partials/invoice/editInvoice.html",
 				controller: "EditInvoiceController",

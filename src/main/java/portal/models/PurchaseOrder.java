@@ -86,4 +86,13 @@ public class PurchaseOrder {
 		this.orderStatusDate = orderStatusDate;
 	}
 
+	@Override
+	public String toString() {
+		return "PurchaseOrder [purchaseOrderId=" + purchaseOrderId + ", orderDate=" + orderDate + ", items=" + items.size()
+				+ ", additionalInformation=" + additionalInformation + ", orderStatus=" + orderStatus
+				+ ", orderStatusDate=" + orderStatusDate + "]";
+	}
+	
+	
+
 }

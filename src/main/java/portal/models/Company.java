@@ -134,9 +134,9 @@ public class Company {
 		this.gstNumber = gstNumber.toUpperCase();
 	}
 
-	public List<Site> getSites() {
+	/*public List<Site> getSites() {
 		return sites;
-	}
+	}*/
 
 	public void setSites(List<Site> sites) {
 		this.sites = sites;
@@ -161,5 +161,15 @@ public class Company {
 	public boolean isRegistered() {
 		return (registrationStatus != null && registrationStatus.equals(GSTRegistrationType.REGISTERED));
 	}
+
+	@Override
+	public String toString() {
+		return "Company [companyId=" + companyId + ", companyName=" + companyName + ", companyAddress=" + companyAddress
+				+ ", stateCode=" + stateCode + ", pinCode=" + pinCode + ", contactPerson=" + contactPerson
+				+ ", contactNumber=" + contactNumber + ", companyPan=" + companyPan + ", registrationStatus="
+				+ registrationStatus + ", gstNumber=" + gstNumber + "]";
+	}
+	
+	
 
 }
