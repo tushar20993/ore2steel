@@ -95,6 +95,8 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 			invoice.vehicle.vehicleNumber = temp;
 		}
 		
+		invoice.items = []
+		console.log(invoice);
 		$http.post( "/invoice/update", invoice)
 		.then(
 				function success(response){

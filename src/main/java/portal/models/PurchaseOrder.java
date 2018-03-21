@@ -88,8 +88,7 @@ public class PurchaseOrder {
 
 	@Override
 	public String toString() {
-		return "PurchaseOrder [purchaseOrderId=" + purchaseOrderId + ", orderDate=" + orderDate + ", items=" + items.size()
-				+ ", additionalInformation=" + additionalInformation + ", orderStatus=" + orderStatus
+		return "PurchaseOrder [purchaseOrderId=" + purchaseOrderId + ", orderDate=" + orderDate + ", additionalInformation=" + additionalInformation + ", orderStatus=" + orderStatus
 				+ ", orderStatusDate=" + orderStatusDate + "]";
 	}
 	

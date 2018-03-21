@@ -1,5 +1,6 @@
 package portal.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,9 @@ import portal.models.constants.InvoiceStatuses;
 @Entity
 @Table(name = "invoice")
 @JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = { "items" })
-public class Invoice {
+public class Invoice implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
@@ -174,6 +177,10 @@ public class Invoice {
 
 	public boolean isDelivered() {
 		return InvoiceStatuses.isDelivered(invoiceStatus);
+	}
+	
+	public Company getCompany() {
+		return site.getCompany();
 	}
 
 	@Override

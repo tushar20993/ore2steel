@@ -2,6 +2,8 @@ package portal.controllers;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import portal.dao.InvoiceDao;
 import portal.dao.OrderItemDao;
 import portal.dao.PurchaseOrderDao;
+import portal.models.Invoice;
 import portal.models.OrderItem;
 import portal.models.PurchaseOrder;
 import portal.models.Site;
@@ -22,12 +26,15 @@ import portal.models.constants.OrderStatuses;
 public class PurchaseOrderController {
 
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(PurchaseOrderController.class);
-	
+
 	@Autowired
 	private PurchaseOrderDao purchaseOrderDao;
 
 	@Autowired
 	private OrderItemDao orderItemDao;
+
+	@Autowired
+	private InvoiceDao invoiceDao;
 
 	@ResponseBody
 	@RequestMapping(value = "/purchase_order/getAll", method = RequestMethod.GET)
@@ -75,10 +82,15 @@ public class PurchaseOrderController {
 		return OrderStatuses.getAll();
 	}
 
+	@Transactional
 	@RequestMapping(value = "/purchase_order/delete", method = RequestMethod.POST)
 	public void deletePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
 		logger.info("Deleting purchase order {}", purchaseOrder);
+		List<Invoice> invoices = invoiceDao.findByPurchaseOrder(purchaseOrder);
+		for (Invoice invoice : invoices) {
+			invoice.setPurchaseOrder(null);
+			invoiceDao.save(invoice);
+		}
 		purchaseOrderDao.delete(purchaseOrderDao.findOne(purchaseOrder.getPurchaseOrderId()));
 	}
-
 }

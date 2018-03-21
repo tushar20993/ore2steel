@@ -25,16 +25,19 @@ public class TransporterController {
 	@ResponseBody
 	@RequestMapping(value = "/transporter/getAll", method = RequestMethod.GET)
 	public List<Transporter> getAllTransporters() {
+		logger.info("Fetching all transporters");
 		return transporterDao.findAll();
 	}
 
 	@RequestMapping(value = "/transporter/save", method = RequestMethod.POST)
 	public void saveTransporter(@RequestBody Transporter transporter) {
+		logger.info("Saving new transporter: {}", transporter);
 		transporterDao.save(transporter);
 	}
 
 	@RequestMapping(value = "/transporter/update", method = RequestMethod.POST)
 	public void updateTransporter(@RequestBody Transporter transporter) {
+		logger.info("Updating transporter: {}", transporter);
 		transporterDao.save(transporter);
 	}
 

@@ -155,6 +155,10 @@ public class Site {
 				+ contactNumber + ", sitePan=" + sitePan + ", registrationStatus=" + registrationStatus + ", gstNumber="
 				+ gstNumber + ", purchaseOrders=" + purchaseOrders + "]";
 	}
+
+	public Company getCompany() {
+		return siteId.getCompany();
+	}
 	
 	
 
