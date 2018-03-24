@@ -17,7 +17,7 @@ public class PurchaseOrderId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({ @JoinColumn(name = "company_id", insertable = false, updatable = false),
 			@JoinColumn(name = "site_id", insertable = false, updatable = false) })
 	private Site site;

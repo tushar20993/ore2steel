@@ -116,7 +116,6 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 			if(		(item.itemId == currItem.itemId) && 
 					(brand.brandId == currBrand.brandId) &&
 					(info == currInfo)){
-				console.log(info, currInfo)
 				Notification.error("Same item, brand & specifications already exist!");
 				$scope.purchaseOrder.items.splice(index, 1);
 			}

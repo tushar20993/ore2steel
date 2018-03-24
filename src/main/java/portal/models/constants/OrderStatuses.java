@@ -44,12 +44,13 @@ public final class OrderStatuses {
 			return false;
 		}
 
-		if ((status.equals(PART_DISPATCHED)) || (status.equals(DISPATCHED)) || (status.equals(HALTED))
-				|| (status.equals(DELIVERED)) || (status.equals(COMPLETED))) {
-			return true;
-		}
+		return ((status.equals(PART_DISPATCHED)) || (status.equals(DISPATCHED)) || (status.equals(HALTED))
+				|| (status.equals(DELIVERED)) || (status.equals(COMPLETED)));
 
-		return false;
+	}
+
+	public static boolean isPending(String status) {
+		return !(status.equals(COMPLETED) || (status.equals(DELIVERED)) || (status.equals(DISPATCHED)));
 	}
 
 	public static boolean isValid(String status) {

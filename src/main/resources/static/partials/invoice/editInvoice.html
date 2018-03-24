@@ -52,7 +52,7 @@
 									<select type = "text" 
 											class="form-control" 
 											placeholder="Eg: PO-200" 
-											ng-options = "purchaseOrder as purchaseOrder.purchaseOrderId.purchaseOrderNumber for purchaseOrder in purchaseOrders | orderBy: 'purchaseOrderId.purchaseOrderNumber'"
+											ng-options = "purchaseOrder as purchaseOrder.purchaseOrderId.purchaseOrderNumber for purchaseOrder in purchaseOrders | orderBy: 'purchaseOrderId.purchaseOrderNumber' track by purchseOrderId.purchaseOrderNumber"
 											ng-model="invoice.purchaseOrder"
 											>
 											<option value="">--Select One--</option>

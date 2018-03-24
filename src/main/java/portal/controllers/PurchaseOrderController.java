@@ -21,6 +21,7 @@ import portal.models.OrderItem;
 import portal.models.PurchaseOrder;
 import portal.models.Site;
 import portal.models.constants.OrderStatuses;
+import portal.util.PurchaseOrderUtil;
 
 @RestController
 public class PurchaseOrderController {
@@ -47,7 +48,8 @@ public class PurchaseOrderController {
 	@RequestMapping(value = "/purchase_order/getBySite", method = RequestMethod.POST)
 	public List<PurchaseOrder> getPurchaseOrderBySite(@RequestBody Site site) {
 		logger.info("Fetching purchase orders for site {}", site);
-		return purchaseOrderDao.findByPurchaseOrderIdSite(site);
+		
+		return PurchaseOrderUtil.getPendingOrder(purchaseOrderDao.findByPurchaseOrderIdSite(site));
 	}
 
 	@RequestMapping(value = "/purchase_order/save", method = RequestMethod.POST)

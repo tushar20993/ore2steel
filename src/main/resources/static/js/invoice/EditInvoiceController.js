@@ -1,5 +1,4 @@
 portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $uibModalInstance, Notification, invoice){
-	
 	$scope.invoice = invoice;
 	$scope.invoice.invoiceDate = new Date($scope.invoice.invoiceDate);
 	$scope.invoice.invoiceStatusDate = new Date($scope.invoice.invoiceStatusDate);
@@ -21,7 +20,6 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 		}
 		$http.get("/site/get?id=" + company.companyId).then(
 				function success(response){
-					console.log(response.data)
 					$scope.sites = response.data;
 				},
 				function fail(response){
@@ -96,7 +94,6 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 		}
 		
 		invoice.items = []
-		console.log(invoice);
 		$http.post( "/invoice/update", invoice)
 		.then(
 				function success(response){

@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import portal.dao.InvoiceDao;
-import portal.dao.SiteDao;
+import portal.dao.TransporterDao;
+import portal.dao.VehicleDao;
 import portal.models.Invoice;
+import portal.models.Transporter;
+import portal.models.Vehicle;
 import portal.models.constants.InvoiceStatuses;
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +31,10 @@ public class InvoiceController {
 	private InvoiceDao invoiceDao;
 	
 	@Autowired
-	private SiteDao siteDao;
+	private TransporterDao transporterDao;
+	
+	@Autowired
+	private VehicleDao vehicleDao;
 
 	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
 	@ResponseBody
@@ -45,13 +51,31 @@ public class InvoiceController {
 			throw new Exception("Invoice with same number already exists");
 		}
 		logger.info("Saving Invoice {}", invoice);
+		updateDetails(invoice);
 		invoiceDao.save(invoice);
+	}
+
+	private void updateDetails(Invoice invoice) {
+		if(invoice.getTransporter() != null) {
+			Transporter t = transporterDao.findOne(invoice.getTransporter().getTransporterId());
+			if(t != null) {
+				invoice.setTransporter(t);
+			}
+		}
+		
+		if(invoice.getVehicle() != null) {
+			Vehicle v = vehicleDao.findOne(invoice.getVehicle().getVehicleNumber());
+			if(v != null) {
+				invoice.setVehicle(v);
+			}
+		}
 	}
 
 	@Transactional
 	@RequestMapping(value = "/invoice/update", method = RequestMethod.POST)
 	public void updateInvoice(@RequestBody Invoice invoice) {
 		logger.info("Updating invoice {}", invoice);
+		updateDetails(invoice);
 		invoiceDao.save(invoice);
 	}
 

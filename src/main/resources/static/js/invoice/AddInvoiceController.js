@@ -86,6 +86,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	$http.get("/invoice_status/getAll").then(
 			function success(response){
 				$scope.invoiceStatuses = response.data;
+				$scope.invoice.invoiceStatus = $scope.invoiceStatuses[1];
 			},
 			function fail(response){
 				Notification.error("Failed to get invoice status types. Please try again later!");
