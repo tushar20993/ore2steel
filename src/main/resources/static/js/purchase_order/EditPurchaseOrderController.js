@@ -84,7 +84,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 						function success(response){
 							$uibModalInstance.close("success");
 						}, function error(response){
-							$uibModalInstance.close("fail");
+							$uibModalInstance.dismiss("fail");
 						}
 					);
 			}
@@ -114,7 +114,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 					(brand.brandId == currBrand.brandId) &&
 					(info == currInfo) ){
 				Notification.error("Same item, brand and additional information already exists!");
-				if(orderItem.isNew){
+				if($scope.purchaseOrder.items[index].isNew){
 					$scope.purchaseOrder.items.splice(index, 1);
 				}
 			}
@@ -125,6 +125,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		var item = {};
 		item.orderItemId = {}
 		item.orderItemId.purchaseOrder = {}
+		item.orderItemId.additionalInformation = ' ';
 		item.orderItemId.purchaseOrder.purchaseOrderId = {}
 		item.isNew = true;
 		item.orderItemId.purchaseOrder.purchaseOrderId.purchaseOrderNumber = $scope.purchaseOrder.purchaseOrderId.purchaseOrderNumber;

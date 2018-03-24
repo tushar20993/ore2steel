@@ -1,49 +1,43 @@
-<div class = "modal-header">
-			<h4 class = "modal-title">Brand Information</h4>
-			<button type="button" class="close" ng-click="close()">&times;</button>
-		</div>
-		
-<div class = "modal-body">
-			<form ng-submit="saveBrand()" class="form-inline">
-				<div class = "container-fluid">
-					
-					<div class = "form-group row">
-						<div class="col-5">
-							<label for="brandName">Brand Name</label>
-						</div>
-						
-						<div class="col-7">
-							<input 
-								type = "text" 
-								class="form-control big" 
-								placeholder="Eg: SAIL" 
-								ng-model="brand.brandName"
-								uib-typeahead="oldBrand.brandName for oldBrand in brands | filter: $viewValue"
-								typeahead-editable="true" 
-								typeahead-on-select="onBrandTypeaheadSelect($item, $model, $label)"
-								required
-								autofocus>
-						</div>
-					</div>
-					
-					<div class = "form-group row">
-						<div class="col-5">
-							<label for="brandGroup">Brand Group</label>
-						</div>
-						
-						<div class="col-7">
-							<select
-								class="form-control big" 
-								ng-model = "brand.brandGroup"
-								ng-options = "brandGroup for brandGroup in brandGroups"
-							>
-								<option value="">--Select One--</option>
-							</select>
-						</div>
-					</div>
-					
-					 <button type="submit" class="btn btn-primary">Save Brand</button>
-					 <button type="reset" class="btn btn-danger">Reset Information</button>		
+<div class="modal-header">
+	<h4 class="modal-title">Brand Information</h4>
+	<button type="button" class="close" ng-click="close()">&times;</button>
+</div>
+
+<div class="modal-body">
+	<form ng-submit="saveBrand()" class="form-inline">
+		<div class="container-fluid">
+
+			<div class="form-group row">
+				<div class="col-5">
+					<label for="brandName">Brand Name</label>
 				</div>
-			</form>
+
+				<div class="col-7">
+					<input type="text" class="form-control big" placeholder="Eg: SAIL"
+						ng-model="brand.brandName"
+						uib-typeahead="oldBrand.brandName for oldBrand in brands | filter: $viewValue"
+						typeahead-editable="true"
+						typeahead-on-select="onBrandTypeaheadSelect($item, $model, $label)"
+						required autofocus>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-5">
+					<label for="brandGroup">Brand Group</label>
+				</div>
+
+				<div class="col-7">
+					<select class="form-control big" ng-model="brand.brandGroup"
+						ng-options="brandGroup for brandGroup in brandGroups">
+						<option value="">--Select One--</option>
+					</select>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Save Brand</button>
+			<button type="reset" class="btn btn-danger">Reset
+				Information</button>
 		</div>
+	</form>
+</div>
