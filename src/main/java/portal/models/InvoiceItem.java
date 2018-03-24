@@ -24,9 +24,6 @@ public class InvoiceItem {
 	@Column(name = "price")
 	private Double price;
 
-	@Column(name = "additional_information")
-	private String additionalInformation;
-
 	public InvoiceItemId getInvoiceItemId() {
 		return invoiceItemId;
 	}
@@ -57,14 +54,6 @@ public class InvoiceItem {
 
 	public void setPrice(Double price) {
 		this.price = price;
-	}
-
-	public String getAdditionalInformation() {
-		return additionalInformation;
-	}
-
-	public void setAdditionalInformation(String additionalInformation) {
-		this.additionalInformation = additionalInformation;
 	}
 
 }

@@ -17,7 +17,7 @@ portal.run(function($rootScope, $http, Notification){
 	
 	$rootScope.getStateCodes = function(){
 		$rootScope.stateCodes = [];
-		$http.get("/state_code/getAll").then(
+		return $http.get("/state_code/getAll").then(
 				function(response){
 					$rootScope.stateCodes = response.data;
 				},
@@ -29,7 +29,7 @@ portal.run(function($rootScope, $http, Notification){
 	
 	$rootScope.getRegistrationStatuses = function(){
 		$rootScope.statuses = [];
-		$http.get("/status/getAll").then(
+		return $http.get("/status/getAll").then(
 				function(response){
 					$rootScope.statuses = response.data;
 				},
@@ -38,6 +38,19 @@ portal.run(function($rootScope, $http, Notification){
 				});
 	}
 	$rootScope.getRegistrationStatuses();
+	
+	
+	$rootScope.getUOMS = function(){
+		$rootScope.uoms = [];
+		return $http.get("/item/getAllUnits").then(
+				function(response){
+					$rootScope.uoms = response.data;
+				},
+				function(response){
+					Notification.error("Couldn't fetch units of measurement. Please try again");
+				});
+	}
+	$rootScope.getUOMS();
 	
 	$rootScope.getModalCloseFunctions = function(modalInstance, modalFor, addNew, successCallback){
 		var verbPresent = addNew ? " add " : " edit ";

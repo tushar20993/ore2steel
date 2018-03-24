@@ -2,6 +2,7 @@ package portal.models.embeddables;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -29,6 +30,9 @@ public class InvoiceItemId implements Serializable {
 	@JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
 	private Brand brand;
 
+	@Column(name = "additional_information")
+	private String additionalInformation;
+
 	public Invoice getInvoice() {
 		return invoice;
 	}
@@ -51,6 +55,14 @@ public class InvoiceItemId implements Serializable {
 
 	public void setBrand(Brand brand) {
 		this.brand = brand;
+	}
+
+	public String getAdditionalInformation() {
+		return additionalInformation;
+	}
+
+	public void setAdditionalInformation(String additionalInformation) {
+		this.additionalInformation = additionalInformation;
 	}
 
 }

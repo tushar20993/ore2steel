@@ -54,6 +54,7 @@
 											placeholder="Eg: PO-200" 
 											ng-options = "purchaseOrder as purchaseOrder.purchaseOrderId.purchaseOrderNumber for purchaseOrder in purchaseOrders | orderBy: 'purchaseOrderId.purchaseOrderNumber'"
 											ng-model="invoice.purchaseOrder"
+											ng-change = "onPurchaseOrderSelect()"
 											>
 											<option value="">--Select One--</option>
 									</select>
@@ -210,11 +211,11 @@
 										<!-- Brand Type -->
 										<td class = "form-control form-control-sm col-2">
 											<input  type = "text"
-													ng-model = "invoice.items[$index].orderItemId.brand"
+													ng-model = "invoice.items[$index].invoiceItemId.brand"
 													uib-typeahead = "brand as brand.brandName for brand in brands "
 													typeahead-editable = "false"
 													typeahead-on-select="brandSelected($index)"
-													ng-disabled="!invoice.items[$index].orderItemId.item"
+													ng-disabled="!invoice.items[$index].invoiceItemId.item"
 													required>
 										</td>
 										
@@ -253,7 +254,7 @@
 											<input  
 												class = "form-control form-control-sm"
 												type = "text"
-												ng-model = "invoice.items[$index].additionalInformation"
+												ng-model = "invoice.items[$index].invoiceItemId.additionalInformation"
 												>
 										</td>
 										

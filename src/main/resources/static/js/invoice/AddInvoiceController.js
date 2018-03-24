@@ -4,6 +4,8 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	$scope.invoice.invoiceDate = new Date();
 	$scope.invoice.invoiceStatusDate = new Date();
 	
+	$scope.uoms = $rootScope.uoms;
+	
 	$http.get("/company/getAll").then(
 			function success(response){
 				$scope.companies = response.data;
@@ -13,9 +15,9 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	
 
 	$scope.onCompanySelect = function(){
+		$scope.sites = [];
 		var company = $scope.invoice.company;
 		if(company == undefined){
-			$scope.sites = [];
 			return;
 		}
 		$http.get("/site/get?id=" + company.companyId).then(
@@ -41,6 +43,25 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 					Notification.error("Error in getting POs for " + site.siteName);
 				});
 	};
+	
+	$scope.onPurchaseOrderSelect = function(){
+		var purchaseOrder = $scope.invoice.purchaseOrder;
+		if( (purchaseOrder == undefined) || (purchaseOrder == null) ){
+			$scope.invoice.items = [];
+			return;
+		}
+		
+		$http.post("/order_item/getFor", purchaseOrder).then(
+				function success(response){
+					$scope.invoice.items = response.data;
+					angular.forEach($scope.invoice.items, function(item){
+						item.invoiceItemId = item.orderItemId; 
+					});
+				}, function fail(response){
+					Notification.error("Failed to fetch details for the purchase order. Enter manually, or try again later.")
+				});
+		
+	}
 	
 	$scope.onInvoiceTypeaheadSelect = function(){
 		Notification.error("This invoice number already exists. Please try different Invoice Number");

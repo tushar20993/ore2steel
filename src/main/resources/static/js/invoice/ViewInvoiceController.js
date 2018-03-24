@@ -2,7 +2,6 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 	$scope.getInvoices = function(){
 		$http.get("/invoice/getAll").then(
 				function(response){
-					console.log(response.data)
 					$scope.invoices = response.data;
 					$scope.gridOptions = {
 							data: $scope.invoices,
@@ -65,7 +64,6 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 	}
 	
 	$scope.editInvoice = function(invoice){
-		console.log(invoice)
 		var modalOptions = {
 				templateUrl: "partials/invoice/editInvoice.html",
 				controller: "EditInvoiceController",
