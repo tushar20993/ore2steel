@@ -101,15 +101,23 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	$scope.brandSelected = function(index){
 		var item = $scope.purchaseOrder.items[index].orderItemId.item;
 		var brand = $scope.purchaseOrder.items[index].orderItemId.brand;
+		var info = $scope.purchaseOrder.items[index].orderItemId.additionalInformation;
 		for(var i = 0; i < $scope.purchaseOrder.items.length; i++){
 			if(i == index){
 				continue;
 			}
+			var orderItem = $scope.purchaseOrder.items[i];
 			var currItem = $scope.purchaseOrder.items[i].orderItemId.item;
 			var currBrand = $scope.purchaseOrder.items[i].orderItemId.brand;
-			if(	(item.itemId == currItem.itemId) && (brand.brandId == currBrand.brandId) ){
-				Notification.error("Item already exists")
-				$scope.purchaseOrder.items.splice(index, 1);
+			var currInfo = $scope.purchaseOrder.items[i].orderItemId.additionalInformation;
+			if(		(item.itemId == currItem.itemId) && 
+					(brand.brandId == currBrand.brandId) &&
+					(info == currInfo) ){
+				console.log(info, currInfo)
+				Notification.error("Same item, brand and additional information already exists!");
+				if(orderItem.isNew){
+					$scope.purchaseOrder.items.splice(index, 1);
+				}
 			}
 		}
 	}

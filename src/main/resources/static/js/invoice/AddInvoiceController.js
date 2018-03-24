@@ -75,6 +75,16 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 		$uibModalInstance.dismiss("cancel");
 	};
 	
+	$scope.invoice.items = [];
+	$scope.addItem = function(){
+		var newItem = {};
+		$scope.invoice.items.push(newItem);
+	}
+	
+	$scope.deleteItem = function(index){
+		$scope.invoice.items.splice(index, 1);
+	}
+	
 	$scope.saveInvoice = function(){
 		var invoice = JSON.parse(JSON.stringify($scope.invoice))
 		

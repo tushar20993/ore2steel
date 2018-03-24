@@ -2,6 +2,7 @@ package portal.models.embeddables;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -23,6 +24,9 @@ public class OrderItemId implements Serializable {
 
 	@ManyToOne
 	private Brand brand;
+
+	@Column(name = "additional_information")
+	private String additionalInformation;
 
 	public String getPurchaseOrderNumber() {
 		return purchaseOrder.getPurchaseOrderId().getPurchaseOrderNumber();
@@ -50,5 +54,13 @@ public class OrderItemId implements Serializable {
 
 	public void setBrand(Brand brand) {
 		this.brand = brand;
+	}
+
+	public String getAdditionalInformation() {
+		return additionalInformation;
+	}
+
+	public void setAdditionalInformation(String additionalInformation) {
+		this.additionalInformation = additionalInformation;
 	}
 }

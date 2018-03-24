@@ -27,9 +27,6 @@ public class OrderItem {
 	@Column(name = "price")
 	private Double price;
 
-	@Column(name = "additional_information")
-	private String additionalInformation;
-
 	public OrderItemId getOrderItemId() {
 		return orderItemId;
 	}
@@ -62,11 +59,4 @@ public class OrderItem {
 		this.price = price;
 	}
 
-	public String getAdditionalInformation() {
-		return additionalInformation;
-	}
-
-	public void setAdditionalInformation(String additionalInformation) {
-		this.additionalInformation = additionalInformation;
-	}
 }

@@ -11,6 +11,10 @@ a{
 	color: inherit !important;
 }
 
-.modal-custom-large{
-	max-width: 80% !important;
+.modal-body{
+	overflow-x: auto !important;
+}
+
+input{
+	overflow: auto !important;
 }

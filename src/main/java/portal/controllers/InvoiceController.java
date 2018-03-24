@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import portal.dao.InvoiceDao;
+import portal.dao.SiteDao;
 import portal.models.Invoice;
 import portal.models.constants.InvoiceStatuses;
 
@@ -25,6 +26,9 @@ public class InvoiceController {
 	
 	@Autowired
 	private InvoiceDao invoiceDao;
+	
+	@Autowired
+	private SiteDao siteDao;
 
 	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
 	@ResponseBody

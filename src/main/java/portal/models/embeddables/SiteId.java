@@ -1,3 +1,4 @@
+
 package portal.models.embeddables;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ public class SiteId implements Serializable {
 
 	private static final long serialVersionUID = -8336365945204319899L;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id", referencedColumnName = "company_id", nullable = false, insertable = false)
 	private Company company;
 

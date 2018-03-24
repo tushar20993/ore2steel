@@ -13,7 +13,7 @@ import portal.models.constants.InvoiceStatuses;
 @Entity
 @Table(name = "invoice")
 @JsonIgnoreProperties(allowSetters = true, allowGetters = false, value = { "items" })
-public class Invoice implements Serializable{
+public class Invoice implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,10 +28,10 @@ public class Invoice implements Serializable{
 	@Column(name = "invoice_date")
 	private Date invoiceDate;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = true)
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
 	private PurchaseOrder purchaseOrder;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Site site;
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -63,6 +63,10 @@ public class Invoice implements Serializable{
 	@Column(name = "comments")
 	private String comments;
 
+	public boolean isDelivered() {
+		return InvoiceStatuses.isDelivered(invoiceStatus);
+	}
+
 	public Integer getInvoiceId() {
 		return invoiceId;
 	}
@@ -77,6 +81,14 @@ public class Invoice implements Serializable{
 
 	public void setInvoiceNumber(String invoiceNumber) {
 		this.invoiceNumber = invoiceNumber;
+	}
+
+	public Date getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(Date invoiceDate) {
+		this.invoiceDate = invoiceDate;
 	}
 
 	public PurchaseOrder getPurchaseOrder() {
@@ -117,14 +129,6 @@ public class Invoice implements Serializable{
 
 	public void setDriverNumber(String driverNumber) {
 		this.driverNumber = driverNumber;
-	}
-
-	public Date getInvoiceDate() {
-		return invoiceDate;
-	}
-
-	public void setInvoiceDate(Date invoiceDate) {
-		this.invoiceDate = invoiceDate;
 	}
 
 	public List<InvoiceItem> getItems() {
@@ -174,22 +178,4 @@ public class Invoice implements Serializable{
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-
-	public boolean isDelivered() {
-		return InvoiceStatuses.isDelivered(invoiceStatus);
-	}
-	
-	public Company getCompany() {
-		return site.getCompany();
-	}
-
-	@Override
-	public String toString() {
-		return "Invoice [invoiceId=" + invoiceId + ", invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate
-				+ ", purchaseOrder=" + purchaseOrder + ", site=" + site + ", transporter=" + transporter + ", vehicle="
-				+ vehicle + ", driverNumber=" + driverNumber + ", items=" + items + ", invoiceStatus=" + invoiceStatus
-				+ ", invoiceStatusDate=" + invoiceStatusDate + ", receiptNumber=" + receiptNumber + ", receiptValue="
-				+ receiptValue + ", comments=" + comments + "]";
-	}
-	
 }
