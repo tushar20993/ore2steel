@@ -1,4 +1,6 @@
-portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal, $window, Notification){
+portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal, $window, Notification, GlobalSpinner){
+	GlobalSpinner.hide();
+	
 	$scope.getCompanies = function(){
 		$http.get("/company/getAll").then(
 				function(response){
@@ -37,6 +39,8 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 							]
 						};
 					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
+
+					GlobalSpinner.hide();
 				},
 				function(response){
 					Notification.error("Failed to fetch companies!");
@@ -49,6 +53,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 		var confirm = $window.confirm("Are you sure you want to delete " + company.companyName + "?");
 		
 		if(confirm){
+			GlobalSpinner.show();
 			$http({
 				method: "POST",
 				url: "/company/delete",
@@ -62,7 +67,9 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 					function error(response){
 						Notification.error("Failed to delete " + company.companyName)
 					}
-				);
+				).finally(function(){
+					GlobalSpinner.hide();
+				});
 		}
 	}
 	

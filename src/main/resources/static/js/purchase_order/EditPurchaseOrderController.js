@@ -10,7 +10,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	}
 	
 	$scope.getOrderItems = function(){
-		$http.post("/order_item/getFor", $scope.purchaseOrder).then(
+		return $http.post("/order_item/getFor", $scope.purchaseOrder).then(
 				function(response){
 					$scope.purchaseOrder.items = response.data;
 				},
@@ -18,8 +18,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 					Notification.error("Failed to get order items for selected purchase order. Please try again");
 				});
 	}
-	$scope.getOrderItems();
-	
+	$scope.getOrderItems();	
 	
 	$http.get("/item/getAllUnits").then(
 			function(response){

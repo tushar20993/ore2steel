@@ -13,6 +13,35 @@ portal.config(function($routeProvider, $locationProvider){
 	.when("/vehicles", {templateUrl: "partials/vehicle/viewVehicles.html", controller: "VehicleController"})
 });
 
+portal.service("GlobalSpinner", function($uibModal, $rootScope){
+	var modalInstance;
+	var visible = false;	
+	this.show = function(){
+		if(!visible){
+			visible = true;
+			var modalOptions = {
+					templateUrl: "partials/loading.html",
+					windowTemplateUrl: "partials/loading.html",
+					backdrop: true,
+					keyboard: false,
+					animation: false,
+					size: "lg"
+				}
+			console.log("loading")
+			modalInstance = $uibModal.open(modalOptions);
+		}
+		return modalInstance;
+	}
+	
+	this.hide = function(){
+		this.show().opened.then(function (data){
+			console.log("done")
+			modalInstance.close();
+		})
+	}
+	
+});
+
 portal.run(function($rootScope, $http, Notification){
 	
 	$rootScope.getStateCodes = function(){

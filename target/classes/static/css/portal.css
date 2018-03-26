@@ -18,3 +18,8 @@ a{
 input{
 	overflow: auto !important;
 }
+
+.transparent{
+	background-color: transparent !important;
+	border: none !important;
+}
