@@ -21,10 +21,10 @@ public class OrderItemController {
 	@Transactional
 	@RequestMapping(value = "/order_item/save", method = RequestMethod.POST)
 	public void saveOrderItems(@RequestBody List<OrderItem> newItems) {
-		PurchaseOrder purchaseOrder = newItems.get(0).getOrderItemId().getPurchaseOrder();
+		PurchaseOrder purchaseOrder = newItems.get(0).getPurchaseOrder();
 		for (OrderItem item : newItems) {
 			logger.info("Saving order Item {}", item);
-			item.getOrderItemId().setPurchaseOrder(purchaseOrder);
+			item.setPurchaseOrder(purchaseOrder);
 			orderItemDao.save(item);
 		}
 	}
@@ -37,7 +37,7 @@ public class OrderItemController {
 	@ResponseBody
 	@RequestMapping(value = "/order_item/getFor", method = RequestMethod.POST)
 	public List<OrderItem> findByPurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
-		return orderItemDao.findByOrderItemIdPurchaseOrder(purchaseOrder);
+		return orderItemDao.findByPurchaseOrder(purchaseOrder);
 	}
 
 }

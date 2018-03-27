@@ -45,7 +45,7 @@ public class Invoice implements Serializable {
 	@Column(name = "driver_number")
 	private String driverNumber;
 
-	@OneToMany(mappedBy = "invoiceItemId.invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<InvoiceItem> items;
 
 	@Column(name = "invoice_status")
@@ -178,4 +178,16 @@ public class Invoice implements Serializable {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
+
+	@Override
+	public String toString() {
+		return "Invoice [invoiceId=" + invoiceId + ", invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate
+				+ ", transporter=" + transporter + ", vehicle=" + vehicle + ", driverNumber=" + driverNumber
+				+ ", items=" + items + ", invoiceStatus=" + invoiceStatus + ", invoiceStatusDate=" + invoiceStatusDate
+				+ ", receiptNumber=" + receiptNumber + ", receiptValue=" + receiptValue + ", comments=" + comments
+				+ "]";
+	}
+	
+	
+	
 }

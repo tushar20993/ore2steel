@@ -51,11 +51,11 @@ public class InvoiceController {
 			throw new Exception("Invoice with same number already exists");
 		}
 		logger.info("Saving Invoice {}", invoice);
-		updateDetails(invoice);
+		updateTransportAndVehicleDetails(invoice);
 		invoiceDao.save(invoice);
 	}
 
-	private void updateDetails(Invoice invoice) {
+	private void updateTransportAndVehicleDetails(Invoice invoice) {
 		if(invoice.getTransporter() != null) {
 			Transporter t = transporterDao.findOne(invoice.getTransporter().getTransporterId());
 			if(t != null) {
@@ -75,7 +75,7 @@ public class InvoiceController {
 	@RequestMapping(value = "/invoice/update", method = RequestMethod.POST)
 	public void updateInvoice(@RequestBody Invoice invoice) {
 		logger.info("Updating invoice {}", invoice);
-		updateDetails(invoice);
+		updateTransportAndVehicleDetails(invoice);
 		invoiceDao.save(invoice);
 	}
 

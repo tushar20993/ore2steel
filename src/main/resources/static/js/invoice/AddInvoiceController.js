@@ -30,9 +30,9 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	};
 	
 	$scope.onSiteSelect = function(){
+		$scope.purchaseOrders = [];
 		var site = $scope.invoice.site;
 		if(site == undefined){
-			$scope.purchaseOrders = [];
 			return;
 		}
 		$http.post("/purchase_order/getBySite", site).then(
@@ -54,9 +54,6 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 		$http.post("/order_item/getFor", purchaseOrder).then(
 				function success(response){
 					$scope.invoice.items = response.data;
-					angular.forEach($scope.invoice.items, function(item){
-						item.invoiceItemId = item.orderItemId; 
-					});
 				}, function fail(response){
 					Notification.error("Failed to fetch details for the purchase order. Enter manually, or try again later.")
 				});
@@ -65,7 +62,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	
 	$scope.onInvoiceTypeaheadSelect = function(){
 		Notification.error("This invoice number already exists. Please try different Invoice Number");
-		delete $scope.invoice.invoiceNumber;
+		$scope.invoice.invoiceNumber = "";
 	}
 	
 	$http.get("/transporter/getAll").then(
@@ -120,8 +117,10 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 			invoice.vehicle = {}
 			invoice.vehicle.vehicleNumber = temp;
 		}
+		console.log(invoice)
 		
-		$http.post( "/invoice/save", invoice)
+		
+		return $http.post( "/invoice/save", invoice)
 		.then(
 				function success(response){
 					$uibModalInstance.close("success");

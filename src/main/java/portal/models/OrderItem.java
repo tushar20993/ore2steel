@@ -1,19 +1,35 @@
 package portal.models;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
-import portal.models.embeddables.OrderItemId;
-
 @Entity
-@Table(name = "order_item")
+@Table(name = "purchase_order_item")
 public class OrderItem {
 
-	@EmbeddedId
-	private OrderItemId orderItemId;
+	@Id
+	@GeneratedValue
+	@Digits(integer = 3, fraction = 0)
+	@Column(name = "order_item_id")
+	private Integer orderItemId;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	private PurchaseOrder purchaseOrder;
+
+	@ManyToOne
+	private Item item;
+
+	@ManyToOne
+	private Brand brand;
 
 	@NotNull
 	@Column(name = "quantity")
@@ -27,12 +43,43 @@ public class OrderItem {
 	@Column(name = "price")
 	private Double price;
 
-	public OrderItemId getOrderItemId() {
+	@NotNull
+	@Column(name = "amount")
+	private Double amount;
+
+	@Column(name = "additional_information")
+	private String additionalInformation;
+
+	public Integer getOrderItemId() {
 		return orderItemId;
 	}
 
-	public void setOrderItemId(OrderItemId orderItemId) {
+	public void setOrderItemId(Integer orderItemId) {
 		this.orderItemId = orderItemId;
+	}
+
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
+	}
+
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
 	public Double getQuantity() {
@@ -57,6 +104,30 @@ public class OrderItem {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public String getAdditionalInformation() {
+		return additionalInformation;
+	}
+
+	public void setAdditionalInformation(String additionalInformation) {
+		this.additionalInformation = additionalInformation;
+	}
+	
+	@PrePersist
+	@PreUpdate
+	public void calculateAmount() {
+		if(this.amount == null ) {
+			this.amount = this.price * this.quantity;
+		}
 	}
 
 }

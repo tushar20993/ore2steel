@@ -98,17 +98,17 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	}
 	
 	$scope.brandSelected = function(index){
-		var item = $scope.purchaseOrder.items[index].orderItemId.item;
-		var brand = $scope.purchaseOrder.items[index].orderItemId.brand;
-		var info = $scope.purchaseOrder.items[index].orderItemId.additionalInformation;
+		var item = $scope.purchaseOrder.items[index].item;
+		var brand = $scope.purchaseOrder.items[index].brand;
+		var info = $scope.purchaseOrder.items[index].additionalInformation;
 		for(var i = 0; i < $scope.purchaseOrder.items.length; i++){
 			if(i == index){
 				continue;
 			}
 			var orderItem = $scope.purchaseOrder.items[i];
-			var currItem = $scope.purchaseOrder.items[i].orderItemId.item;
-			var currBrand = $scope.purchaseOrder.items[i].orderItemId.brand;
-			var currInfo = $scope.purchaseOrder.items[i].orderItemId.additionalInformation;
+			var currItem = $scope.purchaseOrder.items[i].item;
+			var currBrand = $scope.purchaseOrder.items[i].brand;
+			var currInfo = $scope.purchaseOrder.items[i].additionalInformation;
 			if(		(item.itemId == currItem.itemId) && 
 					(brand.brandId == currBrand.brandId) &&
 					(info == currInfo) ){
@@ -122,13 +122,11 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	
 	$scope.addItem = function(){
 		var item = {};
-		item.orderItemId = {}
-		item.orderItemId.purchaseOrder = {}
-		item.orderItemId.additionalInformation = ' ';
-		item.orderItemId.purchaseOrder.purchaseOrderId = {}
+		item.purchaseOrder = {}
+		item.purchaseOrder.purchaseOrderId = {}
 		item.isNew = true;
-		item.orderItemId.purchaseOrder.purchaseOrderId.purchaseOrderNumber = $scope.purchaseOrder.purchaseOrderId.purchaseOrderNumber;
-		item.orderItemId.purchaseOrder.purchaseOrderId.site = $scope.purchaseOrder.purchaseOrderId.site;
+		item.purchaseOrder.purchaseOrderId.purchaseOrderNumber = $scope.purchaseOrder.purchaseOrderId.purchaseOrderNumber;
+		item.purchaseOrder.purchaseOrderId.site = $scope.purchaseOrder.purchaseOrderId.site;
 		$scope.purchaseOrder.items.push(item);
 	}
 	
@@ -155,6 +153,11 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		}, function error(response){
 			Notification.error("Could not delete Item");
 		});
+	}
+	
+	$scope.updateAmount = function(index){
+		var item = $scope.purchaseOrder.items[index];
+		item.amount = item.price * item.quantity;
 	}
 	
 });

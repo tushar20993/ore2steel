@@ -35,8 +35,8 @@ portal.service("GlobalSpinner", function($uibModal, $rootScope){
 	
 	this.hide = function(){
 		this.show().opened.then(function (data){
-			console.log("done")
 			modalInstance.close();
+			visible = false;
 		})
 	}
 	

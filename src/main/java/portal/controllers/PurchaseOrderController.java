@@ -65,14 +65,14 @@ public class PurchaseOrderController {
 
 	private void backReferenceOrderItems(PurchaseOrder purchaseOrder) {
 		for (OrderItem item : purchaseOrder.getItems()) {
-			item.getOrderItemId().setPurchaseOrder(purchaseOrder);
+			item.setPurchaseOrder(purchaseOrder);
 		}
 
 	}
 
 	@RequestMapping(value = "/purchase_order/update", method = RequestMethod.POST)
 	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
-		purchaseOrder.setItems(orderItemDao.findByOrderItemIdPurchaseOrder(purchaseOrder));
+		purchaseOrder.setItems(orderItemDao.findByPurchaseOrder(purchaseOrder));
 		logger.info("Updating purchase order {}", purchaseOrder);
 		purchaseOrderDao.save(purchaseOrder);
 	}

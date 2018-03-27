@@ -8,7 +8,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 					$scope.gridOptions = {
 							data: $scope.companies,
 							columnDefs: [
-								{name: "companyId", 			visible: true, },
+								{name: "companyId", 			visible: false, },
 								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
 								{name: "companyAddress", 		visible: true, },
 								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},

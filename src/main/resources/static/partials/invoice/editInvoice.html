@@ -14,7 +14,7 @@
 					<label for="companyName">Company</label>
 				</div>
 				<div class="col-7">
-					<select class="form-control" ng-model="invoice.site.siteId.company"
+					<select class="form-control" ng-model="invoice.company"
 						ng-options="company as company.companyName for company in companies | orderBy: 'companyName' track by company.companyId"
 						ng-change="onCompanySelect(company)" required autofocus>
 						<option value="">--Select One--</option>
@@ -164,7 +164,7 @@
 
 						<!-- Item name -->
 						<td class="form-control form-control-sm col-2"><input
-							type="text" ng-model="invoice.items[$index].invoiceItemId.item"
+							type="text" ng-model="invoice.items[$index].item"
 							uib-typeahead="item as item.itemName for item in items | filter: $viewValue"
 							typeahead-editable="false"
 							typeahead-on-select="itemSelected($item)"
@@ -172,17 +172,17 @@
 
 						<!-- Brand Type -->
 						<td class="form-control form-control-sm col-2"><input
-							type="text" ng-model="invoice.items[$index].orderItemId.brand"
+							type="text" ng-model="invoice.items[$index].brand"
 							uib-typeahead="brand as brand.brandName for brand in brands "
 							typeahead-editable="false"
 							typeahead-on-select="brandSelected($index)"
-							ng-disabled="!invoice.items[$index].orderItemId.item" required>
+							ng-disabled="!invoice.items[$index].item" required>
 						</td>
 
 						<!-- Quantity -->
 						<td class="form-control form-control-sm col-2"><input
 							class="small" type="number"
-							ng-model="invoice.items[$index].quantity" min="0" required>
+							ng-model="invoice.items[$index].quantity" min="00.001" step="00.001" required>
 						</td>
 
 						<!-- UOM -->

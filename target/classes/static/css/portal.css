@@ -15,6 +15,10 @@ a{
 	overflow-x: auto !important;
 }
 
+.wide-modal{
+	width: 80% important!;
+}
+
 input{
 	overflow: auto !important;
 }

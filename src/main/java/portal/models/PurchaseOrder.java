@@ -22,7 +22,7 @@ public class PurchaseOrder {
 	@Column
 	private Date orderDate;
 
-	@OneToMany(mappedBy = "orderItemId.purchaseOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderItem> items;
 
 	@Column(name = "additional_information")

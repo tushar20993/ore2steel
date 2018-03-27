@@ -61,6 +61,7 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 		var modalOptions = {
 				templateUrl: "partials/purchase_order/editPurchaseOrder.html",
 				controller: "EditPurchaseOrderController",
+				windowClass: 'wide-modal',
 				resolve: {
 					purchaseOrder: function(){
 						return purchaseOrder;

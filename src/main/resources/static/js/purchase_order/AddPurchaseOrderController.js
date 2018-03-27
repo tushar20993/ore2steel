@@ -47,6 +47,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	$http.get("/order_status/getAll").then(
 			function(response){
 				$scope.orderStatuses = response.data;
+				$scope.purchaseOrder.orderStatus = $scope.orderStatuses[0];
 			},
 			function(response){
 				Notification.error("Failed to get order status types");
@@ -103,16 +104,16 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	}
 	
 	$scope.brandSelected = function(index){
-		var item = $scope.purchaseOrder.items[index].orderItemId.item;
-		var brand = $scope.purchaseOrder.items[index].orderItemId.brand;
-		var info = $scope.purchaseOrder.items[index].orderItemId.additionalInformation;
+		var item = $scope.purchaseOrder.items[index].item;
+		var brand = $scope.purchaseOrder.items[index].brand;
+		var info = $scope.purchaseOrder.items[index].additionalInformation;
 		for(var i = 0; i < $scope.purchaseOrder.items.length; i++){
 			if(i == index){
 				continue;
 			}
-			var currItem = $scope.purchaseOrder.items[i].orderItemId.item;
-			var currBrand = $scope.purchaseOrder.items[i].orderItemId.brand;
-			var currInfo = $scope.purchaseOrder.items[i].orderItemId.additionalInformation;
+			var currItem = $scope.purchaseOrder.items[i].item;
+			var currBrand = $scope.purchaseOrder.items[i].brand;
+			var currInfo = $scope.purchaseOrder.items[i].additionalInformation;
 			if(		(item.itemId == currItem.itemId) && 
 					(brand.brandId == currBrand.brandId) &&
 					(info == currInfo)){
@@ -124,6 +125,9 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	
 	$scope.addItem = function(){
 		var item = {};
+		item.unitOfMeasurement = $scope.uoms[0];
+		item.quantity = 0;
+		item.price = 0;
 		$scope.purchaseOrder.items.push(item);
 	}
 	
@@ -134,14 +138,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	$scope.savePurchaseOrder = function(){		
 		$scope.purchaseOrder.purchaseOrderId.site = JSON.parse(JSON.stringify($scope.purchaseOrder.site));
 		$scope.purchaseOrder.purchaseOrderId.site.siteId.company = JSON.parse(JSON.stringify($scope.purchaseOrder.company));
-		
-		for(var i = 0; i < $scope.purchaseOrder.items.length; i ++){
-			$scope.purchaseOrder.items[i].orderItemId.site = $scope.purchaseOrder.site;
-		}
-		
-		delete $scope.purchaseOrder.site;
-		delete $scope.purchaseOrder.company;
-		
+
 		$http({
 			method: "POST",
 			url: "/purchase_order/save",
@@ -153,6 +150,11 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 			$uibModalInstance.dismiss("fail");
 		});
 	};
+	
+	$scope.updateAmount = function(index){
+		var item = $scope.purchaseOrder.items[index];
+		item.amount = item.price * item.quantity;
+	}
 
 	$scope.close = function(){
 		$uibModalInstance.dismiss("cancel");

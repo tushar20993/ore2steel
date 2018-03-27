@@ -1,4 +1,3 @@
-
 <div class="modal-header">
 	<h4 class="modal-title">Purchase Order Information</h4>
 	<button type="button" class="close" ng-click="close()">&times;</button>
@@ -98,10 +97,11 @@
 				<thead>
 					<tr class="row">
 						<td class="col-2">Item Name</td>
-						<td class="col-2">Brand</td>
-						<td class="col-2">Quantity</td>
+						<td class="col-1">Brand</td>
+						<td class="col-1">Quantity</td>
 						<td class="col-1">UOM</td>
 						<td class="col-2">Price</td>
+						<td class="col-2">Amount</td>
 						<td class="col-2">Comments</td>
 						<td class="col-1">Action</td>
 					</tr>
@@ -112,8 +112,7 @@
 
 						<!-- Item Name -->
 						<td class="form-control form-control-sm col-2"><input
-							type="text"
-							ng-model="purchaseOrder.items[$index].orderItemId.item"
+							type="text" ng-model="purchaseOrder.items[$index].item"
 							uib-typeahead="item as item.itemName for item in items | filter: $viewValue"
 							typeahead-editable="false"
 							typeahead-on-select="itemSelected($item)"
@@ -122,21 +121,20 @@
 						</td>
 
 						<!-- Brand Type -->
-						<td class="form-control form-control-sm col-2"><input
-							type="text"
-							ng-model="purchaseOrder.items[$index].orderItemId.brand"
+						<td class="form-control form-control-sm col-1"><input
+							type="text" ng-model="purchaseOrder.items[$index].brand"
 							uib-typeahead="brand as brand.brandName for brand in brands "
 							typeahead-editable="false"
 							typeahead-on-select="brandSelected($index)"
-							ng-disabled="!purchaseOrder.items[$index].isNew || !purchaseOrder.items[$index].orderItemId.item"
+							ng-disabled="!purchaseOrder.items[$index].isNew || !purchaseOrder.items[$index].item"
 							required></td>
 
 						<!-- Quantity -->
-						<td class="form-control form-control-sm col-2"><input
+						<td class="form-control form-control-sm col-1"><input
 							class="small" type="number"
 							ng-model="purchaseOrder.items[$index].quantity"
 							ng-change="itemEdited(purchaseOrder.items[$index])" step=".001"
-							max="10000.000" required></td>
+							max="10000.000" ng-change="updateAmount($index)" required></td>
 
 						<!-- UOM -->
 						<td class="form-control form-control-sm col-1"><select
@@ -151,13 +149,13 @@
 						<td class="form-control form-control-sm col-2"><input
 							type="number" step="any"
 							ng-model="purchaseOrder.items[$index].price"
-							ng-change="itemEdited(purchaseOrder.items[$index])" required>
-						</td>
+							ng-change="itemEdited(purchaseOrder.items[$index])"
+							ng-change="updateAmount($index)" required></td>
 
 						<!-- Comments -->
 						<td class="form-control form-control-sm col-2"><input
 							class="form-control form-control-sm" type="text"
-							ng-model="purchaseOrder.items[$index].orderItemId.additionalInformation"
+							ng-model="purchaseOrder.items[$index].additionalInformation"
 							ng-change="itemEdited(purchaseOrder.items[$index])"></td>
 
 						<!-- Actions -->

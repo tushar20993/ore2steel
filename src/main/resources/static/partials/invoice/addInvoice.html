@@ -165,7 +165,7 @@
 
 						<!-- Item name -->
 						<td class="form-control form-control-sm col-2"><input
-							type="text" ng-model="invoice.items[$index].invoiceItemId.item"
+							type="text" ng-model="invoice.items[$index].item"
 							uib-typeahead="item as item.itemName for item in items | filter: $viewValue"
 							typeahead-editable="false"
 							typeahead-on-select="itemSelected($item)"
@@ -173,17 +173,17 @@
 
 						<!-- Brand Type -->
 						<td class="form-control form-control-sm col-2"><input
-							type="text" ng-model="invoice.items[$index].invoiceItemId.brand"
+							type="text" ng-model="invoice.items[$index].brand"
 							uib-typeahead="brand as brand.brandName for brand in brands "
 							typeahead-editable="false"
 							typeahead-on-select="brandSelected($index)"
-							ng-disabled="!invoice.items[$index].invoiceItemId.item" required>
+							ng-disabled="!invoice.items[$index].item" required>
 						</td>
 
 						<!-- Quantity -->
 						<td class="form-control form-control-sm col-2"><input
 							class="small" type="number"
-							ng-model="invoice.items[$index].quantity" min="0" required>
+							ng-model="invoice.items[$index].quantity" min="00.001" step="00.001" required>
 						</td>
 
 						<!-- UOM -->
@@ -202,7 +202,7 @@
 						<!-- Comments -->
 						<td class="form-control form-control-sm col-2"><input
 							class="form-control form-control-sm" type="text"
-							ng-model="invoice.items[$index].invoiceItemId.additionalInformation">
+							ng-model="invoice.items[$index].additionalInformation">
 						</td>
 
 						<!-- Actions -->

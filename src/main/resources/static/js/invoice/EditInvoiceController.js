@@ -2,6 +2,8 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 	$scope.invoice = invoice;
 	$scope.invoice.invoiceDate = new Date($scope.invoice.invoiceDate);
 	$scope.invoice.invoiceStatusDate = new Date($scope.invoice.invoiceStatusDate);
+	$scope.invoice.company = $scope.invoice.site.siteId.company;
+	
 	
 	$http.get("/company/getAll").then(
 			function success(response){
@@ -13,9 +15,9 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 	
 
 	$scope.onCompanySelect = function(){
-		var company = $scope.invoice.site.siteId.company;
+		$scope.sites = [];
+		var company = $scope.invoice.company;
 		if(company == undefined){
-			$scope.sites = [];
 			return;
 		}
 		$http.get("/site/get?id=" + company.companyId).then(
@@ -30,9 +32,9 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 	$scope.onCompanySelect();
 	
 	$scope.onSiteSelect = function(){
+		$scope.purchaseOrders = [];
 		var site = $scope.invoice.site;
 		if(site == undefined){
-			$scope.purchaseOrders = [];
 			return;
 		}
 		$http.post("/purchase_order/getBySite", site).then(
