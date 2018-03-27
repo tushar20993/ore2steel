@@ -71,22 +71,6 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			data: purchaseOrder,
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
-			var newItems = [];
-			for(var i = 0; i < purchaseOrder.items.length; i++){
-				if(purchaseOrder.items[i].isNew || purchaseOrder.items[i].isDirty){
-					delete purchaseOrder.items[i].isNew;
-					newItems.push(purchaseOrder.items[i]);
-				}
-			}
-			if(newItems.length > 0){
-				$http.post("/order_item/save", newItems).then(
-						function success(response){
-							$uibModalInstance.close("success");
-						}, function error(response){
-							$uibModalInstance.dismiss("fail");
-						}
-					);
-			}
 			$uibModalInstance.close("success");
 		}, function error(response){
 			$uibModalInstance.dismiss("fail");
@@ -113,9 +97,6 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 					(brand.brandId == currBrand.brandId) &&
 					(info == currInfo) ){
 				Notification.error("Same item, brand and additional information already exists!");
-				if($scope.purchaseOrder.items[index].isNew){
-					$scope.purchaseOrder.items.splice(index, 1);
-				}
 			}
 		}
 	}
@@ -127,6 +108,9 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		item.isNew = true;
 		item.purchaseOrder.purchaseOrderId.purchaseOrderNumber = $scope.purchaseOrder.purchaseOrderId.purchaseOrderNumber;
 		item.purchaseOrder.purchaseOrderId.site = $scope.purchaseOrder.purchaseOrderId.site;
+		item.unitOfMeasurement = $scope.uoms[0];
+		item.quantity = 0;
+		item.price = 0;
 		$scope.purchaseOrder.items.push(item);
 	}
 	
@@ -158,6 +142,6 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	$scope.updateAmount = function(index){
 		var item = $scope.purchaseOrder.items[index];
 		item.amount = item.price * item.quantity;
-	}
+	};
 	
 });

@@ -116,32 +116,26 @@
 							uib-typeahead="item as item.itemName for item in items | filter: $viewValue"
 							typeahead-editable="false"
 							typeahead-on-select="itemSelected($item)"
-							typeahead-focus-first="true"
-							ng-disabled="!purchaseOrder.items[$index].isNew" required>
-						</td>
+							typeahead-focus-first="true" required></td>
 
 						<!-- Brand Type -->
 						<td class="form-control form-control-sm col-1"><input
 							type="text" ng-model="purchaseOrder.items[$index].brand"
 							uib-typeahead="brand as brand.brandName for brand in brands "
 							typeahead-editable="false"
-							typeahead-on-select="brandSelected($index)"
-							ng-disabled="!purchaseOrder.items[$index].isNew || !purchaseOrder.items[$index].item"
-							required></td>
+							typeahead-on-select="brandSelected($index)"></td>
 
 						<!-- Quantity -->
 						<td class="form-control form-control-sm col-1"><input
 							class="small" type="number"
-							ng-model="purchaseOrder.items[$index].quantity"
-							ng-change="itemEdited(purchaseOrder.items[$index])" step=".001"
+							ng-model="purchaseOrder.items[$index].quantity" step=".001"
 							max="10000.000" ng-change="updateAmount($index)" required></td>
 
 						<!-- UOM -->
 						<td class="form-control form-control-sm col-1"><select
 							class="form-control form-control-sm"
 							ng-options="uom for uom in uoms track by uom"
-							ng-model="purchaseOrder.items[$index].unitOfMeasurement"
-							ng-change="itemEdited(purchaseOrder.items[$index])" required>
+							ng-model="purchaseOrder.items[$index].unitOfMeasurement" required>
 								<option value="">--Select One--</option>
 						</select></td>
 
@@ -149,14 +143,18 @@
 						<td class="form-control form-control-sm col-2"><input
 							type="number" step="any"
 							ng-model="purchaseOrder.items[$index].price"
-							ng-change="itemEdited(purchaseOrder.items[$index])"
+							ng-change="updateAmount($index)" required></td>
+
+						<!-- Amount -->
+						<td class="form-control form-control-sm col-2"><input
+							type="number" step="any"
+							ng-model="purchaseOrder.items[$index].amount"
 							ng-change="updateAmount($index)" required></td>
 
 						<!-- Comments -->
 						<td class="form-control form-control-sm col-2"><input
 							class="form-control form-control-sm" type="text"
-							ng-model="purchaseOrder.items[$index].additionalInformation"
-							ng-change="itemEdited(purchaseOrder.items[$index])"></td>
+							ng-model="purchaseOrder.items[$index].additionalInformation"></td>
 
 						<!-- Actions -->
 						<td class="form-control form-control-sm col-1">

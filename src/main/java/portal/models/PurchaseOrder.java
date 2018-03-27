@@ -85,13 +85,20 @@ public class PurchaseOrder {
 	public void setOrderStatusDate(Date orderStatusDate) {
 		this.orderStatusDate = orderStatusDate;
 	}
+	
+	public Double getOrderAmount() {
+		Double amount = 0.0D;
+		for(OrderItem item: this.items) {
+			amount+= item.getAmount();
+		}
+		return amount;
+	}
 
 	@Override
 	public String toString() {
-		return "PurchaseOrder [purchaseOrderId=" + purchaseOrderId + ", orderDate=" + orderDate + ", additionalInformation=" + additionalInformation + ", orderStatus=" + orderStatus
+		return "PurchaseOrder [purchaseOrderId=" + purchaseOrderId + ", orderDate=" + orderDate
+				+ ", additionalInformation=" + additionalInformation + ", orderStatus=" + orderStatus
 				+ ", orderStatusDate=" + orderStatusDate + "]";
 	}
-	
-	
 
 }

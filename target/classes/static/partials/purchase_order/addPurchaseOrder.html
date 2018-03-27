@@ -133,8 +133,7 @@
 							type="text" ng-model="purchaseOrder.items[$index].brand"
 							uib-typeahead="brand as brand.brandName for brand in brands "
 							typeahead-editable="false"
-							typeahead-on-select="brandSelected($index)"
-							ng-disabled="!purchaseOrder.items[$index].item" required></td>
+							typeahead-on-select="brandSelected($index)"></td>
 
 						<!-- Quantity -->
 						<td class="form-control form-control-sm col-1"><input
@@ -153,7 +152,7 @@
 						<!-- Price -->
 						<td class="form-control form-control-sm col-2"><input
 							type="number" step="any"
-							ng-model="purchaseOrder.items[$index].price" 
+							ng-model="purchaseOrder.items[$index].price"
 							ng-change="updateAmount($index)" required></td>
 
 						<!-- Amount -->

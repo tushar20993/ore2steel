@@ -7,19 +7,10 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import portal.dao.InvoiceDao;
-import portal.dao.OrderItemDao;
-import portal.dao.PurchaseOrderDao;
-import portal.models.Invoice;
-import portal.models.OrderItem;
-import portal.models.PurchaseOrder;
-import portal.models.Site;
+import portal.dao.*;
+import portal.models.*;
 import portal.models.constants.OrderStatuses;
 import portal.util.PurchaseOrderUtil;
 
@@ -31,8 +22,6 @@ public class PurchaseOrderController {
 	@Autowired
 	private PurchaseOrderDao purchaseOrderDao;
 
-	@Autowired
-	private OrderItemDao orderItemDao;
 
 	@Autowired
 	private InvoiceDao invoiceDao;
@@ -72,8 +61,8 @@ public class PurchaseOrderController {
 
 	@RequestMapping(value = "/purchase_order/update", method = RequestMethod.POST)
 	public void updatePurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
-		purchaseOrder.setItems(orderItemDao.findByPurchaseOrder(purchaseOrder));
 		logger.info("Updating purchase order {}", purchaseOrder);
+		backReferenceOrderItems(purchaseOrder);
 		purchaseOrderDao.save(purchaseOrder);
 	}
 

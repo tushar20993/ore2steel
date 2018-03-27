@@ -10,6 +10,7 @@ public final class UOM {
 	public static final String BUNDLES = "Bundles";
 	public static final String SQ_MT = "Sq. Mtr.";
 	public static final String BAGS = "Bags";
+	public static final String PERCENTAGE = "%";
 
 	public static List<String> getAllUnits() {
 		List<String> units = new ArrayList<String>();
