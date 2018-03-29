@@ -8,6 +8,7 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 							columnDefs: [
 								{name: "brandId", 				visible: true, displayName: "Brand ID"},
 								{name: "brandName", 			visible: true, displayName: "Brand Name"},
+								{name: "brandGroup", 			visible: true, displayName: "Brand Group"},
 								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 

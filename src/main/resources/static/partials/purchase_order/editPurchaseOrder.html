@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h4 class="modal-title">Purchase Order Information</h4>
+	<h4 class="modal-title">Edit Purchase Order Information</h4>
 	<button type="button" class="close" ng-click="close()">&times;</button>
 </div>
 
@@ -115,7 +115,7 @@
 							type="text" ng-model="purchaseOrder.items[$index].item"
 							uib-typeahead="item as item.itemName for item in items | filter: $viewValue"
 							typeahead-editable="false"
-							typeahead-on-select="itemSelected($item)"
+							typeahead-on-select="updateAmount($index)"
 							typeahead-focus-first="true" required></td>
 
 						<!-- Brand Type -->
@@ -129,7 +129,7 @@
 						<td class="form-control form-control-sm col-1"><input
 							class="small" type="number"
 							ng-model="purchaseOrder.items[$index].quantity" step=".001"
-							max="10000.000" ng-change="updateAmount($index)" required></td>
+							max="10000.000" required></td>
 
 						<!-- UOM -->
 						<td class="form-control form-control-sm col-1"><select
@@ -142,14 +142,12 @@
 						<!-- Price -->
 						<td class="form-control form-control-sm col-2"><input
 							type="number" step="any"
-							ng-model="purchaseOrder.items[$index].price"
-							ng-change="updateAmount($index)" required></td>
+							ng-model="purchaseOrder.items[$index].price" required></td>
 
 						<!-- Amount -->
 						<td class="form-control form-control-sm col-2"><input
 							type="number" step="any"
-							ng-model="purchaseOrder.items[$index].amount"
-							ng-change="updateAmount($index)" required></td>
+							ng-model="purchaseOrder.items[$index].amount" required></td>
 
 						<!-- Comments -->
 						<td class="form-control form-control-sm col-2"><input
@@ -164,6 +162,11 @@
 							</button>
 						</td>
 
+					</tr>
+
+					<tr class="row">
+						<td class="col-1 offset-3"><b> {{getTotalQuantity() | number:2}} </b></td>
+						<td class="col-2 offset-3"><b> {{getTotalAmount() | currency: currencySymbol:2}} </b></td>
 					</tr>
 				</tbody>
 

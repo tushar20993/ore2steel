@@ -5,7 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+import portal.models.constants.ItemGroups;
 
 @Entity
 @Table(name = "item")
@@ -21,6 +25,9 @@ public class Item {
 
 	@Column(name = "hsn_code")
 	private String hsnCode;
+
+	@Column(name = "item_group")
+	private String itemGroup;
 
 	public Integer getItemId() {
 		return itemId;
@@ -44,5 +51,21 @@ public class Item {
 
 	public void setHsnCode(String hsnCode) {
 		this.hsnCode = hsnCode;
+	}
+
+	public String getItemGroup() {
+		return itemGroup;
+	}
+
+	public void setItemGroup(String itemGroup) {
+		this.itemGroup = itemGroup;
+	}
+	
+	@PrePersist
+	@PreUpdate
+	public void prePersistAndUpdate() {
+		if(this.itemGroup == null) {
+			this.itemGroup = ItemGroups.ITEM;
+		}
 	}
 }

@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h4 class="modal-title">Purchase Order Information</h4>
+	<h4 class="modal-title">New Purchase Order Information</h4>
 	<button type="button" class="close" ng-click="close()">&times;</button>
 </div>
 
@@ -175,6 +175,12 @@
 							</button>
 						</td>
 					</tr>
+					
+					<tr class="row">
+						<td class="col-1 offset-3"><b> {{getTotalQuantity() | number:2}} </b></td>
+						<td class="col-2 offset-3"><b> {{getTotalAmount() | currency: currencySymbol:2}} </b></td>
+					</tr>
+					
 				</tbody>
 
 			</table>

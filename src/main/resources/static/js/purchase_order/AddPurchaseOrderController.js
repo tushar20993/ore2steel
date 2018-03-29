@@ -151,13 +151,70 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 		});
 	};
 	
-	$scope.updateAmount = function(index){
-		var item = $scope.purchaseOrder.items[index];
-		item.amount = item.price * item.quantity;
-	}
-
 	$scope.close = function(){
 		$uibModalInstance.dismiss("cancel");
 	};
+	$scope.getTotalAmount = function(){
+		var total = 0.0;
+		angular.forEach($scope.purchaseOrder.items, function(orderItem){
+			total = total + orderItem.amount;
+		})
+		return total;
+	};
+	
+	$scope.getTotalQuantity = function(){
+		var total = 0.0;
+		angular.forEach($scope.purchaseOrder.items, function(orderItem){
+			if(!orderItem.item || orderItem.item == undefined){
+				return;
+			}
+			if(orderItem.item.itemGroup == "Item" || orderItem.item.itemGroup == "Sales Item"){
+				total = total + orderItem.quantity;
+			}
+		})
+		return total;
+	}
+	
+	$scope.getBasicAmount = function(){
+		var total = 0;
+		for(var i = 0 ; i < $scope.purchaseOrder.items.length; i ++){
+			var orderItem = $scope.purchaseOrder.items[i];
+			if((orderItem.item != undefined) && orderItem.item.itemGroup != "Rates & Taxes"){
+				orderItem = JSON.parse(JSON.stringify(orderItem))
+				total = total + orderItem.amount;
+			}
+		}
+		return total;
+	}
+	
+	
+	$scope.$watch('purchaseOrder.items', function(newVal, oldVal){
+		var items = newVal;
+		if(!items){
+			return;
+		}
+		for(var i = 0; i < items.length; i ++){
+			var orderItem = items[i];
+			if(orderItem.item == undefined){
+				continue;
+			}
+			
+			
+			if (orderItem.item.itemGroup == "Rates & Taxes"){
+				var basicTotal = $scope.getBasicAmount();
+				orderItem.unitOfMeasurement = "%";
+				orderItem.amount = (orderItem.quantity / 100) * basicTotal;
+			}
+			
+			else if(orderItem.item.itemGroup == "Others"){
+				orderItem.amount = orderItem.price * $scope.getTotalQuantity();
+			}
+	
+			else if( (orderItem.item.itemGroup == "Sales Item") || (orderItem.item.itemGroup == "Item") ){
+				orderItem.amount = orderItem.price * orderItem.quantity;
+			}
+			
+		}
+	}, true)
 	
 });

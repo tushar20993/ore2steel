@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import portal.models.constants.ItemGroups;
 import portal.models.constants.OrderStatuses;
 import portal.models.embeddables.PurchaseOrderId;
 
@@ -92,6 +93,16 @@ public class PurchaseOrder {
 			amount+= item.getAmount();
 		}
 		return amount;
+	}
+	
+	public Double getOrderQuantity() {
+		Double quantity = 0.0D;
+		for(OrderItem item: this.items) {
+			if(item.getItemGroup().equals(ItemGroups.ITEM)) {
+				quantity+= item.getQuantity();
+			}
+		}
+		return quantity;
 	}
 
 	@Override

@@ -27,7 +27,6 @@ portal.service("GlobalSpinner", function($uibModal, $rootScope){
 					animation: false,
 					size: "lg"
 				}
-			console.log("loading")
 			modalInstance = $uibModal.open(modalOptions);
 		}
 		return modalInstance;
@@ -43,6 +42,9 @@ portal.service("GlobalSpinner", function($uibModal, $rootScope){
 });
 
 portal.run(function($rootScope, $http, Notification){
+	
+	$rootScope.currencySymbol = "₹";
+	$rootScope.currencyFilter = "currency: " + $rootScope.currencySymbol + ":0"; 
 	
 	$rootScope.getStateCodes = function(){
 		$rootScope.stateCodes = [];

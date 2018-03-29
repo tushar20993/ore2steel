@@ -96,7 +96,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			if(		(item.itemId == currItem.itemId) && 
 					(brand.brandId == currBrand.brandId) &&
 					(info == currInfo) ){
-				Notification.error("Same item, brand and additional information already exists!");
+				Notification.error("Warning! Same item and brand already exists!");
 			}
 		}
 	}
@@ -111,6 +111,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		item.unitOfMeasurement = $scope.uoms[0];
 		item.quantity = 0;
 		item.price = 0;
+		item.amount = 0;
 		$scope.purchaseOrder.items.push(item);
 	}
 	
@@ -133,15 +134,72 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
 			Notification.success("Successfully deleted item");
-			$scope.getOrderItems();
+			$scope.purchaseOrder.items.splice(index, 1);
 		}, function error(response){
 			Notification.error("Could not delete Item");
 		});
 	}
 	
-	$scope.updateAmount = function(index){
-		var item = $scope.purchaseOrder.items[index];
-		item.amount = item.price * item.quantity;
+	$scope.getTotalAmount = function(){
+		var total = 0.0;
+		angular.forEach($scope.purchaseOrder.items, function(orderItem){
+			total = total + orderItem.amount;
+		})
+		return total;
 	};
 	
+	$scope.getTotalQuantity = function(){
+		var total = 0.0;
+		angular.forEach($scope.purchaseOrder.items, function(orderItem){
+			if(!orderItem.item || orderItem.item == undefined){
+				return;
+			}
+			if(orderItem.item.itemGroup == "Item" || orderItem.item.itemGroup == "Sales Item"){
+				total = total + orderItem.quantity;
+			}
+		})
+		return total;
+	}
+	
+	$scope.getBasicAmount = function(){
+		var total = 0;
+		for(var i = 0 ; i < $scope.purchaseOrder.items.length; i ++){
+			var orderItem = $scope.purchaseOrder.items[i];
+			if((orderItem.item != undefined) && orderItem.item.itemGroup != "Rates & Taxes"){
+				orderItem = JSON.parse(JSON.stringify(orderItem))
+				total = total + orderItem.amount;
+			}
+		}
+		return total;
+	}
+	
+	
+	$scope.$watch('purchaseOrder.items', function(newVal, oldVal){
+		var items = newVal;
+		if(!items){
+			return;
+		}
+		for(var i = 0; i < items.length; i ++){
+			var orderItem = items[i];
+			if(orderItem.item == undefined){
+				continue;
+			}
+			
+			
+			if (orderItem.item.itemGroup == "Rates & Taxes"){
+				var basicTotal = $scope.getBasicAmount();
+				orderItem.unitOfMeasurement = "%";
+				orderItem.amount = (orderItem.quantity / 100) * basicTotal;
+			}
+			
+			else if(orderItem.item.itemGroup == "Others"){
+				orderItem.amount = orderItem.price * $scope.getTotalQuantity();
+			}
+	
+			else if( (orderItem.item.itemGroup == "Sales Item") || (orderItem.item.itemGroup == "Item") ){
+				orderItem.amount = orderItem.price * orderItem.quantity;
+			}
+			
+		}
+	}, true)
 });

@@ -25,6 +25,7 @@ public class OrderItem {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private PurchaseOrder purchaseOrder;
 
+	@NotNull
 	@ManyToOne
 	private Item item;
 
@@ -69,6 +70,10 @@ public class OrderItem {
 	public Item getItem() {
 		return item;
 	}
+	
+	public String getItemGroup() {
+		return item.getItemGroup();
+	}
 
 	public void setItem(Item item) {
 		this.item = item;
@@ -76,6 +81,13 @@ public class OrderItem {
 
 	public Brand getBrand() {
 		return brand;
+	}
+	
+	public String getBrandGroup() {
+		if(brand != null) {
+			return brand.getBrandGroup();
+		}
+		return null;
 	}
 
 	public void setBrand(Brand brand) {
@@ -124,7 +136,7 @@ public class OrderItem {
 	
 	@PrePersist
 	@PreUpdate
-	public void calculateAmount() {
+	public void prePersistAndUpdate() {
 		if(this.amount == null ) {
 			this.amount = this.price * this.quantity;
 		}

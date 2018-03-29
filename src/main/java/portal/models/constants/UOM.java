@@ -11,6 +11,7 @@ public final class UOM {
 	public static final String SQ_MT = "Sq. Mtr.";
 	public static final String BAGS = "Bags";
 	public static final String PERCENTAGE = "%";
+	public static final String NUM = "Nos.";
 
 	public static List<String> getAllUnits() {
 		List<String> units = new ArrayList<String>();
@@ -19,6 +20,8 @@ public final class UOM {
 		units.add(BUNDLES);
 		units.add(SQ_MT);
 		units.add(BAGS);
+		units.add(PERCENTAGE);
+		units.add(NUM);
 		return units;
 	}
 

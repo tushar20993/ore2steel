@@ -27,6 +27,17 @@
 
 					<div class="form-group row">
 						<div class="col-5">
+							<label for="itemGroup">Item Group</label>
+						</div>
+						<div class="col-7">
+							<select class="form-control" ng-model="item.itemGroup"
+								ng-options="itemGroup for itemGroup in itemGroups">
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-5">
 							<label for="hsnCode">HSN Code</label>
 						</div>
 						<div class="col-7">
@@ -34,6 +45,8 @@
 								placeholder="Eg: 72141010" ng-model="item.hsnCode">
 						</div>
 					</div>
+
+
 
 					<button type="submit" class="btn btn-primary">Save Item</button>
 					<button type="reset" class="btn btn-danger">Reset

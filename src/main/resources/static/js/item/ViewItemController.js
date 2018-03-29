@@ -1,4 +1,4 @@
-portal.controller("ItemController", function($scope, $rootScope, $http, $uibModal, Notification){
+portal.controller("ItemController", function($scope, $rootScope, $http, $uibModal, Notification, GlobalSpinner, $window){
 	$scope.getItems = function(){
 		$http.get("/item/getAll").then(
 				function(response){
@@ -8,6 +8,7 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 							columnDefs: [
 								{name: "itemName", 				visible: true, },
 								{name: "hsnCode", 				visible: true, displayName: "HSN Code"},
+								{name: "itemGroup", 			visible: true},
 								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' +
@@ -34,6 +35,22 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 	};
 	
 	$scope.getItems();
+	
+	$scope.deleteItem = function(item){
+		var confirm = $window.confirm("Are you sure you want to delete " + item.itemName + " ?");
+		if(confirm){
+			GlobalSpinner.show();
+			$http.post("/item/delete", item).then(
+				function success(response){
+				Notification.success("Successfully delete " + item.itemName)
+				$scope.getItems();
+			}, function error(response){
+				Notification.error("Failed to delete item");
+			}).finally(function(){
+				GlobalSpinner.hide();
+			})
+		}
+	}
 	
 	$scope.editItem = function(item){
 		var modalOptions = {
