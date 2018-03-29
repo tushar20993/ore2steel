@@ -1,5 +1,6 @@
 package portal.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import portal.dao.InvoiceDao;
+import portal.dao.PurchaseOrderDao;
 import portal.dao.TransporterDao;
 import portal.dao.VehicleDao;
 import portal.models.Invoice;
 import portal.models.Transporter;
 import portal.models.Vehicle;
 import portal.models.constants.InvoiceStatuses;
+import portal.models.constants.OrderStatuses;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,16 +29,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class InvoiceController {
 
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(InvoiceController.class);
-	
+
 	@Autowired
 	private InvoiceDao invoiceDao;
-	
+
 	@Autowired
 	private TransporterDao transporterDao;
-	
+
 	@Autowired
 	private VehicleDao vehicleDao;
 
+	@Autowired
+	private PurchaseOrderDao purchaseOrderDao;
+	
 	@RequestMapping(value = "/invoice/getAll", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Invoice> getAllInvoices() {
@@ -53,22 +59,7 @@ public class InvoiceController {
 		logger.info("Saving Invoice {}", invoice);
 		updateTransportAndVehicleDetails(invoice);
 		invoiceDao.save(invoice);
-	}
-
-	private void updateTransportAndVehicleDetails(Invoice invoice) {
-		if(invoice.getTransporter() != null) {
-			Transporter t = transporterDao.findOne(invoice.getTransporter().getTransporterId());
-			if(t != null) {
-				invoice.setTransporter(t);
-			}
-		}
-		
-		if(invoice.getVehicle() != null) {
-			Vehicle v = vehicleDao.findOne(invoice.getVehicle().getVehicleNumber());
-			if(v != null) {
-				invoice.setVehicle(v);
-			}
-		}
+		updatePurchaseOrder(invoice);
 	}
 
 	@Transactional
@@ -77,6 +68,7 @@ public class InvoiceController {
 		logger.info("Updating invoice {}", invoice);
 		updateTransportAndVehicleDetails(invoice);
 		invoiceDao.save(invoice);
+		updatePurchaseOrder(invoice);
 	}
 
 	@ResponseBody
@@ -91,6 +83,33 @@ public class InvoiceController {
 	public void deleteCompany(@RequestBody Invoice invoice) throws Exception {
 		logger.info("Deleting Invoice {}", invoice);
 		invoiceDao.delete(invoiceDao.findOne(invoice.getInvoiceId()));
+	}
+
+	private void updateTransportAndVehicleDetails(Invoice invoice) {
+		if (invoice.getDispatchDetail() == null) {
+			return;
+		}
+		invoice.getDispatchDetail().setInvoice(invoice);
+		if (invoice.getDispatchDetail().getTransporter() != null) {
+			Transporter t = transporterDao.findOne(invoice.getDispatchDetail().getTransporter().getTransporterId());
+			if (t != null) {
+				invoice.getDispatchDetail().setTransporter(t);
+			}
+		}
+
+		if (invoice.getDispatchDetail().getVehicle() != null) {
+			Vehicle v = vehicleDao.findOne(invoice.getDispatchDetail().getVehicle().getVehicleNumber());
+			if (v != null) {
+				invoice.getDispatchDetail().setVehicle(v);
+			}
+		}
+	}
+
+	public void updatePurchaseOrder(Invoice invoice) {
+		invoice.setPurchaseOrder(purchaseOrderDao.findOne(invoice.getPurchaseOrder().getPurchaseOrderId()));
+		invoice.getPurchaseOrder().setOrderStatus(OrderStatuses.DISPATCHED);
+		invoice.getPurchaseOrder().setOrderStatusDate(new Date());
+		invoice.getPurchaseOrder().getItems();
 	}
 
 }

@@ -9,6 +9,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import portal.models.constants.InvoiceStatuses;
+import portal.models.constants.ItemGroups;
 import portal.models.constants.OrderStatuses;
 
 @Entity
@@ -35,16 +36,8 @@ public class Invoice implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Site site;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "transporter_id", referencedColumnName = "transporter_id", insertable = true)
-	private Transporter transporter;
-
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinColumn(name = "vehicle_number", referencedColumnName = "vehicle_number", insertable = true)
-	private Vehicle vehicle;
-
-	@Column(name = "driver_number")
-	private String driverNumber;
+	@OneToOne(cascade = CascadeType.ALL)
+	private DispatchDetail dispatchDetail;
 
 	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<InvoiceItem> items;
@@ -108,30 +101,6 @@ public class Invoice implements Serializable {
 		this.site = site;
 	}
 
-	public Transporter getTransporter() {
-		return transporter;
-	}
-
-	public void setTransporter(Transporter transporter) {
-		this.transporter = transporter;
-	}
-
-	public Vehicle getVehicle() {
-		return vehicle;
-	}
-
-	public void setVehicle(Vehicle vehicle) {
-		this.vehicle = vehicle;
-	}
-
-	public String getDriverNumber() {
-		return driverNumber;
-	}
-
-	public void setDriverNumber(String driverNumber) {
-		this.driverNumber = driverNumber;
-	}
-
 	public List<InvoiceItem> getItems() {
 		return items;
 	}
@@ -180,23 +149,47 @@ public class Invoice implements Serializable {
 		this.comments = comments;
 	}
 
+	public DispatchDetail getDispatchDetail() {
+		return dispatchDetail;
+	}
+
+	public void setDispatchDetail(DispatchDetail dispatchDetail) {
+		this.dispatchDetail = dispatchDetail;
+	}
+
 	@Override
 	public String toString() {
 		return "Invoice [invoiceId=" + invoiceId + ", invoiceNumber=" + invoiceNumber + ", invoiceDate=" + invoiceDate
-				+ ", transporter=" + transporter + ", vehicle=" + vehicle + ", driverNumber=" + driverNumber
 				+ ", items=" + items + ", invoiceStatus=" + invoiceStatus + ", invoiceStatusDate=" + invoiceStatusDate
 				+ ", receiptNumber=" + receiptNumber + ", receiptValue=" + receiptValue + ", comments=" + comments
 				+ "]";
 	}
-	
-	
+
+	public Double getInvoiceAmount() {
+		Double amount = 0.0D;
+		for (InvoiceItem item : this.items) {
+			amount += item.getAmount();
+		}
+		return amount;
+	}
+
+	public Double getInvoiceQuantity() {
+		Double quantity = 0.0D;
+		for (InvoiceItem item : this.items) {
+			if (item.getItem().getItemGroup().equals(ItemGroups.ITEM)) {
+				quantity += item.getQuantity();
+			}
+		}
+		return quantity;
+	}
+
 	@PrePersist
 	@PreUpdate
 	public void prePersistAndUpdate() {
-		if(this.purchaseOrder != null) {
+		if (this.purchaseOrder != null) {
 			this.purchaseOrder.setOrderStatus(OrderStatuses.DISPATCHED);
 			this.purchaseOrder.setOrderStatusDate(new Date());
 		}
 	}
-	
+
 }

@@ -14,7 +14,7 @@ public class InvoiceItem {
 	@Column(name = "invoice_item_id")
 	private Integer invoiceItemId;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")
 	private Invoice invoice;
 

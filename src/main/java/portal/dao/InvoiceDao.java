@@ -12,7 +12,7 @@ public interface InvoiceDao extends JpaRepository<Invoice, Integer> {
 
 	Invoice findByInvoiceNumber(String invoiceNumber);
 	
-	List<Invoice> findByVehicle(Vehicle vehicle);
+	List<Invoice> findByDispatchDetailVehicle(Vehicle vehicle);
 
 	List<Invoice> findByPurchaseOrder(PurchaseOrder purchaseOrder);
 

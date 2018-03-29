@@ -43,7 +43,7 @@ public class VehicleController {
 	
 	@RequestMapping(value = "/vehicle/delete", method = RequestMethod.POST)
 	public void deleteVehicle(@RequestBody Vehicle vehicle) throws Exception {
-		if(invoiceDao.findByVehicle(vehicle).size() > 0) {
+		if(invoiceDao.findByDispatchDetailVehicle(vehicle).size() > 0) {
 			throw new Exception("There are invoices mapped to this vehicle already.");
 		}
 		vehicleDao.delete(vehicle);

@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h4 class="modal-title">Invoice Information</h4>
+	<h4 class="modal-title">Edit Invoice Information</h4>
 	<button type="button" class="close" ng-click="close()">&times;</button>
 </div>
 
@@ -86,7 +86,7 @@
 					<input type="text"
 						uib-typeahead="transporter as transporter.transporterName for transporter in transporters | filter: $viewValue"
 						typeahead-editable="true" class="form-control"
-						ng-model="invoice.transporter">
+						ng-model="invoice.dispatchDetail.transporter">
 				</div>
 			</div>
 
@@ -100,7 +100,7 @@
 					<input type="text"
 						uib-typeahead="vehicle as vehicle.vehicleNumber for vehicle in vehicles | filter: $viewValue"
 						typeahead-editable="true" class="form-control"
-						ng-model="invoice.vehicle">
+						ng-model="invoice.dispatchDetail.vehicle">
 				</div>
 			</div>
 
@@ -150,10 +150,11 @@
 				<thead>
 					<tr class="row">
 						<td class="col-2">Item Name</td>
-						<td class="col-2">Brand</td>
-						<td class="col-2">Quantity</td>
+						<td class="col-1">Brand</td>
+						<td class="col-1">Quantity</td>
 						<td class="col-1">UOM</td>
 						<td class="col-2">Price</td>
+						<td class="col-2">Amount</td>
 						<td class="col-2">Comments</td>
 						<td class="col-1">Action</td>
 					</tr>
@@ -171,19 +172,18 @@
 							typeahead-focus-first="true" required></td>
 
 						<!-- Brand Type -->
-						<td class="form-control form-control-sm col-2"><input
+						<td class="form-control form-control-sm col-1"><input
 							type="text" ng-model="invoice.items[$index].brand"
 							uib-typeahead="brand as brand.brandName for brand in brands "
 							typeahead-editable="false"
 							typeahead-on-select="brandSelected($index)"
-							ng-disabled="!invoice.items[$index].item" required>
-						</td>
+							ng-disabled="!invoice.items[$index].item" ></td>
 
 						<!-- Quantity -->
-						<td class="form-control form-control-sm col-2"><input
+						<td class="form-control form-control-sm col-1"><input
 							class="small" type="number"
-							ng-model="invoice.items[$index].quantity" min="00.001" step="00.001" required>
-						</td>
+							ng-model="invoice.items[$index].quantity" min="00.001"
+							step="00.001" required></td>
 
 						<!-- UOM -->
 						<td class="form-control form-control-sm col-1"><select
@@ -198,11 +198,15 @@
 							type="number" step="any" ng-model="invoice.items[$index].price"
 							required></td>
 
+						<!-- Amount -->
+						<td class="form-control form-control-sm col-2"><input
+							type="number" step="any" ng-model="invoice.items[$index].amount"
+							required></td>
+
 						<!-- Comments -->
 						<td class="form-control form-control-sm col-2"><input
 							class="form-control form-control-sm" type="text"
-							ng-model="invoice.items[$index].additionalInformation">
-						</td>
+							ng-model="invoice.items[$index].additionalInformation"></td>
 
 						<!-- Actions -->
 						<td class="form-control form-control-sm col-1">

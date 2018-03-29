@@ -1,6 +1,11 @@
 portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, purchaseOrder, $window, Notification){
 
+	$scope.uoms = $rootScope.uoms;
+	$scope.brands = $rootScope.brands;
+	$scope.items = $rootScope.items;
+	$scope.orderStatuses = $rootScope.orderStatuses;
 	$scope.purchaseOrder = purchaseOrder;
+	
 	if($scope.purchaseOrder.orderDate){
 		$scope.purchaseOrder.orderDate = new Date($scope.purchaseOrder.orderDate);
 	}
@@ -19,39 +24,6 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 				});
 	}
 	$scope.getOrderItems();	
-	
-	$http.get("/item/getAllUnits").then(
-			function(response){
-				$scope.uoms = response.data;
-			},
-			function(response){
-				Notification.error("Couldn't fetch units of measurement. Please try again");
-			});
-	
-	$http.get("/brand/getAll").then(
-			function(response){
-				$scope.brands = response.data;
-			},
-			function(response){
-				Notification.error("Failed to fetch brand information");
-			});
-	
-	$http.get("/item/getAll").then(
-			function(response){
-				$scope.items= response.data;
-			},
-			function(response){
-				Notification.error("Failed to fetch items");
-			});
-	
-	$scope.orderStatuses = [];
-	$http.get("/order_status/getAll").then(
-			function(response){
-				$scope.orderStatuses = response.data;
-			},
-			function(response){
-				Notification.error("Failed to fetch order status list");
-			});
 	
 	
 	$scope.itemEdited = function(orderItem){
@@ -77,9 +49,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		});
 	};
 	
-	$scope.onCompanyTypeaheadSelect = function(item, model, label){
-		$uibModalInstance.close({status: 2, msg: label + " already exists!"});
-	}
+	
 	
 	$scope.brandSelected = function(index){
 		var item = $scope.purchaseOrder.items[index].item;

@@ -10,31 +10,11 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	$scope.brands = [];
 	$scope.uoms = [];
 
-	$http.get("/item/getAllUnits").then(
-			function(response){
-				$scope.uoms = response.data;
-			},
-			function(response){
-				Notification.error("Failed to fetch Unit of Measurements");
-			});
+	$scope.uoms = $rootScope.uoms;
+	$scope.brands = $rootScope.brands;
+	$scope.items= $rootScope.items;
+	$scope.orderStatuses = $rootScope.orderStatuses;
 	
-	$http.get("/brand/getAll").then(
-			function(response){
-				$scope.brands = response.data;
-			},
-			function(response){
-				Notification.error("Failed to fetch brands");
-			});
-	
-	$http.get("/item/getAll").then(
-			function(response){
-				$scope.items= response.data;
-			},
-			function(response){
-				Notification.error("Failed to fetch items");
-			});
-	
-
 	$http.get("/company/getAll").then(
 			function(response){
 				$scope.companies = response.data;
@@ -42,17 +22,6 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 			function(response){
 				Notification.error("Failed to fetch companies");
 			});
-	
-	$scope.orderStatuses = [];
-	$http.get("/order_status/getAll").then(
-			function(response){
-				$scope.orderStatuses = response.data;
-				$scope.purchaseOrder.orderStatus = $scope.orderStatuses[0];
-			},
-			function(response){
-				Notification.error("Failed to get order status types");
-			});
-
 	
 	$scope.onCompanySelect = function(){
 		var company = $scope.purchaseOrder.company;

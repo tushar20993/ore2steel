@@ -4,15 +4,7 @@ portal.controller("EditCompanyController", function($scope, $rootScope, $http, $
 	$scope.companies = companies;
 	
 	$scope.stateCodes = $rootScope.stateCodes;
-	
-	$scope.statuses = [];
-	$http.get("/status/getAll").then(
-			function(response){
-				$scope.statuses = response.data;
-			},
-			function(response){
-				Notification.error("Failed to get registration statuses");
-			});
+	$scope.statuses = $rootScope.statuses;
 	
 	
 	$scope.close = function(){

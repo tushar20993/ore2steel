@@ -44,8 +44,57 @@ portal.service("GlobalSpinner", function($uibModal, $rootScope){
 portal.run(function($rootScope, $http, Notification){
 	
 	$rootScope.currencySymbol = "₹";
-	$rootScope.currencyFilter = "currency: " + $rootScope.currencySymbol + ":0"; 
+	$rootScope.currencyFilter = "currency: " + $rootScope.currencySymbol + ":0";
 	
+	$rootScope.getOrderStatuses = function(){
+		return $http.get("/order_status/getAll").then(
+				function(response){
+					$rootScope.orderStatuses = response.data;
+				},
+				function(response){
+					Notification.error("Failed to fetch order status list");
+				});
+		 
+	}
+	$rootScope.getOrderStatuses();
+	
+	
+	$rootScope.getUnits = function(){
+		return $http.get("/item/getAllUnits").then(
+				function(response){
+					$rootScope.uoms = response.data;
+				},
+				function(response){
+					Notification.error("Couldn't fetch units of measurement. Please try again");
+				});
+		 
+	}
+	$rootScope.getUnits();
+	
+	$rootScope.getBrands = function(){
+		return $http.get("/brand/getAll").then(
+				function(response){
+					$rootScope.brands = response.data;
+				},
+				function(response){
+					Notification.error("Failed to fetch brand information");
+				});
+		
+	}
+	$rootScope.getBrands();
+	
+	
+	$rootScope.getItems = function(){
+		return $http.get("/item/getAll").then(
+				function(response){
+					$rootScope.items= response.data;
+				},
+				function(response){
+					Notification.error("Failed to fetch items");
+				});
+	}
+	$rootScope.getItems();
+		
 	$rootScope.getStateCodes = function(){
 		$rootScope.stateCodes = [];
 		return $http.get("/state_code/getAll").then(

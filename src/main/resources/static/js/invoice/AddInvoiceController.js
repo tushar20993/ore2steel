@@ -97,6 +97,10 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	$scope.invoice.items = [];
 	$scope.addItem = function(){
 		var newItem = {};
+		newItem.isNew = true;
+		newItem.price = 0;
+		newItem.quantity = 0;
+		newItem.amount = 0;
 		$scope.invoice.items.push(newItem);
 	}
 	
@@ -107,15 +111,17 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	$scope.saveInvoice = function(){
 		var invoice = JSON.parse(JSON.stringify($scope.invoice))
 		
-		if(invoice.transporter && !invoice.transporter.transporterId){
-			var temp = invoice.transporter;
-			invoice.transporter = {}
-			invoice.transporter.transporterName = temp;
-		}
-		if(invoice.vehicle && !invoice.vehicle.vehicleNumber){
-			var temp = invoice.vehicle;
-			invoice.vehicle = {}
-			invoice.vehicle.vehicleNumber = temp;
+		if(invoice.dispatchDetail){
+			if(invoice.dispatchDetail.transporter && !invoice.dispatchDetail.transporter.transporterId){
+				var temp = invoice.dispatchDetail.transporter;
+				invoice.dispatchDetail.transporter = {}
+				invoice.dispatchDetail.transporter.transporterName = temp;
+			}
+			if(invoice.dispatchDetail.vehicle && !invoice.dispatchDetail.vehicle.vehicleNumber){
+				var temp = invoice.dispatchDetail.vehicle;
+				invoice.dispatchDetail.vehicle = {}
+				invoice.dispatchDetail.vehicle.vehicleNumber = temp;
+			}
 		}
 		console.log(invoice)
 		
@@ -129,4 +135,70 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 				}
 			);
 	}
+	
+	$scope.getTotalAmount = function(){
+		var total = 0.0;
+		angular.forEach($scope.invoice.items, function(invoiceItem){
+			total = total + invoiceItem.amount;
+		})
+		return total;
+	};
+	
+	$scope.getTotalQuantity = function(){
+		var total = 0.0;
+		angular.forEach($scope.invoice.items, function(invoiceItem){
+			if(!invoiceItem.item || invoiceItem.item == undefined){
+				return;
+			}
+			if(invoiceItem.item.itemGroup == "Item" || invoiceItem.item.itemGroup == "Sales Item"){
+				total = total + invoiceItem.quantity;
+			}
+		})
+		return total;
+	}
+	
+	$scope.getBasicAmount = function(){
+		var total = 0;
+		for(var i = 0 ; i < $scope.purchaseOrder.items.length; i ++){
+			var invoiceItem = $scope.purchaseOrder.items[i];
+			if((invoiceItem.item != undefined) && invoiceItem.item.itemGroup != "Rates & Taxes"){
+				invoiceItem = JSON.parse(JSON.stringify(invoiceItem))
+				total = total + invoiceItem.amount;
+			}
+		}
+		return total;
+	}
+	
+	
+	$scope.$watch('purchaseOrder.items', function(newVal, oldVal){
+		var items = newVal;
+		if(!items){
+			return;
+		}
+		for(var i = 0; i < items.length; i ++){
+			var invoiceItem = items[i];
+			if(invoiceItem.item == undefined){
+				continue;
+			}
+			
+			
+			if (invoiceItem.item.itemGroup == "Rates & Taxes"){
+				var basicTotal = $scope.getBasicAmount();
+				invoiceItem.unitOfMeasurement = "%";
+				invoiceItem.amount = (invoiceItem.quantity / 100) * basicTotal;
+			}
+			
+			else if(invoiceItem.item.itemGroup == "Others"){
+				invoiceItem.amount = invoiceItem.price * $scope.getTotalQuantity();
+			}
+	
+			else if( (invoiceItem.item.itemGroup == "Sales Item") || (invoiceItem.item.itemGroup == "Item") ){
+				invoiceItem.amount = invoiceItem.price * invoiceItem.quantity;
+			}
+			
+		}
+	}, true)
+	
+	
+	
 });
