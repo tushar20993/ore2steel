@@ -1,4 +1,4 @@
-portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $uibModalInstance, Notification, invoice, GlobalSpinner){
+portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $uibModalInstance, Notification, invoice, GlobalSpinner, $window){
 	$scope.invoice = invoice;
 	$scope.invoice.invoiceDate = new Date($scope.invoice.invoiceDate);
 	$scope.invoice.invoiceStatusDate = new Date($scope.invoice.invoiceStatusDate);
@@ -62,7 +62,7 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 	
 	$scope.onInvoiceTypeaheadSelect = function(){
 		Notification.error("This invoice number already exists. Please try different Invoice Number");
-		delete $scope.invoice.invoiceNumber;
+		$scope.invoice.invoiceNumber = '';
 	}
 	
 	$http.get("/transporter/getAll").then(
@@ -102,6 +102,29 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 		$scope.invoice.items.push(newItem);
 	}
 	
+	$scope.deleteItem = function(index){
+		var item = $scope.invoice.items[index];
+		if(item.isNew){
+			$scope.invoice.items.splice(index, 1);
+			return;
+		}
+		
+		var confirm = $window.confirm("Are you sure you want to delete " + item.item.itemName + "?")
+		if(confirm){
+			GlobalSpinner.show();
+			$http.post("/invoice_item/delete", item).then(
+					function success(response){
+						Notification.success("Successfully deleted " + item.item.itemName);
+						GlobalSpinner.hide();
+						$scope.invoice.items.splice(index, 1)
+					}, function error(response){
+						Notification.error("Failed to delete the item. Error: " + response.data);
+						GlobalSpinner.hide();
+					});
+		}
+		
+	}
+	
 	$scope.saveInvoice = function(){
 		var invoice = JSON.parse(JSON.stringify($scope.invoice))
 		
@@ -118,7 +141,6 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 			}
 		}
 		
-		invoice.items = []
 		$http.post( "/invoice/update", invoice)
 		.then(
 				function success(response){
@@ -152,8 +174,8 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 	
 	$scope.getBasicAmount = function(){
 		var total = 0;
-		for(var i = 0 ; i < $scope.purchaseOrder.items.length; i ++){
-			var invoiceItem = $scope.purchaseOrder.items[i];
+		for(var i = 0 ; i < $scope.invoice.items.length; i ++){
+			var invoiceItem = $scope.invoice.items[i];
 			if((invoiceItem.item != undefined) && invoiceItem.item.itemGroup != "Rates & Taxes"){
 				invoiceItem = JSON.parse(JSON.stringify(invoiceItem))
 				total = total + invoiceItem.amount;

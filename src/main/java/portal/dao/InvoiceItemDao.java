@@ -10,8 +10,8 @@ import portal.models.Item;
 
 public interface InvoiceItemDao extends JpaRepository<InvoiceItem, Integer> {
 
-	int countByItem(Item item);
+	public List<InvoiceItem> findByInvoice(Invoice invoice);
 
-	List<InvoiceItem> findByInvoice(Invoice invoice);
+	public int countByItem(Item item);
 
 }

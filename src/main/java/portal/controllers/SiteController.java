@@ -54,6 +54,7 @@ public class SiteController {
 	@ResponseBody
 	@RequestMapping(value = "/site/get", method = RequestMethod.GET)
 	public List<Site> getSiteById(@RequestParam("id") Integer companyId) {
+		logger.info("Getting sites for company with id {}", companyId);
 		return siteDao.findBySiteIdCompanyCompanyId(companyId);
 	}
 

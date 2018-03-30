@@ -38,6 +38,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 		$http.post("/purchase_order/getBySite", site).then(
 				function success(response){
 					$scope.purchaseOrders = response.data;
+					console.log($scope.purchaseOrders)
 				},
 				function fail(response){
 					Notification.error("Error in getting POs for " + site.siteName);

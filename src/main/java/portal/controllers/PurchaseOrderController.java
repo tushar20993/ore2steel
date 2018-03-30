@@ -36,8 +36,7 @@ public class PurchaseOrderController {
 	@ResponseBody
 	@RequestMapping(value = "/purchase_order/getBySite", method = RequestMethod.POST)
 	public List<PurchaseOrder> getPurchaseOrderBySite(@RequestBody Site site) {
-		logger.info("Fetching purchase orders for site {}", site);
-		
+		//logger.info("Fetching purchase orders for site {} for company {}", site.getSiteName(), site.getCompanyName());
 		return PurchaseOrderUtil.getPendingOrder(purchaseOrderDao.findByPurchaseOrderIdSite(site));
 	}
 

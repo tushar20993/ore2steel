@@ -31,6 +31,7 @@ public class OrderItemController {
 
 	@RequestMapping(value = "/order_item/delete", method = RequestMethod.POST)
 	public void deleteOrderItem(@RequestBody OrderItem orderItem) {
+		logger.info("Deleting order item {}", orderItem);
 		orderItemDao.delete(orderItem);
 	}
 

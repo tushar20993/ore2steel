@@ -2,6 +2,8 @@ package portal.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,8 @@ import portal.models.constants.VehicleType;
 @RestController
 public class VehicleController {
 
+	private static final Logger logger = (Logger) LoggerFactory.getLogger(VehicleController.class);
+	
 	@Autowired
 	private VehicleDao vehicleDao;
 	
@@ -22,6 +26,7 @@ public class VehicleController {
 	@ResponseBody
 	@RequestMapping(value = "/vehicle/getAll", method = RequestMethod.GET)
 	public List<Vehicle> getAllVehicles() {
+		logger.info("Fetching all vehicles");
 		return vehicleDao.findAll();
 	}
 

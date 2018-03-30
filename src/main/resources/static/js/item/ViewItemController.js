@@ -1,4 +1,5 @@
 portal.controller("ItemController", function($scope, $rootScope, $http, $uibModal, Notification, GlobalSpinner, $window){
+	$scope.gridOptions = {};
 	$scope.getItems = function(){
 		$http.get("/item/getAll").then(
 				function(response){

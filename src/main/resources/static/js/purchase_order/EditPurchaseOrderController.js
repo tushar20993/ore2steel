@@ -1,10 +1,15 @@
 portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $http, $uibModalInstance, purchaseOrder, $window, Notification){
 
 	$scope.uoms = $rootScope.uoms;
-	$scope.brands = $rootScope.brands;
-	$scope.items = $rootScope.items;
 	$scope.orderStatuses = $rootScope.orderStatuses;
 	$scope.purchaseOrder = purchaseOrder;
+
+	
+	$scope.items = $rootScope.items;
+	
+	$rootScope.getBrands().then(function(response){
+		$scope.brands = $rootScope.brands;
+	});
 	
 	if($scope.purchaseOrder.orderDate){
 		$scope.purchaseOrder.orderDate = new Date($scope.purchaseOrder.orderDate);

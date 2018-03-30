@@ -17,6 +17,7 @@ import portal.dao.PurchaseOrderDao;
 import portal.dao.TransporterDao;
 import portal.dao.VehicleDao;
 import portal.models.Invoice;
+import portal.models.InvoiceItem;
 import portal.models.Transporter;
 import portal.models.Vehicle;
 import portal.models.constants.InvoiceStatuses;
@@ -58,8 +59,9 @@ public class InvoiceController {
 		}
 		logger.info("Saving Invoice {}", invoice);
 		updateTransportAndVehicleDetails(invoice);
+		setBackReferences(invoice);
 		invoiceDao.save(invoice);
-		updatePurchaseOrder(invoice);
+		updatePurchaseOrderStatus(invoice, OrderStatuses.DISPATCHED);
 	}
 
 	@Transactional
@@ -67,8 +69,9 @@ public class InvoiceController {
 	public void updateInvoice(@RequestBody Invoice invoice) {
 		logger.info("Updating invoice {}", invoice);
 		updateTransportAndVehicleDetails(invoice);
+		setBackReferences(invoice);
 		invoiceDao.save(invoice);
-		updatePurchaseOrder(invoice);
+		updatePurchaseOrderStatus(invoice, OrderStatuses.DISPATCHED);
 	}
 
 	@ResponseBody
@@ -80,9 +83,16 @@ public class InvoiceController {
 
 	@Transactional
 	@RequestMapping(value = "/invoice/delete", method = RequestMethod.POST)
-	public void deleteCompany(@RequestBody Invoice invoice) throws Exception {
+	public void deleteInvoice(@RequestBody Invoice invoice) throws Exception {
 		logger.info("Deleting Invoice {}", invoice);
 		invoiceDao.delete(invoiceDao.findOne(invoice.getInvoiceId()));
+		updatePurchaseOrderStatus(invoice, OrderStatuses.ACCEPTED);
+	}
+	
+	public void setBackReferences(Invoice invoice) {
+		for(InvoiceItem item: invoice.getItems()) {
+			item.setInvoice(invoice);
+		}
 	}
 
 	private void updateTransportAndVehicleDetails(Invoice invoice) {
@@ -105,11 +115,12 @@ public class InvoiceController {
 		}
 	}
 
-	public void updatePurchaseOrder(Invoice invoice) {
+	public void updatePurchaseOrderStatus(Invoice invoice, String status) {
 		invoice.setPurchaseOrder(purchaseOrderDao.findOne(invoice.getPurchaseOrder().getPurchaseOrderId()));
-		invoice.getPurchaseOrder().setOrderStatus(OrderStatuses.DISPATCHED);
+		invoice.getPurchaseOrder().setOrderStatus(status);
 		invoice.getPurchaseOrder().setOrderStatusDate(new Date());
 		invoice.getPurchaseOrder().getItems();
+		purchaseOrderDao.save(invoice.getPurchaseOrder());
 	}
 
 }

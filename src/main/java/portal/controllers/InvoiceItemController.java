@@ -25,9 +25,15 @@ public class InvoiceItemController {
 
 	@ResponseBody
 	@RequestMapping(value = "/invoice_item/getFor", method = RequestMethod.POST)
-	public List<InvoiceItem> findByPurchaseOrder(@RequestBody Invoice invoice) {
+	public List<InvoiceItem> findByInvoice(@RequestBody Invoice invoice) {
 		logger.info("Getting items for Invoice {}", invoice);
 		return invoiceItemDao.findByInvoice(invoice);
+	}
+	
+	@RequestMapping(value = "/invoice_item/delete", method = RequestMethod.POST)
+	public void deleteInvoiceItem(@RequestBody InvoiceItem invoiceItem) {
+		logger.info("Deleting invoice item {}", invoiceItem);
+		invoiceItemDao.delete(invoiceItem);
 	}
 	
 }

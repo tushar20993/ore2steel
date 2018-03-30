@@ -1,10 +1,11 @@
-portal.controller("BrandController", function($scope, $rootScope, $http, $uibModal, Notification){
+portal.controller("BrandController", function($scope, $rootScope, $http, $uibModal, Notification, GlobalSpinner){
+	$scope.gridOptions = {};
 	$scope.getBrands = function(){
-		$http.get("/brand/getAll").then(
-				function(response){
+		return $http.get("/brand/getAll").then(
+				function success(response){
 					$scope.brands = response.data;
 					$scope.gridOptions = {
-							data: $scope.brands,
+							data: $rootScope.brands,
 							columnDefs: [
 								{name: "brandId", 				visible: true, displayName: "Brand ID"},
 								{name: "brandName", 			visible: true, displayName: "Brand Name"},
@@ -31,14 +32,16 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 							]
 						};
 					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
+					GlobalSpinner.hide();
 				},
 				function(response){
 					Notification.error("Failed to fetch all brands");
 				});		
 	};
-	
+
+	GlobalSpinner.show();
 	$scope.getBrands();
-	
+
 	$scope.editBrand = function(brand){
 		var modalOptions = {
 				templateUrl: "partials/brand/editBrand.html",
