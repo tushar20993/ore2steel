@@ -16,6 +16,7 @@
 				<div class="col-7">
 					<select class="form-control" ng-model="site.siteId.company"
 						ng-options="company as company.companyName for company in companies | orderBy: 'companyName' track by company.companyId"
+						ng-change="onCompanySelect(company)"
 						required autofocus>
 						<option value="">--Select One--</option>
 					</select>
@@ -28,6 +29,9 @@
 				</div>
 				<div class="col-7">
 					<input type="text" class="form-control" placeholder="Eg: Godown 1"
+						uib-typeahead="oldSite.siteName for oldSite in oldSites | filter: $viewValue"
+						typeahead-editable="true"
+						typeahead-on-select="onSiteTypeaheadSelect($item, $model, $label)"
 						ng-model="site.siteName" required>
 				</div>
 			</div>
