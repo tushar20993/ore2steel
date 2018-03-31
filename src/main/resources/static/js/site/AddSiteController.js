@@ -1,4 +1,4 @@
-portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibModalInstance, sites, Notification){
+portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibModalInstance, sites, Notification, GlobalSpinner){
 	$scope.site = {};
 	$scope.sites = sites;
 	$scope.statuses = [];
@@ -17,16 +17,15 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 	};
 	
 	$scope.saveSite = function(){
-		$http({
-			method: "POST",
-			url: "/site/save",
-			data: JSON.parse(JSON.stringify($scope.site)),
-			headers: {"Content-Type": "application/json; charset=utf8"}
-		}).then(function success(response){
-			$uibModalInstance.close("success");
-		}, function error(response){
-			$uibModalInstance.dismiss("fail");
-		});
+		GlobalSpinner.show();
+		$http.post("/site/save", $scope.site).then(
+				function success(response){
+					GlobalSpinner.hide();
+					$uibModalInstance.close("success");
+				}, function error(response){
+					GlobalSpinner.hide();
+					$uibModalInstance.dismiss("fail");
+				});
 	}
 	
 });

@@ -104,7 +104,7 @@ public class Company {
 	}
 
 	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber.replaceAll("\\s", "");
+		this.contactNumber = contactNumber;
 	}
 
 	public String getCompanyPan() {
