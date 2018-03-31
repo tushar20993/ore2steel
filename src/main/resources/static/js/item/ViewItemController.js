@@ -1,4 +1,5 @@
 portal.controller("ItemController", function($scope, $rootScope, $http, $uibModal, Notification, GlobalSpinner, $window){
+	GlobalSpinner.show();
 	$scope.gridOptions = {};
 	$scope.getItems = function(){
 		$http.get("/item/getAll").then(
@@ -29,8 +30,10 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 							]
 						};
 					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
+					GlobalSpinner.hide();
 				},
 				function(response){
+					GlobalSpinner.hide();
 					Notification.error("Failed to fetch all items");
 				});		
 	};

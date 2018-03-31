@@ -110,18 +110,20 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 		}
 		
 		var confirm = $window.confirm("Are you sure you want to delete " + item.item.itemName + "?")
-		if(confirm){
-			GlobalSpinner.show();
-			$http.post("/invoice_item/delete", item).then(
-					function success(response){
-						Notification.success("Successfully deleted " + item.item.itemName);
-						GlobalSpinner.hide();
-						$scope.invoice.items.splice(index, 1)
-					}, function error(response){
-						Notification.error("Failed to delete the item. Error: " + response.data);
-						GlobalSpinner.hide();
-					});
+		if(!confirm){
+			return;
 		}
+		GlobalSpinner.show();
+		$http.post("/invoice_item/delete", item).then(
+				function success(response){
+					Notification.success("Successfully deleted " + item.item.itemName);
+					GlobalSpinner.hide();
+					$scope.invoice.items.splice(index, 1)
+				}, function error(response){
+					Notification.error("Failed to delete the item. Error: " + response.data);
+					GlobalSpinner.hide();
+				});
+	
 		
 	}
 	

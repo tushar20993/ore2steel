@@ -1,4 +1,4 @@
-portal.controller("AddBrandController", function($scope, $rootScope, $http, $uibModalInstance, brands){
+portal.controller("AddBrandController", function($scope, $rootScope, $http, $uibModalInstance, brands, GlobalSpinner){
 	
 	$scope.brand = {};
 	$scope.brands = brands;
@@ -15,14 +15,17 @@ portal.controller("AddBrandController", function($scope, $rootScope, $http, $uib
 	};
 	
 	$scope.saveBrand = function(){
+		GlobalSpinner.show();
 		$http({
 			method: "POST",
 			url: "/brand/save",
 			data: JSON.parse(JSON.stringify($scope.brand)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
+			GlobalSpinner.hide();
 			$uibModalInstance.close("success");
 		}, function error(response){
+			GlobalSpinner.hide();
 			$uibModalInstance.dismiss("fail");
 		});
 	};

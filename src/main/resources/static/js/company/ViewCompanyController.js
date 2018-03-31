@@ -1,7 +1,7 @@
 portal.controller("CompanyController", function($scope, $rootScope, $http, $uibModal, $window, Notification, GlobalSpinner){
-	GlobalSpinner.hide();
-	
+	GlobalSpinner.show();
 	$scope.getCompanies = function(){
+		$scope.gridOptions = {};
 		$http.get("/company/getAll").then(
 				function(response){
 					$scope.companies = response.data;
@@ -44,6 +44,7 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 				},
 				function(response){
 					Notification.error("Failed to fetch companies!");
+					GlobalSpinner.hide();
 				});		
 	};
 	
@@ -88,7 +89,6 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 			};
 		angular.extend(modalOptions, $rootScope.defaultModalOptions)
 		var modalInstance = $uibModal.open(modalOptions);
-		
 		$rootScope.getModalCloseFunctions(modalInstance, "company", false, $scope.getCompanies)
 	};
 	

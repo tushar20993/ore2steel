@@ -1,6 +1,7 @@
-portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal, $window, Notification){
-	
+portal.controller("SiteController", function($scope, $rootScope, $http, $uibModal, $window, Notification, GlobalSpinner){
+	GlobalSpinner.show();
 	$scope.getSites = function(){
+		$scope.gridOptions = {};
 		$scope.sites = [];
 		$http.get("/site/getAll").then(
 				function(response){
@@ -40,9 +41,11 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 							]
 						};
 					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions)
+					GlobalSpinner.hide();
 				},
 				function(response){
 					Notification.error("Failed to get all sites");
+					GlobalSpinner.hide();
 				});		
 	};
 	

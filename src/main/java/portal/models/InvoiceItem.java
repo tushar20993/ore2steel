@@ -14,16 +14,14 @@ public class InvoiceItem {
 	@Column(name = "invoice_item_id")
 	private Integer invoiceItemId;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "invoice_id", referencedColumnName = "invoice_id")
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private Invoice invoice;
 
-	@OneToOne(optional = false)
-	@JoinColumn(name = "item_id", referencedColumnName = "item_id")
+	@ManyToOne
+	@NotNull
 	private Item item;
 
 	@ManyToOne(optional = true)
-	@JoinColumn(name = "brand_id", referencedColumnName = "brand_id")
 	private Brand brand;
 
 	@NotNull

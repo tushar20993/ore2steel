@@ -42,17 +42,13 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	
 	$scope.savePurchaseOrder = function(){		
 		var purchaseOrder = JSON.parse(JSON.stringify($scope.purchaseOrder));
-		$http({
-			method: "POST",
-			url: "/purchase_order/update",
-			data: purchaseOrder,
-			headers: {"Content-Type": "application/json; charset=utf8"}
-		}).then(function success(response){
-			$uibModalInstance.close("success");
-		}, function error(response){
-			$uibModalInstance.dismiss("fail");
-		});
-	};
+		$http.post("/purchase_order/update", purchaseOrder).then(
+				function success(response){
+					$uibModalInstance.close("success");
+				}, function error(response){
+					$uibModalInstance.dismiss("fail");
+				});
+		};
 	
 	
 	
@@ -102,12 +98,7 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 		}
 		
 		var orderItem = $scope.purchaseOrder.items[index]; 
-		$http({
-			method: "POST",
-			url: "/order_item/delete",
-			data: JSON.parse(JSON.stringify(orderItem)),
-			headers: {"Content-Type": "application/json; charset=utf8"}
-		}).then(function success(response){
+		$http.post("/order_item/delete", orderItem).then(function success(response){
 			Notification.success("Successfully deleted item");
 			$scope.purchaseOrder.items.splice(index, 1);
 		}, function error(response){

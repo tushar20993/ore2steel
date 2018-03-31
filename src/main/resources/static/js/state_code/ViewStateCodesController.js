@@ -1,6 +1,8 @@
-portal.controller("StateCodesController", function($scope, $rootScope){
+portal.controller("StateCodesController", function($scope, $rootScope, GlobalSpinner){
 	
+	GlobalSpinner.show();
 	$scope.stateCodes = JSON.parse(JSON.stringify($rootScope.stateCodes));
+	GlobalSpinner.hide();
 	$scope.gridOptions = {
 			exporterMenuCsv: true,
 			enableGridMenu: true,

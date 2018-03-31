@@ -38,7 +38,6 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 		$http.post("/purchase_order/getBySite", site).then(
 				function success(response){
 					$scope.purchaseOrders = response.data;
-					console.log($scope.purchaseOrders)
 				},
 				function fail(response){
 					Notification.error("Error in getting POs for " + site.siteName);
@@ -124,8 +123,6 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 				invoice.dispatchDetail.vehicle.vehicleNumber = temp;
 			}
 		}
-		console.log(invoice)
-		
 		
 		return $http.post( "/invoice/save", invoice)
 		.then(
@@ -163,7 +160,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 		for(var i = 0 ; i < $scope.purchaseOrder.items.length; i ++){
 			var invoiceItem = $scope.purchaseOrder.items[i];
 			if((invoiceItem.item != undefined) && invoiceItem.item.itemGroup != "Rates & Taxes"){
-				invoiceItem = JSON.parse(JSON.stringify(invoiceItem))
+				invoiceItem = JSON.parse(JSON.stringify(invoiceItem));
 				total = total + invoiceItem.amount;
 			}
 		}
@@ -198,7 +195,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 			}
 			
 		}
-	}, true)
+	}, true);
 	
 	
 	

@@ -1,5 +1,7 @@
-portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibModal, Notification, $window){
+portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibModal, Notification, $window, GlobalSpinner){
+	GlobalSpinner.show();
 	$scope.getInvoices = function(){
+		$scope.gridOptions = {};
 		$http.get("/invoice/getAll").then(
 				function(response){
 					$scope.invoices = response.data;
@@ -12,6 +14,7 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 								{name: "purchaseOrderNumber", 	visible: true, field: "purchaseOrder.purchaseOrderId.purchaseOrderNumber", displayName: "PO Number"},
 								{name: "transporter", 			visible: true, field: "transporter.transporterName"},
 								{name: "vehicleNumber", 		visible: true, field: "vehicle.vehicleNumber"},
+								{name: "invoiceAmount", 		visible: true, cellFilter: 'currency: "₹":2'},
 								{name: "Actions", 
 									cellTemplate: 
 										'<div class="ui-grid-cell-contents row">' + 
@@ -34,8 +37,10 @@ portal.controller("InvoiceController", function($scope, $rootScope, $http, $uibM
 							]
 						};
 					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
+					GlobalSpinner.hide();
 				},
 				function(response){
+					GlobalSpinner.hide();
 					Notification.error("Failed to fetch all Invoices")
 				});		
 	};

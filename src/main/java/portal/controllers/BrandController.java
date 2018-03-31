@@ -38,6 +38,19 @@ public class BrandController {
 
 	@RequestMapping(value = "/brand/save", method = RequestMethod.POST)
 	public void saveBrand(@RequestBody Brand brand) {
+		logger.info("Saving new brand {}", brand);
 		brandDao.save(brand);
+	}
+	
+	@RequestMapping(value = "/brand/update", method = RequestMethod.POST)
+	public void updateBrand(@RequestBody Brand brand) {
+		logger.info("Updating brand {}", brand);
+		brandDao.save(brand);
+	}
+	
+	@RequestMapping(value = "/brand/delete", method = RequestMethod.POST)
+	public void deleteBrand(@RequestBody Brand brand) {
+		logger.info("Deleting brand {}", brand);
+		brandDao.delete(brand);
 	}
 }

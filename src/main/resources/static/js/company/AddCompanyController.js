@@ -1,4 +1,4 @@
-portal.controller("AddCompanyController", function($scope, $rootScope, $http, $uibModalInstance, companies){
+portal.controller("AddCompanyController", function($scope, $rootScope, $http, $uibModalInstance, companies, GlobalSpinner){
 	$scope.company = {};
 	$scope.companies = companies;
 	
@@ -9,14 +9,17 @@ portal.controller("AddCompanyController", function($scope, $rootScope, $http, $u
 	};
 	
 	$scope.saveCompany = function(){
+		GlobalSpinner.show();
 		$http({
 			method: "POST",
 			url: "/company/save",
 			data: JSON.parse(JSON.stringify($scope.company)),
 			headers: {"Content-Type": "application/json; charset=utf8"}
 		}).then(function success(response){
+			GlobalSpinner.hide();
 			$uibModalInstance.close("success");
 		}, function error(response){
+			GlobalSpinner.hide();
 			$uibModalInstance.dismiss("fail");
 		});
 	};

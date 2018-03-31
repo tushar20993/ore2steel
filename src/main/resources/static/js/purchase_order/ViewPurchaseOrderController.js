@@ -1,6 +1,7 @@
-portal.controller("PurchaseOrderController", function($scope, $rootScope, $http, $uibModal, $window, Notification){
-	
+portal.controller("PurchaseOrderController", function($scope, $rootScope, $http, $uibModal, $window, Notification, GlobalSpinner){
+	GlobalSpinner.show();
 	$scope.getPurchaseOrders = function(){
+		$scope.gridOptions = {};
 		$http.get("/purchase_order/getAll").then(
 				function success(response){
 					
@@ -36,7 +37,9 @@ portal.controller("PurchaseOrderController", function($scope, $rootScope, $http,
 							]
 						};
 					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
+					GlobalSpinner.hide();
 				}, function fail(response){
+					GlobalSpinner.hide();
 					Notification.error("Failed to get all purchase orders");
 				});
 	}

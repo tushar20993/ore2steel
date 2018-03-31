@@ -1,5 +1,7 @@
-portal.controller("VehicleController", function($scope, $rootScope, $http, $uibModal, Notification, $window){
+portal.controller("VehicleController", function($scope, $rootScope, $http, $uibModal, Notification, $window, GlobalSpinner){
+	GlobalSpinner.show();
 	$scope.getVehicles = function(){
+		$scope.gridOptions = {};
 		$http.get("/vehicle/getAll").then(
 				function(response){
 					$scope.vehicles = response.data;
@@ -31,8 +33,10 @@ portal.controller("VehicleController", function($scope, $rootScope, $http, $uibM
 							]
 						};
 					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
+					GlobalSpinner.hide();
 				},
 				function(response){
+					GlobalSpinner.hide();
 					Notification.error("Failed to fetch all vehicles");
 				});		
 	};

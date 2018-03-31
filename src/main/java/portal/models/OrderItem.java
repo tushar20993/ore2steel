@@ -25,8 +25,8 @@ public class OrderItem {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private PurchaseOrder purchaseOrder;
 
-	@NotNull
 	@ManyToOne
+	@NotNull
 	private Item item;
 
 	@ManyToOne
@@ -70,7 +70,7 @@ public class OrderItem {
 	public Item getItem() {
 		return item;
 	}
-	
+
 	public String getItemGroup() {
 		return item.getItemGroup();
 	}
@@ -82,9 +82,9 @@ public class OrderItem {
 	public Brand getBrand() {
 		return brand;
 	}
-	
+
 	public String getBrandGroup() {
-		if(brand != null) {
+		if (brand != null) {
 			return brand.getBrandGroup();
 		}
 		return null;
@@ -133,11 +133,11 @@ public class OrderItem {
 	public void setAdditionalInformation(String additionalInformation) {
 		this.additionalInformation = additionalInformation;
 	}
-	
+
 	@PrePersist
 	@PreUpdate
 	public void prePersistAndUpdate() {
-		if(this.amount == null ) {
+		if (this.amount == null) {
 			this.amount = this.price * this.quantity;
 		}
 	}

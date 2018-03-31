@@ -15,6 +15,8 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	$scope.items= $rootScope.items;
 	$scope.orderStatuses = $rootScope.orderStatuses;
 	
+	$scope.purchaseOrder.orderStatus = $scope.orderStatuses[0];
+	
 	$http.get("/company/getAll").then(
 			function(response){
 				$scope.companies = response.data;

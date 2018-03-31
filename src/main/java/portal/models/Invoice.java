@@ -39,7 +39,7 @@ public class Invoice implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	private DispatchDetail dispatchDetail;
 
-	@OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "invoice", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<InvoiceItem> items;
 
 	@Column(name = "invoice_status")

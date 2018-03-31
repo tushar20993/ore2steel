@@ -1,11 +1,11 @@
-portal.controller("BrandController", function($scope, $rootScope, $http, $uibModal, Notification, GlobalSpinner){
-	$scope.gridOptions = {};
+portal.controller("BrandController", function($scope, $rootScope, $http, $uibModal, Notification, GlobalSpinner, $window){
 	$scope.getBrands = function(){
+		$scope.gridOptions = {};
 		return $http.get("/brand/getAll").then(
 				function success(response){
 					$scope.brands = response.data;
 					$scope.gridOptions = {
-							data: $rootScope.brands,
+							data: $scope.brands,
 							columnDefs: [
 								{name: "brandId", 				visible: true, displayName: "Brand ID"},
 								{name: "brandName", 			visible: true, displayName: "Brand Name"},
@@ -42,6 +42,25 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 	GlobalSpinner.show();
 	$scope.getBrands();
 
+	$scope.deleteBrand = function(brand){
+		var confirm = $window.confirm("Are you sure you want to delete " + brand.brandName + "?");
+		if(!confirm){
+			return;
+		}
+		
+		GlobalSpinner.show();
+		$http.post("/brand/delete", brand).then(
+				function success(response){
+					GlobalSpinner.hide();
+					Notification.success("Successfully deleted " + brand.brandName);
+					$scope.getBrands();
+				}, function error(response){
+					GlobalSpinner.hide();
+					Notification.error("Failed to delete " + brand.brandName + ". Please try again!")
+				});
+		
+	}
+	
 	$scope.editBrand = function(brand){
 		var modalOptions = {
 				templateUrl: "partials/brand/editBrand.html",

@@ -1,5 +1,7 @@
-portal.controller("TransporterController", function($scope, $rootScope, $http, $uibModal, Notification){
+portal.controller("TransporterController", function($scope, $rootScope, $http, $uibModal, Notification, GlobalSpinner){
+	GlobalSpinner.show();
 	$scope.getTransporters = function(){
+		$scope.gridOptions = {};
 		$http.get("/transporter/getAll").then(
 				function(response){
 					$scope.transporters = response.data;
@@ -34,8 +36,10 @@ portal.controller("TransporterController", function($scope, $rootScope, $http, $
 							]
 						};
 					angular.extend($scope.gridOptions, $rootScope.defaultGridOptions);
+					GlobalSpinner.hide();
 				},
 				function(response){
+					GlobalSpinner.hide();
 					Notification.error("Failed to fetch transporter information");
 				});		
 	};

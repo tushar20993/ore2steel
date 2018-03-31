@@ -1,5 +1,4 @@
-portal.controller("AddItemController", function($scope, $rootScope, $http,
-		$uibModalInstance, items, GlobalSpinner, Notification) {
+portal.controller("AddItemController", function($scope, $rootScope, $http, $uibModalInstance, items, GlobalSpinner, Notification) {
 
 	$scope.item = {};
 	$scope.items = items;
@@ -8,7 +7,6 @@ portal.controller("AddItemController", function($scope, $rootScope, $http,
 		$uibModalInstance.dismiss("cancel");
 	};
 
-	GlobalSpinner.show();
 	$http.get("/item_group/getAll").then(function success(response) {
 		$scope.itemGroups = response.data;
 		$scope.item.itemGroup = $scope.itemGroups[0];
@@ -19,6 +17,7 @@ portal.controller("AddItemController", function($scope, $rootScope, $http,
 	});
 
 	$scope.saveItem = function() {
+		GlobalSpinner.show();
 		$http({
 			method : "POST",
 			url : "/item/save",
@@ -27,8 +26,10 @@ portal.controller("AddItemController", function($scope, $rootScope, $http,
 				"Content-Type" : "application/json; charset=utf8"
 			}
 		}).then(function success(response) {
+			GlobalSpinner.hide();
 			$uibModalInstance.close("success");
 		}, function error(response) {
+			GlobalSpinner.hide();
 			$uibModalInstance.dismiss("fail");
 		});
 	};
