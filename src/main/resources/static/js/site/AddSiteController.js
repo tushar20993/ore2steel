@@ -50,6 +50,7 @@ portal.controller("AddSiteController", function($scope, $rootScope, $http, $uibM
 					$uibModalInstance.close("success");
 				}, function error(response){
 					GlobalSpinner.hide();
+					Notification.error(response.data.message);
 					$uibModalInstance.dismiss("fail");
 				});
 	}

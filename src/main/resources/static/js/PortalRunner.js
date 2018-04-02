@@ -87,7 +87,7 @@ portal.run(function($rootScope, $http, Notification){
 	$rootScope.getItems = function(){
 		return $http.get("/item/getAll").then(
 				function(response){
-					$rootScope.items= response.data;
+					$rootScope.items = response.data;
 				},
 				function(response){
 					Notification.error("Failed to fetch items");

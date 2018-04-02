@@ -35,6 +35,7 @@ portal.controller("EditSiteController", function($scope, $rootScope, $http, $uib
 		}).then(function success(response){
 			$uibModalInstance.close("success");
 		}, function error(response){
+			Notification.error(response.data.message)
 			$uibModalInstance.dismiss("fail");
 		});
 	}

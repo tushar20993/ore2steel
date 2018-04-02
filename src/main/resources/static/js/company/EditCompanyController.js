@@ -22,6 +22,7 @@ portal.controller("EditCompanyController", function($scope, $rootScope, $http, $
 			GlobalSpinner.hide();
 			$uibModalInstance.close("success");
 		}, function error(response){
+			Notification.error(response.data.message);
 			GlobalSpinner.hide();
 			$uibModalInstance.dismiss("fail");
 		});

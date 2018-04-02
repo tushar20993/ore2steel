@@ -160,6 +160,14 @@ public class Site {
 		return siteId.getCompany();
 	}
 	
-	
+	@PrePersist
+	@PreUpdate
+	public void prePersistAndUpdate() throws Exception{
+		if(this.gstNumber != null) {
+			if(!this.gstNumber.substring(0, 2).equals(this.stateCode.getStateCode())) {
+				throw new Exception("Invalid GSTIN");
+			}
+		}
+	}
 
 }

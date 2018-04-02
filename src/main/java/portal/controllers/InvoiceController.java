@@ -116,6 +116,9 @@ public class InvoiceController {
 	}
 
 	public void updatePurchaseOrderStatus(Invoice invoice, String status) {
+		if(invoice.getPurchaseOrder() == null) {
+			return;
+		}
 		invoice.setPurchaseOrder(purchaseOrderDao.findOne(invoice.getPurchaseOrder().getPurchaseOrderId()));
 		invoice.getPurchaseOrder().setOrderStatus(status);
 		invoice.getPurchaseOrder().setOrderStatusDate(new Date());

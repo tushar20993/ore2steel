@@ -5,6 +5,7 @@ portal.controller("AddInvoiceController", function($scope, $rootScope, $http, $u
 	$scope.invoice.invoiceStatusDate = new Date();
 	
 	$scope.uoms = $rootScope.uoms;
+	$scope.items = $rootScope.items;
 	
 	$http.get("/company/getAll").then(
 			function success(response){

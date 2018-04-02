@@ -4,6 +4,7 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 	$scope.getItems = function(){
 		$http.get("/item/getAll").then(
 				function(response){
+					$rootScope.items = response.data;
 					$scope.items = response.data;
 					$scope.gridOptions = {
 							data: $scope.items,

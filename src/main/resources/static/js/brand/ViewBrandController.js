@@ -4,6 +4,7 @@ portal.controller("BrandController", function($scope, $rootScope, $http, $uibMod
 		return $http.get("/brand/getAll").then(
 				function success(response){
 					$scope.brands = response.data;
+					$rootScope.brands = resonse.data;
 					$scope.gridOptions = {
 							data: $scope.brands,
 							columnDefs: [

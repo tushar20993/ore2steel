@@ -21,6 +21,7 @@ portal.controller("AddCompanyController", function($scope, $rootScope, $http, $u
 		}, function error(response){
 			GlobalSpinner.hide();
 			$uibModalInstance.dismiss("fail");
+			Notification.error(response.data.message);
 		});
 	};
 	

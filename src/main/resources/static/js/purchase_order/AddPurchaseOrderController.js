@@ -6,10 +6,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	$scope.purchaseOrder.items = [];
 	$scope.companies = [];
 	$scope.statuses = [];
-	$scope.items = [];
-	$scope.brands = [];
-	$scope.uoms = [];
-
+	
 	$scope.uoms = $rootScope.uoms;
 	$scope.brands = $rootScope.brands;
 	$scope.items= $rootScope.items;

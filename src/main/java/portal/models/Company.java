@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -170,6 +172,14 @@ public class Company {
 				+ registrationStatus + ", gstNumber=" + gstNumber + "]";
 	}
 	
-	
+	@PrePersist
+	@PreUpdate
+	public void prePersistAndUpdate() throws Exception{
+		if(this.gstNumber != null) {
+			if(!this.gstNumber.substring(0, 2).equals(this.stateCode.getStateCode())) {
+				throw new Exception("Invalid GSTIN");
+			}
+		}
+	}
 
 }
