@@ -13,7 +13,7 @@ portal.controller("SiteController", function($scope, $rootScope, $http, $uibModa
 								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.siteId.companyName}}</div>'},
 								{name: "siteName", 				visible: true, },
 								{name: "siteAddress", 			visible: false, },
-								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
+								{name: "stateCode", 			visible: true, displayName: "State", field: "stateCode.stateName"},
 								{name: "gstNumber", 			visible: true, },
 								{name: "contactPerson", 		visible: true, },
 								{name: "contactPerson", 		visible: true, },

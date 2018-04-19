@@ -9,9 +9,9 @@ portal.controller("CompanyController", function($scope, $rootScope, $http, $uibM
 							data: $scope.companies,
 							columnDefs: [
 								{name: "companyId", 			visible: false, },
-								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.companyName}}</div>'},
-								{name: "companyAddress", 		visible: true, },
-								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents wrap no-overflow" white-space: normal>{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
+								{name: "companyName", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents" uib-tooltip="{{row.entity.companyName}}">{{row.entity.companyName}}</div>'},
+								{name: "companyAddress", 		visible: true, cellTemplate: '<div class="ui-grid-cell-contents" uib-tooltip="{{row.entity.companyAddress}}" tooltip-append-to-body="true">{{row.entity.companyAddress}}</div>'},
+								{name: "stateCode", 			visible: true, cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.stateCode.stateName}}</div>', displayName: "State", field: "stateCode.stateName"},
 								{name: "pinCode", 				visible: true, displayName: "PIN Code"},
 								{name: "gstNumber", 			visible: true, displayName: "GSTIN"},
 								{name: "registrationStatus", 	visible: false, displayName: "GST Type"},

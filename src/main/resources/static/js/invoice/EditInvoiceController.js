@@ -188,31 +188,32 @@ portal.controller("EditInvoiceController", function($scope, $rootScope, $http, $
 	
 	
 	$scope.$watch('invoice.items', function(newVal, oldVal){
-		var items = newVal;
-		if(!items){
+		if(!oldVal || !newVal ){
 			return;
 		}
-		for(var i = 0; i < items.length; i ++){
-			var invoiceItem = items[i];
-			if(invoiceItem.item == undefined){
+		
+		var index = -1;
+		for(var i = 0; i < newVal.length; i++){
+			if(!oldVal[i] || !newVal[i] || angular.equals(oldVal[i], newVal[i])){
 				continue;
 			}
-			
-			
-			if (invoiceItem.item.itemGroup == "Rates & Taxes"){
-				var basicTotal = $scope.getBasicAmount();
-				invoiceItem.unitOfMeasurement = "%";
-				invoiceItem.amount = (invoiceItem.quantity / 100) * basicTotal;
+			index = i;
+			var amountChanged = false;
+			if(newVal[i].amount == oldVal[i].amount){
+				$rootScope.makeCalculations(newVal[i], $scope.getBasicAmount());
 			}
-			
-			else if(invoiceItem.item.itemGroup == "Others"){
-				invoiceItem.amount = invoiceItem.price * $scope.getTotalQuantity();
+			break;
+		}
+		var items = newVal;
+		for(var i = 0; i < items.length; i ++){
+			var item = items[i];
+			if(!newVal[i] || !oldVal[i] || (i==index)){
+				continue;
 			}
-	
-			else if( (invoiceItem.item.itemGroup == "Sales Item") || (invoiceItem.item.itemGroup == "Item") ){
-				invoiceItem.amount = invoiceItem.price * invoiceItem.quantity;
+
+			if(newVal[i].amount == oldVal[i].amount){
+				$rootScope.makeCalculations(item, $scope.getBasicAmount());
 			}
-			
 		}
 	}, true)
 	

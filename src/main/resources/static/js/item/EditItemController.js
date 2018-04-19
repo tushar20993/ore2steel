@@ -1,7 +1,7 @@
 portal.controller("EditItemController", function($scope, $rootScope, $http, $uibModalInstance, item, GlobalSpinner, Notification) {
 
 	$scope.item = item;
-	$scope.item.hsnCode = parseInt($scope.item.hsnCode)
+	$scope.item.hsn.hsnCode = parseInt($scope.item.hsn.hsnCode)
 	
 	$scope.close = function() {
 		$uibModalInstance.dismiss("cancel");

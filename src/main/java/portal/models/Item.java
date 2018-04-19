@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -23,8 +24,8 @@ public class Item {
 	@Column(name = "item_name")
 	private String itemName;
 
-	@Column(name = "hsn_code")
-	private String hsnCode;
+	@ManyToOne
+	private Hsn hsn;
 
 	@Column(name = "item_group")
 	private String itemGroup;
@@ -45,12 +46,12 @@ public class Item {
 		this.itemName = itemName;
 	}
 
-	public String getHsnCode() {
-		return hsnCode;
+	public Hsn getHsn() {
+		return hsn;
 	}
 
-	public void setHsnCode(String hsnCode) {
-		this.hsnCode = hsnCode;
+	public void setHsn(Hsn hsn) {
+		this.hsn = hsn;
 	}
 
 	public String getItemGroup() {

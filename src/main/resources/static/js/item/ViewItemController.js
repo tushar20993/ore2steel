@@ -10,7 +10,7 @@ portal.controller("ItemController", function($scope, $rootScope, $http, $uibModa
 							data: $scope.items,
 							columnDefs: [
 								{name: "itemName", 				visible: true, },
-								{name: "hsnCode", 				visible: true, displayName: "HSN Code"},
+								{name: "hsnCode", 				visible: true, field: 'hsn.hsnCode', displayName: "HSN Code"},
 								{name: "itemGroup", 			visible: true},
 								{name: "Actions", 
 									cellTemplate: 

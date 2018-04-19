@@ -109,7 +109,9 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	$scope.getTotalAmount = function(){
 		var total = 0.0;
 		angular.forEach($scope.purchaseOrder.items, function(orderItem){
-			total = total + orderItem.amount;
+			if(orderItem.amount){
+				total = total + orderItem.amount;
+			}
 		})
 		return total;
 	};
@@ -141,31 +143,36 @@ portal.controller("EditPurchaseOrderController", function($scope, $rootScope, $h
 	
 	
 	$scope.$watch('purchaseOrder.items', function(newVal, oldVal){
-		var items = newVal;
-		if(!items){
+		if(!oldVal || !newVal ){
 			return;
 		}
-		for(var i = 0; i < items.length; i ++){
-			var orderItem = items[i];
-			if(orderItem.item == undefined){
+		
+		var index = -1;
+		for(var i = 0; i < newVal.length; i++){
+			if(!oldVal[i] || !newVal[i] || angular.equals(oldVal[i], newVal[i])){
 				continue;
 			}
-			
-			
-			if (orderItem.item.itemGroup == "Rates & Taxes"){
-				var basicTotal = $scope.getBasicAmount();
-				orderItem.unitOfMeasurement = "%";
-				orderItem.amount = (orderItem.quantity / 100) * basicTotal;
+			index = i;
+			// if equal, amount NOT changed
+			if(angular.equals(oldVal[i].amount, newVal[i].amount)){ 
+				$rootScope.makeCalculations(newVal[i], $scope.getBasicAmount());
+				newVal[i].overridden = false;
 			}
-			
-			else if(orderItem.item.itemGroup == "Others"){
-				orderItem.amount = orderItem.price * $scope.getTotalQuantity();
+			else{
+				newVal[i].overridden = true;
 			}
-	
-			else if( (orderItem.item.itemGroup == "Sales Item") || (orderItem.item.itemGroup == "Item") ){
-				orderItem.amount = orderItem.price * orderItem.quantity;
+			break;
+		}
+		var items = newVal;
+		for(var i = 0; i < items.length; i ++){
+			var item = items[i];
+			if((i==index) || !newVal[i] || !oldVal[i] ){
+				continue;
 			}
-			
+			if(!item.overridden){
+				$rootScope.makeCalculations(item, $scope.getBasicAmount());
+				newVal[i].overridden = false;
+			}
 		}
 	}, true)
 });

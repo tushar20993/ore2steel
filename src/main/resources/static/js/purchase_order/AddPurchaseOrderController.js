@@ -125,7 +125,9 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	$scope.getTotalAmount = function(){
 		var total = 0.0;
 		angular.forEach($scope.purchaseOrder.items, function(orderItem){
-			total = total + orderItem.amount;
+			if(orderItem.amount){
+				total = total + orderItem.amount;
+			}
 		})
 		return total;
 	};
@@ -134,7 +136,7 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 		var total = 0.0;
 		angular.forEach($scope.purchaseOrder.items, function(orderItem){
 			if(!orderItem.item || orderItem.item == undefined){
-				return;
+				return 0;
 			}
 			if(orderItem.item.itemGroup == "Item" || orderItem.item.itemGroup == "Sales Item"){
 				total = total + orderItem.quantity;
@@ -157,31 +159,32 @@ portal.controller("AddPurchaseOrderController", function($scope, $rootScope, $ht
 	
 	
 	$scope.$watch('purchaseOrder.items', function(newVal, oldVal){
-		var items = newVal;
-		if(!items){
+		if(!oldVal || !newVal ){
 			return;
 		}
-		for(var i = 0; i < items.length; i ++){
-			var orderItem = items[i];
-			if(orderItem.item == undefined){
+		
+		var index = -1;
+		for(var i = 0; i < newVal.length; i++){
+			if(!oldVal[i] || !newVal[i] || angular.equals(oldVal[i], newVal[i])){
 				continue;
 			}
-			
-			
-			if (orderItem.item.itemGroup == "Rates & Taxes"){
-				var basicTotal = $scope.getBasicAmount();
-				orderItem.unitOfMeasurement = "%";
-				orderItem.amount = (orderItem.quantity / 100) * basicTotal;
+			index = i;
+			var amountChanged = false;
+			if(newVal[i].amount == oldVal[i].amount){
+				$rootScope.makeCalculations(newVal[i], $scope.getBasicAmount());
 			}
-			
-			else if(orderItem.item.itemGroup == "Others"){
-				orderItem.amount = orderItem.price * $scope.getTotalQuantity();
+			break;
+		}
+		var items = newVal;
+		for(var i = 0; i < items.length; i ++){
+			var item = items[i];
+			if(!newVal[i] || !oldVal[i] || (i==index)){
+				continue;
 			}
-	
-			else if( (orderItem.item.itemGroup == "Sales Item") || (orderItem.item.itemGroup == "Item") ){
-				orderItem.amount = orderItem.price * orderItem.quantity;
+
+			if(newVal[i].amount == oldVal[i].amount){
+				$rootScope.makeCalculations(item, $scope.getBasicAmount());
 			}
-			
 		}
 	}, true)
 	

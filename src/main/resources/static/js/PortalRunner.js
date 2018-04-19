@@ -9,6 +9,7 @@ portal.config(function($routeProvider, $locationProvider){
 	.when("/brands", {templateUrl: "partials/brand/viewBrands.html", controller: "BrandController"})
 	.when("/items", {templateUrl: "partials/item/viewItems.html", controller: "ItemController"})
 	.when("/state_codes", {templateUrl: "partials/state_code/viewStateCodes.html", controller: "StateCodesController"})
+	.when("/hsn", {templateUrl: "partials/hsn/viewHsns.html", controller: "HsnController"})
 	.when("/transporters", {templateUrl: "partials/transporter/viewTransporters.html", controller: "TransporterController"})
 	.when("/vehicles", {templateUrl: "partials/vehicle/viewVehicles.html", controller: "VehicleController"})
 });
@@ -95,6 +96,18 @@ portal.run(function($rootScope, $http, Notification){
 	}
 	$rootScope.getItems();
 		
+	$rootScope.getHsns = function(){
+		$rootScope.hsns = [];
+		return $http.get("/hsn/getAll?startingWith=7").then(
+				function success(response){
+					$rootScope.hsns = response.data;
+					console.log(response.data.length)
+				},
+				function error(response){
+					Notification.error("Failed to get HSN Codes");
+				});
+	};
+	
 	$rootScope.getStateCodes = function(){
 		$rootScope.stateCodes = [];
 		return $http.get("/state_code/getAll").then(
