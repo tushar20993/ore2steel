@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import portal.models.constants.InvoiceStatuses;
 import portal.models.constants.ItemGroups;
-import portal.models.constants.OrderStatuses;
 
 @Entity
 @Table(name = "invoice")
@@ -181,15 +180,6 @@ public class Invoice implements Serializable {
 			}
 		}
 		return quantity;
-	}
-
-	@PrePersist
-	@PreUpdate
-	public void prePersistAndUpdate() {
-		if (this.purchaseOrder != null) {
-			this.purchaseOrder.setOrderStatus(OrderStatuses.DISPATCHED);
-			this.purchaseOrder.setOrderStatusDate(new Date());
-		}
 	}
 
 }

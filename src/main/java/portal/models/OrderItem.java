@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import portal.models.constants.ItemGroups;
+
 @Entity
 @Table(name = "purchase_order_item")
 public class OrderItem {
@@ -138,7 +140,9 @@ public class OrderItem {
 	@PreUpdate
 	public void prePersistAndUpdate() {
 		if (this.amount == null) {
-			this.amount = this.price * this.quantity;
+			if (this.item.getItemGroup().equals(ItemGroups.ITEM)) {
+				this.amount = this.price * this.quantity;
+			}
 		}
 	}
 

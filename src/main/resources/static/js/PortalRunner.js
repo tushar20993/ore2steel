@@ -169,4 +169,25 @@ portal.run(function($rootScope, $http, Notification){
 			keyboard: true,
 			size: "lg",
 		};
+	
+	$rootScope.makeCalculations = function(item, basicAmount){
+		
+		// if undefined, let it continue till item selected
+		if(item.item == undefined){
+			return;
+		}
+		
+		if (item.item.itemGroup == "Rates & Taxes"){
+			item.unitOfMeasurement = "%";
+			item.amount = (item.quantity / 100) * basicAmount;
+		}
+		
+		else if(item.item.itemGroup == "Others"){
+			item.amount = item.price * item.quantity;
+		}
+
+		else if( (item.item.itemGroup == "Sales Item") || (item.item.itemGroup == "Item") ){
+			item.amount = item.price * item.quantity;
+		}
+	}
 });

@@ -24,7 +24,7 @@ public class StateCodesController {
 	@ResponseBody
 	@RequestMapping(value = "/state_code/getAll", method = RequestMethod.GET)
 	public List<StateCode> getAllStateCodes() {
-		logger.info("Fetchig all state codes");
+		logger.info("Fetching all state codes");
 		return stateCodesDao.findAll();
 	}
 }
