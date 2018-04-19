@@ -96,52 +96,78 @@ portal.run(function($rootScope, $http, Notification){
 	}
 	$rootScope.getItems();
 		
+	var hsnPromise;
 	$rootScope.getHsns = function(){
+		
+		if(hsnPromise){
+			return hsnPromise;
+		}
+		
 		$rootScope.hsns = [];
-		return $http.get("/hsn/getAll?startingWith=7").then(
+		hsnPromise = $http.get("/hsn/getAll?startingWith=").then(
 				function success(response){
 					$rootScope.hsns = response.data;
-					console.log(response.data.length)
 				},
 				function error(response){
 					Notification.error("Failed to get HSN Codes");
 				});
+		return hsnPromise;
 	};
 	
+	
+	var stateCodesPromise;
 	$rootScope.getStateCodes = function(){
+		
+		if(stateCodesPromise){
+			return stateCodesPromise;
+		}
+		
 		$rootScope.stateCodes = [];
-		return $http.get("/state_code/getAll").then(
+		stateCodesPromise = $http.get("/state_code/getAll").then(
 				function(response){
 					$rootScope.stateCodes = response.data;
 				},
 				function(response){
 					Notification.error("Failed to get state codes");
 				});
+		return stateCodesPromise;
 	}
 	$rootScope.getStateCodes();
 	
+	var registrationStatusPromise;
 	$rootScope.getRegistrationStatuses = function(){
+		
+		if(registrationStatusPromise){
+			return registrationStatusPromise;
+		}
+		
 		$rootScope.statuses = [];
-		return $http.get("/status/getAll").then(
+		registrationStatusPromise = $http.get("/status/getAll").then(
 				function(response){
 					$rootScope.statuses = response.data;
 				},
 				function(response){
 					Notification.error("Failed to get registration statuses");
 				});
+		return registrationStatusPromise;
 	}
 	$rootScope.getRegistrationStatuses();
 	
-	
+	var uomPromise;
 	$rootScope.getUOMS = function(){
+		if(uomPromise){
+			return uomPromise;
+		}
+		
 		$rootScope.uoms = [];
-		return $http.get("/item/getAllUnits").then(
+		uomPromise = $http.get("/item/getAllUnits").then(
 				function(response){
 					$rootScope.uoms = response.data;
 				},
 				function(response){
 					Notification.error("Couldn't fetch units of measurement. Please try again");
 				});
+		return uomPromise;
 	}
 	$rootScope.getUOMS();
 	
